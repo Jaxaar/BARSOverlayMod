@@ -31,7 +31,7 @@ object HotkeyShortcuts{
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_G)){
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("G"))
-			OverlayManager.ShowOverlay
+//			OverlayManager.ShowOverlay
 		}
 	}
 }

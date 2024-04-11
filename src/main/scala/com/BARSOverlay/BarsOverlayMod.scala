@@ -39,6 +39,7 @@ object BarsOverlayMod {
     def init(event: FMLInitializationEvent): Unit = {
 //        proxy.init()
         MinecraftForge.EVENT_BUS.register(HotkeyShortcuts)
+        MinecraftForge.EVENT_BUS.register(OverlayManager)
         mc.ingameGUI = new GuiIngameForge(mc)
     }
 

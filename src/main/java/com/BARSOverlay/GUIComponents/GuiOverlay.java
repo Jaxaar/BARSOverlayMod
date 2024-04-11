@@ -42,15 +42,15 @@ public class GuiOverlay extends Gui {
 
     public void renderPlayerlist()
     {
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-        int i = scaledresolution.getScaledWidth();
-
-        Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
-
-        ScoreObjective scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
-        GuiPlayerTabOverlay overlayPlayerList = new GuiPlayerTabOverlay(mc, mc.ingameGUI);
-        overlayPlayerList.updatePlayerList(true);
-        overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
+//        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+//        int i = scaledresolution.getScaledWidth();
+//
+//        Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
+//
+//        ScoreObjective scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
+//        GuiPlayerTabOverlay overlayPlayerList = new GuiPlayerTabOverlay(mc, mc.ingameGUI);
+//        overlayPlayerList.updatePlayerList(true);
+//        overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
 
 
 
@@ -101,21 +101,14 @@ public class GuiOverlay extends Gui {
 //
 //            ++k1;
 //        }
-//        GlStateManager.enableBlend();
-//        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-//        GlStateManager.disableAlpha();
-//        GlStateManager.pushMatrix();
-//        GlStateManager.translate(0.0F, (float)(j - 48), 0.0F);
 
-//        drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
+        System.out.println("Render");
+        drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
 
-//        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-//        GlStateManager.disableLighting();
-//        GlStateManager.enableAlpha();
-//        for(int i = 0; i < players.size(); i++){
-//            System.out.println(players.get(i));
-//            this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
-//        }
+        for(int i = 0; i < players.size(); i++){
+            System.out.println(players.get(i));
+            this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
+        }
 
 //        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
 

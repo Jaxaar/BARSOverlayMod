@@ -24,3 +24,6 @@ run
 DevauthConfig.lnk
 /logs
 /config
+/saves
+usernamecache.json
+usercache.json
