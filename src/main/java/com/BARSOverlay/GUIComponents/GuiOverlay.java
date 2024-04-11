@@ -102,11 +102,11 @@ public class GuiOverlay extends Gui {
 //            ++k1;
 //        }
 
-        System.out.println("Render");
+//        System.out.println("Render");
         drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
 
         for(int i = 0; i < players.size(); i++){
-            System.out.println(players.get(i));
+//            System.out.println(players.get(i));
             this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
         }
 
