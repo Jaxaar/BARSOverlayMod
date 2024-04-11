@@ -7,23 +7,32 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+//        maven {
+//            name = "mixins"
+//            url = "https://repo.spongepowered.org/repository/maven-public"
+//        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+//        classpath 'org.spongepowered.mixingradle:0.6-SNAPSHOT'
     }
 }
 apply plugin: 'scala'
 apply plugin: 'net.minecraftforge.gradle.forge'
-
+//apply plugin: 'org.spongepowered.mixin'
 /*
 // for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
 plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = "0.1.0"
+group= "BARSOverlayt" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "bars_overlay"
 
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
@@ -43,7 +52,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
@@ -60,6 +69,11 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
+//    minecraft 'net.minecraftforge:forge:1.8.9-11.15.1.2318'
+
+
+    // Apply Mixin AP
+//    compile 'org.spongepowered:mixin:0.6-SNAPSHOT'
 }
 
 processResources
