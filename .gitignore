@@ -22,3 +22,5 @@ eclipse
 run
 
 DevauthConfig.lnk
+/logs
+/config
