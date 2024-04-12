@@ -28,15 +28,14 @@ object OverlayManager extends Gui{
 
 	class HypixelPlayerData(networkPlayerInfo: NetworkPlayerInfo){
 
-		var playerExists = true
-		var future: Future[String] = fetchData()
+		val future: Future[String] = fetchData()
 
 		def getUUID: UUID = networkPlayerInfo.getGameProfile.getId
 
 		def hasData: Boolean = future.isDone;
 
 		def getHypixelData: String = {
-			if(future.isDone && playerExists){
+			if(future.isDone){
 				return future.get()
 			}
 			""
@@ -47,6 +46,8 @@ object OverlayManager extends Gui{
 		private def fetchData() = {
 			ApiHandler.getHypixelPlayerData(getUUID)
 		}
+
+		def reload() = new HypixelPlayerData(networkPlayerInfo)
 
 	}
 
