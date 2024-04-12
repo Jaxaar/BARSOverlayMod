@@ -1,5 +1,6 @@
 package com.BARSOverlay.GUIComponents;
 
+import com.google.common.collect.ComparisonChain;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -12,40 +13,57 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldSettings;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class GuiOverlay extends Gui {
     Minecraft mc;
-    List<String> players = new ArrayList<>();
+    List<NetworkPlayerInfo> players = new ArrayList<>();
 
     public GuiOverlay(Minecraft mcIn) {
         this.mc = mcIn;
     }
 
-    public void setPlayers(List<String> lst){
+    public void setPlayers(List<NetworkPlayerInfo> lst){
         players = lst;
     }
 
     public void logPlayers(){
-        for (String i: players){
-            mc.thePlayer.addChatMessage(new ChatComponentTranslation(i));
+        System.out.println(players.toString());
+        for (NetworkPlayerInfo i: players){
+            if(i.getDisplayName() != null)
+                mc.thePlayer.addChatMessage(i.getDisplayName());
+            else
+                mc.thePlayer.addChatMessage(new ChatComponentTranslation(i.getGameProfile().getName()));
         }
     }
 
 
     public void renderPlayerlist() {
+//        logPlayers();
+        if(players.size() <= 0){
+            return;
+        }
 
         drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
         for(int i = 0; i < players.size(); i++){
-//            System.out.println(players.get(i));
-            this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
+            NetworkPlayerInfo player = players.get(i);
+//            System.out.println(player);
+            if(player.getDisplayName() != null)
+                this.mc.fontRendererObj.drawStringWithShadow(players.get(i).getDisplayName().getFormattedText(), (float)10, (float)10 + i*15, -1);
+            else
+                this.mc.fontRendererObj.drawStringWithShadow(players.get(i).getGameProfile().getName(), (float)10, (float)10 + i*15, -1);
+
         }
 
 
@@ -176,7 +194,6 @@ public class GuiOverlay extends Gui {
 //            }
 //        }
     }
-
 
 
 }

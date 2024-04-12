@@ -16,7 +16,9 @@ import scala.util.parsing.json.JSON
 object ApiHandler {
 
 	val HY_API = "https://api.hypixel.net/v2"
-	val HY_HEADER = { "api-key" -> "" }
+//	val HY_HEADER = { "api-key" -> "373313d3-6c45-4bd1-a72e-8527c6123b71" }
+	val HY_HEADER = { "api-key" -> "a" }
+
 
 	val goodkey = true
 
@@ -26,19 +28,27 @@ object ApiHandler {
 		println("Reply")
 //
 		getURL(new URL("https://api.hypixel.net/v2/punishmentstats"))
-//		println(r.statusMessage)
-//		println(r.data)
+
 		println("done")
 
 	}
 
-
-
-
-
 	def getURL(url: URL) = {
-		val response = HttpRequestHandler.get(url, Map(HY_HEADER).asJava)
-		val responseJson = JSON.parseFull(response) match { case Some(i) => i case _ => Map()}
-		println(responseJson)
+		try{
+			val response = HttpRequestHandler.get(url, Map(HY_HEADER).asJava)
+			val responseJson = JSON.parseFull(response) match { case Some(i) => i case _ => Map()}
+			println("Success")
+			println(responseJson)
+		}
+		catch{
+			case e => {
+				println(e)
+				if (e.getMessage().contains(s"Server returned HTTP response code: 403")){
+					println("YES")
+				}
+			}
+			case _ => println("Huh")
+		}
+
 	}
 }
