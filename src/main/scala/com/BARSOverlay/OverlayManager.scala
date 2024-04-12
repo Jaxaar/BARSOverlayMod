@@ -1,5 +1,6 @@
 package com.BARSOverlay
 
+import com.BARSOverlay.ApiHandler.{getHypixelPlayerData, getJSON}
 import com.BARSOverlay.BarsOverlayMod.mc
 import com.BARSOverlay.GUIComponents.GuiOverlay
 import com.BARSOverlay.Utils.OverlayPlayerComparator
@@ -11,9 +12,11 @@ import org.lwjgl.input.Keyboard
 import org.apache.logging.log4j.LogManager
 
 import java.util
-import java.util.List
+import java.util.{List, UUID}
 import scala.collection.JavaConverters._
 import com.google.common.collect.Ordering
+
+import java.util.concurrent.Future
 
 
 object OverlayManager extends Gui{
@@ -23,10 +26,35 @@ object OverlayManager extends Gui{
 
 
 
+	class HypixelPlayerData(networkPlayerInfo: NetworkPlayerInfo){
+
+		var playerExists = true
+		var future: Future[String] = fetchData()
+
+		def getUUID: UUID = networkPlayerInfo.getGameProfile.getId
+
+		def hasData: Boolean = future.isDone;
+
+		def getHypixelData: String = {
+			if(future.isDone && playerExists){
+				return future.get()
+			}
+			""
+		}
+
+		def getHypixelDataJSON = getJSON(getHypixelData)
+
+		private def fetchData() = {
+			ApiHandler.getHypixelPlayerData(getUUID)
+		}
+
+	}
+
+
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
 		val ordering = Ordering.from(new OverlayPlayerComparator())
 		val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
-		var list: util.List[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
+		val list: util.List[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
 		list
 //		List("Jaxaar", "Pypeapple", "Gatekeeper", "...")
 	}
@@ -37,6 +65,14 @@ object OverlayManager extends Gui{
 		overlayRenderer.logPlayers()
 	}
 
+	def triggerQuery = {
+		val l = getListOfPlayers
+		val resp = getHypixelPlayerData(l.get(0).getGameProfile.getId)
+		println("here")
+		println(resp)
+	}
+
+
 	def ShowOverlay = {
 		val l = getListOfPlayers
 		overlayRenderer.setPlayers(l)
@@ -45,7 +81,7 @@ object OverlayManager extends Gui{
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
-		if(Keyboard.isKeyDown(Keyboard.KEY_G)) {
+		if(Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
 			ShowOverlay
 		}
 	}
