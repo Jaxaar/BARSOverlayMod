@@ -41,6 +41,8 @@ object BarsOverlayMod {
         MinecraftForge.EVENT_BUS.register(HotkeyShortcuts)
         MinecraftForge.EVENT_BUS.register(OverlayManager)
         mc.ingameGUI = new GuiIngameForge(mc)
+        ApiHandler.runTest
+
     }
 
 

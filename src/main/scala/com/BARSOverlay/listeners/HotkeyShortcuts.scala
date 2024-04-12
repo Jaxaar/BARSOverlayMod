@@ -5,7 +5,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent
 import com.BARSOverlay.{BarsOverlayMod, OverlayManager}
 import com.BARSOverlay.BarsOverlayMod.mc
 import com.BARSOverlay.CustomFunctionality.MovementInputFromMod
-import com.BARSOverlay.GUIComponents.GuiBarsScreen
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.{ChatComponentTranslation, MovementInputFromOptions}
@@ -20,10 +19,6 @@ object HotkeyShortcuts{
 		if(Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
 			println("Tab Down")
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_Y)){
-			val overlay = new GuiBarsScreen()
-			mc.displayGuiScreen(new GuiBarsScreen())
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))

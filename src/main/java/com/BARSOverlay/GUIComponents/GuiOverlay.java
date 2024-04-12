@@ -40,18 +40,13 @@ public class GuiOverlay extends Gui {
     }
 
 
-    public void renderPlayerlist()
-    {
-//        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-//        int i = scaledresolution.getScaledWidth();
-//
-//        Scoreboard scoreboard = this.mc.theWorld.getScoreboard();
-//
-//        ScoreObjective scoreobjective1 = scoreboard.getObjectiveInDisplaySlot(0);
-//        GuiPlayerTabOverlay overlayPlayerList = new GuiPlayerTabOverlay(mc, mc.ingameGUI);
-//        overlayPlayerList.updatePlayerList(true);
-//        overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
+    public void renderPlayerlist() {
 
+        drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
+        for(int i = 0; i < players.size(); i++){
+//            System.out.println(players.get(i));
+            this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
+        }
 
 
 //        NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
@@ -103,12 +98,6 @@ public class GuiOverlay extends Gui {
 //        }
 
 //        System.out.println("Render");
-        drawRect(2,  2, 200, 240, Integer.MIN_VALUE);
-
-        for(int i = 0; i < players.size(); i++){
-//            System.out.println(players.get(i));
-            this.mc.fontRendererObj.drawStringWithShadow(players.get(i), (float)10, (float)10 + i*15, -1);
-        }
 
 //        drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
 

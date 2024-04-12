@@ -6,26 +6,30 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.lwjgl.input.Keyboard
 
+import org.apache.logging.log4j.LogManager
 import scala.collection.JavaConverters._
 
 object OverlayManager extends Gui{
 
+	val logger = LogManager.getLogger();
+	val overlayRenderer = new GuiOverlay(BarsOverlayMod.mc)
+
+
+
 	def getListOfPlayers: List[String] = {
-		return List("Jaxaar", "Pypeapple", "Gatekeeper", "...")
+		List("Jaxaar", "Pypeapple", "Gatekeeper", "...")
 	}
 
 	def printListToChat = {
 		val l = getListOfPlayers
-		val overlayRender = new GuiOverlay(BarsOverlayMod.mc)
-		overlayRender.setPlayers(l.asJava)
-		overlayRender.logPlayers()
+		overlayRenderer.setPlayers(l.asJava)
+		overlayRenderer.logPlayers()
 	}
 
 	def ShowOverlay = {
 		val l = getListOfPlayers
-		val overlayRender = new GuiOverlay(BarsOverlayMod.mc)
-		overlayRender.setPlayers(l.asJava)
-		overlayRender.renderPlayerlist()
+		overlayRenderer.setPlayers(l.asJava)
+		overlayRenderer.renderPlayerlist()
 	}
 
 	@SubscribeEvent
