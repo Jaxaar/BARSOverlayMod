@@ -1,7 +1,7 @@
-package com.BARSOverlay
+package Jaxaar.BARSOverlay
 
-import com.BARSOverlay.BarsOverlayMod.hyAPI
-import com.BARSOverlay.Utils.APIRequestInterpreter
+import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
+import BarsOverlayMod.hyAPI
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.{ChatComponentTranslation, IChatComponent}

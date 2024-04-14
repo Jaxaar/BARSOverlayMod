@@ -1,11 +1,11 @@
-package com.BARSOverlay.listeners
+package Jaxaar.BARSOverlay.listeners
 
+import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
-import com.BARSOverlay.{BarsOverlayMod, HypixelPlayerData, OverlayManager}
-import com.BARSOverlay.BarsOverlayMod.mc
-import com.BARSOverlay.CustomFunctionality.MovementInputFromMod
-import com.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
+import Jaxaar.BARSOverlay.HypixelPlayerData
+import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.{ChatComponentTranslation, MovementInputFromOptions}

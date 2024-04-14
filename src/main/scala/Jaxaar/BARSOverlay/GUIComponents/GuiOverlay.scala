@@ -1,8 +1,7 @@
-package com.BARSOverlay.GUIComponents
+package Jaxaar.BARSOverlay.GUIComponents
 
-import com.BARSOverlay.BarsOverlayMod.mc
-import com.BARSOverlay.{HypixelPlayerData}
-import com.BARSOverlay.OverlayManager.players
+import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.OverlayManager.players
 import net.minecraft.client.gui.Gui
 import net.minecraft.util.ChatComponentTranslation
 
@@ -20,9 +19,6 @@ object GuiOverlay{
 
 	def renderPlayerlist() {
 		//        logPlayers()
-		if(players.size() <= 0){
-			return
-		}
 		Gui.drawRect(2,  2, 200, 240, Integer.MIN_VALUE)
 
 		mc.fontRendererObj.drawStringWithShadow("Player", 10, 20, -1)
@@ -30,6 +26,9 @@ object GuiOverlay{
 		mc.fontRendererObj.drawStringWithShadow("WLR", 100, 20, -1)
 		mc.fontRendererObj.drawStringWithShadow("FKDR", 150, 20, -1)
 
+		if(players.size() <= 0){
+			return
+		}
 		for(i <- players.indices){
 			val player = players(i)
 			if(player.playerLoaded) {

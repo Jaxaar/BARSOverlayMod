@@ -1,6 +1,6 @@
-package com.BARSOverlay
+package Jaxaar.BARSOverlay
 
-import com.BARSOverlay.listeners.HotkeyShortcuts
+import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import net.minecraft.client.Minecraft

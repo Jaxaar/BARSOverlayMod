@@ -7,24 +7,23 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+
     }
     dependencies {
+//        classpath 'com.google.code.gson:gson:2.10.1'
+//        classpath 'org.apache.httpcomponents:httpclient:4.5.14'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-//        classpath 'org.spongepowered.mixingradle:0.6-SNAPSHOT'
-//        classpath 'net.hypixel:hypixel-api-transport-apache:4.4'
+//        classpath 'net.minecraftforge.gradle:ForgeGradle:6.1-SNAPSHOT'
+        classpath 'net.hypixel:hypixel-api-transport-apache:4.4'
     }
-}
-
-repositories {
-    maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
-//    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
-//    flatDir {
-//        dir 'libs'
-//    }
 }
 
 apply plugin: 'scala'
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 //apply plugin: 'org.spongepowered.mixin'
 /*
 // for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
@@ -40,6 +39,7 @@ version = "0.1.0"
 group= "BARSOverlay" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bars_overlay"
 
+
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
@@ -52,6 +52,26 @@ minecraft {
     mappings = "stable_20"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
+
+repositories {
+    maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+//    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
+//    flatDir {
+//        name = "locallib"
+//        dir "../~lib"
+//    }
+}
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+//
+//configurations {
+//    shade
+//    compile.extendsFrom(shade)
+//}
+
 
 dependencies {
     // you may put jars on which you depend on in ./libs
@@ -81,13 +101,24 @@ dependencies {
     // Apply Mixin AP
 //    compile 'org.spongepowered:mixin:0.6-SNAPSHOT'
 
-    compile "com.lihaoyi:requests_2.12:0.7.1" //gradle
-    compile 'com.google.code.gson:gson:2.10.1'
-    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    compile "com.lihaoyi:requests_2.12:0.7.1" //gradle
+//    compile 'org.apache.httpcomponents:httpclient:4.5.14'
+//    compile 'com.google.code.gson:gson:2.10.1'
+//    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    deobfCompile 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    embed 'com.github.HypixelDev.PublicAPI:Java:4e69586148'
+    embed 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    shade 'net.hypixel:hypixel-api-transport-apache:4.4'
 
 }
 
+//jar {
+//    configurations.shade.each { dep ->
+//        from(project.zipTree(dep)){
+//            exclude 'META-INF', 'META-INF/**'
+//        }
+//    }
+//}
 
 processResources
 {
@@ -108,3 +139,30 @@ processResources
         exclude 'mcmod.info'
     }
 }
+//
+reobf {
+    shadowJar {
+        /*mappingType = 'SEARGE'*/
+    }
+}
+
+shadowJar {
+    // shading to prevent compatibility issues with other mods.
+    relocate("net.hypixel", "BARSOverlay.libs.net.hypixel")
+    relocate("net.hypixel", "BARSOverlay.libs.net.hypixel")
+
+    // hypixel sucks lol
+    exclude("org/**")
+    exclude("com/**")
+    exclude("mozilla/**")
+    exclude("dummyThing")
+    exclude("META-INF/**")
+
+    classifier ''
+}
+
+jar {
+    exclude("META-INF/**")
+}
+
+tasks.build.dependsOn shadowJar

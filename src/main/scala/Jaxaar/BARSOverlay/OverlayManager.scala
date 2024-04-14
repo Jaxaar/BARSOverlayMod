@@ -1,8 +1,8 @@
-package com.BARSOverlay
+package Jaxaar.BARSOverlay
 
-import com.BARSOverlay.BarsOverlayMod.mc
-import com.BARSOverlay.GUIComponents.GuiOverlay
-import com.BARSOverlay.Utils.OverlayPlayerComparator
+import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
+import Jaxaar.BARSOverlay.Utils.OverlayPlayerComparator
+import BarsOverlayMod.mc
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

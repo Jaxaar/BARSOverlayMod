@@ -1,4 +1,4 @@
-package com.BARSOverlay.Utils;
+package Jaxaar.BARSOverlay.Utils;
 
 import com.google.common.collect.ComparisonChain;
 import net.minecraft.client.network.NetworkPlayerInfo;

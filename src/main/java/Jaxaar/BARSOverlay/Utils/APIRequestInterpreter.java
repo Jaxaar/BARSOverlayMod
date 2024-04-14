@@ -1,4 +1,4 @@
-package com.BARSOverlay.Utils;
+package Jaxaar.BARSOverlay.Utils;
 
 import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.PlayerReply;

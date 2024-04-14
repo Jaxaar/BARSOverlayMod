@@ -1,4 +1,4 @@
-package com.BARSOverlay.CustomFunctionality;
+package Jaxaar.BARSOverlay.CustomFunctionality;
 
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.MovementInput;
