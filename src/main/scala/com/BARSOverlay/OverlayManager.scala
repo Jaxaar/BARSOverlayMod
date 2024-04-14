@@ -1,6 +1,5 @@
 package com.BARSOverlay
 
-import com.BARSOverlay.ApiHandler.{getHypixelPlayerData, getJSON}
 import com.BARSOverlay.BarsOverlayMod.mc
 import com.BARSOverlay.GUIComponents.GuiOverlay
 import com.BARSOverlay.Utils.OverlayPlayerComparator
@@ -11,79 +10,71 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.lwjgl.input.Keyboard
 import org.apache.logging.log4j.LogManager
 
+import scala.collection.mutable.LinkedList
 import java.util
-import java.util.{List, UUID}
+import java.util.{UUID, List => JavaList}
 import scala.collection.JavaConverters._
 import com.google.common.collect.Ordering
+import net.minecraftforge.client.event.ClientChatReceivedEvent
+import sun.security.ec.point.ProjectivePoint.Mutable
 
 import java.util.concurrent.Future
+import scala.collection.JavaConversions.collectionAsScalaIterable
 
 
 object OverlayManager extends Gui{
 
 	val logger = LogManager.getLogger();
-	val overlayRenderer = new GuiOverlay(mc)
+	val overlayRenderer = GuiOverlay
 
+	var playersDict: Map[UUID, HypixelPlayerData] = Map()
 
-
-	class HypixelPlayerData(networkPlayerInfo: NetworkPlayerInfo){
-
-		val future: Future[String] = fetchData()
-
-		def getUUID: UUID = networkPlayerInfo.getGameProfile.getId
-
-		def hasData: Boolean = future.isDone;
-
-		def getHypixelData: String = {
-			if(future.isDone){
-				return future.get()
-			}
-			""
-		}
-
-		def getHypixelDataJSON = getJSON(getHypixelData)
-
-		private def fetchData() = {
-			ApiHandler.getHypixelPlayerData(getUUID)
-		}
-
-		def reload() = new HypixelPlayerData(networkPlayerInfo)
-
-	}
+//	val ordering = Ordering.from(new OverlayPlayerComparator())
+//	def players: List[HypixelPlayerData] = ordering.sortedCopy[HypixelPlayerData](playerDict.values.asJava).asScala.toList
+	def players: List[HypixelPlayerData] = playersDict.values.toList
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
-		val ordering = Ordering.from(new OverlayPlayerComparator())
-		val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
-		val list: util.List[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
-		list
+//		val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
+//		val list: JavaList[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
+//		list
 //		List("Jaxaar", "Pypeapple", "Gatekeeper", "...")
+		val lst = mc.thePlayer.sendQueue.getPlayerInfoMap.toList
+		println(lst)
+		lst
+	}
+
+	def updatePlayerList() = {
+		val newList = getListOfPlayers.map(x => {
+			val uuid = x.getGameProfile.getId;
+			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
+		}).toMap
+		playersDict = newList
+	}
+
+	def playerInList(uuid: UUID) = {
+		players.filter(_.getUUID.equals(uuid))
 	}
 
 	def printListToChat = {
-		val l = getListOfPlayers
-		overlayRenderer.setPlayers(l)
 		overlayRenderer.logPlayers()
 	}
 
-	def triggerQuery = {
-		val l = getListOfPlayers
-		val resp = getHypixelPlayerData(l.get(0).getGameProfile.getId)
-		println("here")
-		println(resp)
-	}
-
-
 	def ShowOverlay = {
-		val l = getListOfPlayers
-		overlayRenderer.setPlayers(l)
 		overlayRenderer.renderPlayerlist()
 	}
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
-		if(Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
+		if(Keyboard.isKeyDown(Keyboard.KEY_Y)) {
 			ShowOverlay
+		}
+	}
+
+	@SubscribeEvent
+	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
+		if(Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+			updatePlayerList()
 		}
 	}
 

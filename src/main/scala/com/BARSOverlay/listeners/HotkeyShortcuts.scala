@@ -2,36 +2,59 @@ package com.BARSOverlay.listeners
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
-import com.BARSOverlay.{BarsOverlayMod, OverlayManager}
+import com.BARSOverlay.{BarsOverlayMod, HypixelPlayerData, OverlayManager}
 import com.BARSOverlay.BarsOverlayMod.mc
 import com.BARSOverlay.CustomFunctionality.MovementInputFromMod
+import com.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.{ChatComponentTranslation, MovementInputFromOptions}
 import org.lwjgl.input.Keyboard
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
+import scala.collection.JavaConverters.collectionAsScalaIterableConverter
+
 object HotkeyShortcuts{
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	def onKeyStroke(event: InputEvent.KeyInputEvent) = {
-		println("Event!")
-		if(Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
-			println("Tab Down")
+//		println("Event!")
+		if(Keyboard.isKeyDown(Keyboard.KEY_TAB) && !Keyboard.isRepeatEvent) {
+			updatePlayerList()
+//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
+//			println("Tab Down")
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))
-			OverlayManager.printListToChat
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_T)){
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("T"))
-			OverlayManager.triggerQuery
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_G)){
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("G"))
+//		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))
+//			OverlayManager.printListToChat
+//		}
+//		if(Keyboard.isKeyDown(Keyboard.KEY_T) && !Keyboard.isRepeatEvent){
+//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("T"))
+//			updatePlayerList()
+//		}
+//		if(Keyboard.isKeyDown(Keyboard.KEY_G)){
+//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("G"))
 //			OverlayManager.ShowOverlay
+//		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_V) && !Keyboard.isRepeatEvent){
+			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
+			playersDict = Map()
 		}
+//		if(Keyboard.isKeyDown(Keyboard.KEY_B) && !Keyboard.isRepeatEvent){
+//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("B"))
+////			players = getListOfPlayers.asScala.toList.map(new HypixelPlayerData(_))
+//			println("All Players")
+//			players.foreach((x) => {
+//				if(x.playerLoaded) {
+//					println(x.networkPlayerInfo.getGameProfile.getName)
+//					println(x.getStars)
+//
+//					mc.thePlayer.addChatMessage(new ChatComponentTranslation(x.networkPlayerInfo.getGameProfile.getName))
+//					mc.thePlayer.addChatMessage(new ChatComponentTranslation("" + x.getStars))
+//				}
+//			})
+//		}
 	}
 }
 

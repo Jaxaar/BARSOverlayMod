@@ -7,16 +7,22 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-//        maven {
-//            name = "mixins"
-//            url = "https://repo.spongepowered.org/repository/maven-public"
-//        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
 //        classpath 'org.spongepowered.mixingradle:0.6-SNAPSHOT'
+//        classpath 'net.hypixel:hypixel-api-transport-apache:4.4'
     }
 }
+
+repositories {
+    maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+//    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
+//    flatDir {
+//        dir 'libs'
+//    }
+}
+
 apply plugin: 'scala'
 apply plugin: 'net.minecraftforge.gradle.forge'
 //apply plugin: 'org.spongepowered.mixin'
@@ -76,7 +82,12 @@ dependencies {
 //    compile 'org.spongepowered:mixin:0.6-SNAPSHOT'
 
     compile "com.lihaoyi:requests_2.12:0.7.1" //gradle
+    compile 'com.google.code.gson:gson:2.10.1'
+    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    deobfCompile 'net.hypixel:hypixel-api-transport-apache:4.4'
+
 }
+
 
 processResources
 {

@@ -1,6 +1,8 @@
 package com.BARSOverlay
 
 import com.BARSOverlay.listeners.HotkeyShortcuts
+import net.hypixel.api.HypixelAPI
+import net.hypixel.api.apache.ApacheHttpClient
 import net.minecraft.client.Minecraft
 import net.minecraft.init.Blocks
 import net.minecraftforge.client.GuiIngameForge
@@ -11,6 +13,7 @@ import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPreInitia
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import java.io.File
+import java.util.UUID
 
 
 @Mod(modid = BarsOverlayMod.MODID, version = BarsOverlayMod.VERSION, modLanguage = "scala")
@@ -20,7 +23,12 @@ object BarsOverlayMod {
     final val VERSION = "0.1.0"
     final val mc = Minecraft.getMinecraft()
 
+    val apiKey = "373313d3-6c45-4bd1-a72e-8527c6123b71"
+
+    final val hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(getApiKey)))
+
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
+
 
 //    @SidedProxy(
 //        clientSide = "com.BARSOverlay.ClientOnlyProxy",
@@ -40,8 +48,6 @@ object BarsOverlayMod {
 //        proxy.init()
         MinecraftForge.EVENT_BUS.register(HotkeyShortcuts)
         MinecraftForge.EVENT_BUS.register(OverlayManager)
-        mc.ingameGUI = new GuiIngameForge(mc)
-        ApiHandler.runTest
 
     }
 
@@ -70,5 +76,10 @@ object BarsOverlayMod {
 //        }
 //
 //    }
+
+
+    def getApiKey: String = {
+        apiKey
+    }
 
 }

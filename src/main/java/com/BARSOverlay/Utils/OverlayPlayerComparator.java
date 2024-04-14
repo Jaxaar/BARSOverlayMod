@@ -11,8 +11,8 @@ import java.util.Comparator;
 
 @SideOnly(Side.CLIENT)
 public class OverlayPlayerComparator implements Comparator<NetworkPlayerInfo>{
-    public OverlayPlayerComparator() {
-
+    private OverlayPlayerComparator()
+    {
     }
 
     public int compare(NetworkPlayerInfo p_compare_1_, NetworkPlayerInfo p_compare_2_)
