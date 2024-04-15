@@ -62,7 +62,7 @@ object GuiOverlay{
 				var xPos = firstPlayerX
 				for (colID <- OverlayConf.getColumnValues.indices){
 					val col = OverlayConf.getColumnValues(colID)
-					mc.fontRendererObj.drawStringWithShadow(col.getString(player), xPos, firstPlayerY + i * spacingBetween, -1)
+					mc.fontRendererObj.drawStringWithShadow(col.getFormattedString(player), xPos, firstPlayerY + i * spacingBetween, -1)
 					xPos += col.fieldLength
 				}
 //				mc.fontRendererObj.drawStringWithShadow(player.getStars, 10, firstPlayerY + i * spacingBetween, -1)
