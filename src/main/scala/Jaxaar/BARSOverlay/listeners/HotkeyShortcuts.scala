@@ -4,7 +4,7 @@ import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
 import Jaxaar.BARSOverlay.HypixelPlayerData
-import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.BarsOverlayMod.{getShowOverlayKey, mc}
 import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -20,7 +20,7 @@ object HotkeyShortcuts{
 	@SideOnly(Side.CLIENT)
 	def onKeyStroke(event: InputEvent.KeyInputEvent) = {
 //		println("Event!")
-		if(Keyboard.isKeyDown(Keyboard.KEY_TAB) && !Keyboard.isRepeatEvent) {
+		if(Keyboard.isKeyDown(getShowOverlayKey) && !Keyboard.isRepeatEvent) {
 			updatePlayerList()
 //			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
 //			println("Tab Down")

@@ -16,6 +16,9 @@ public class APIRequestInterpreter {
         api.getPlayerByUuid(uuid).whenComplete((reply, error) -> {
             if (error != null) {
                 System.out.println("Err fetching: " + uuid.toString());
+//                if(error.getMessage().contains("401")){
+//                    System.out.println("API-Key expired");
+//                }
                 throw new CompletionException(error);
             }
             System.out.println("LOADED: "  + uuid.toString());

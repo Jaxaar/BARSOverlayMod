@@ -1,0 +1,35 @@
+
+BarsOverlay TODO:
+
+For End of Sprint 1:
+
+Reading from a config file
+Reloading out of date data
+Loading correct colors
+Set up UI stats data
+Sort
+Api key loading / saving -> screens & logic
+ - Includes reloading hyAPI if api key expires & detect it
+
+Done - Spacing based on existing
+
+Project backlog:
+Display Text Better
+Detecting Tab Keybinds?
+Stats Tracking
+Make fancy star symbols
+
+
+
+Dreams:
+Bedwars Manhunt
+
+
+
+
+
+
+
+
+
+

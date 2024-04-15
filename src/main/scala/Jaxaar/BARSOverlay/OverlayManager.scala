@@ -2,7 +2,7 @@ package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import Jaxaar.BARSOverlay.Utils.OverlayPlayerComparator
-import BarsOverlayMod.mc
+import BarsOverlayMod.{getShowOverlayKey, mc}
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -29,16 +29,14 @@ object OverlayManager extends Gui{
 
 	var playersDict: Map[UUID, HypixelPlayerData] = Map()
 
-//	val ordering = Ordering.from(new OverlayPlayerComparator())
+//	val ordering = Ordering.from(new OverlayPlayerComparator|())
 //	def players: List[HypixelPlayerData] = ordering.sortedCopy[HypixelPlayerData](playerDict.values.asJava).asScala.toList
 	def players: List[HypixelPlayerData] = playersDict.values.toList
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
 //		val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
-//		val list: JavaList[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
-//		list
-//		List("Jaxaar", "Pypeapple", "Gatekeeper", "...")
+//		val lst: JavaList[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
 		val lst = mc.thePlayer.sendQueue.getPlayerInfoMap.toList
 		println(lst)
 		lst
@@ -66,14 +64,14 @@ object OverlayManager extends Gui{
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
-		if(Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+		if(Keyboard.isKeyDown(getShowOverlayKey)) {
 			ShowOverlay
 		}
 	}
 
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
-		if(Keyboard.isKeyDown(Keyboard.KEY_Y)) {
+		if(Keyboard.isKeyDown(getShowOverlayKey)) {
 			updatePlayerList()
 		}
 	}

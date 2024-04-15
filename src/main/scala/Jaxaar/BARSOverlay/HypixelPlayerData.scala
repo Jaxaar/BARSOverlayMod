@@ -51,7 +51,7 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		}
 	}
 
-	def getStars: String = s"${if(playerLoaded) player.getIntProperty("achievements.bedwars_level", 0) else 0}"
+	def getStars: String = s"✫${if(playerLoaded) player.getIntProperty("achievements.bedwars_level", 0) else 0}"
 	def getWins: String = s"${if(playerLoaded) player.getIntProperty("stats.Bedwars.wins_bedwars", 0) else 0}"
 	def getWLR: String = s"${if(playerLoaded) (player.getDoubleProperty("stats.Bedwars.wins_bedwars", 0) / player.getDoubleProperty("stats.Bedwars.losses_bedwars", 1) *100).round/100.0 else 0}"
 	def getFKDR: String = s"${if(playerLoaded) (player.getDoubleProperty("stats.Bedwars.final_kills_bedwars", 0) / player.getDoubleProperty("stats.Bedwars.final_deaths_bedwars", 1) *100).round/100.0 else 0}"

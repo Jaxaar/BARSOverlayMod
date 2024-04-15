@@ -3,6 +3,7 @@ package Jaxaar.BARSOverlay
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
+import org.lwjgl.input.Keyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.init.Blocks
 import net.minecraftforge.client.GuiIngameForge
@@ -23,7 +24,7 @@ object BarsOverlayMod {
     final val VERSION = "0.1.0"
     final val mc = Minecraft.getMinecraft()
 
-    val apiKey = "373313d3-6c45-4bd1-a72e-8527c6123b71"
+    val apiKey = "61c36e9a-a551-447a-aaaf-8b67a6011fdf"
 
     final val hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(getApiKey)))
 
@@ -77,6 +78,7 @@ object BarsOverlayMod {
 //
 //    }
 
+    def getShowOverlayKey = Keyboard.KEY_TAB
 
     def getApiKey: String = {
         apiKey
