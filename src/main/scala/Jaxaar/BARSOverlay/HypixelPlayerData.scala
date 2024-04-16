@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
-import BarsOverlayMod.hyAPI
+import BarsOverlayMod.{apiKey, hyAPI}
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
@@ -47,7 +47,8 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		player = null
 		lastUpdated = System.currentTimeMillis()/1000
 		try{
-			APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
+			println("Fetching player: " + getUUID + " - With apiKey: " + apiKey)
+//			APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
 		} catch {
 			case e: Throwable => {
 				if (e.getMessage.contains("401")) {

@@ -4,7 +4,7 @@ import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
 import Jaxaar.BARSOverlay.HypixelPlayerData
-import Jaxaar.BARSOverlay.BarsOverlayMod.{getShowOverlayKey, mc}
+import Jaxaar.BARSOverlay.BarsOverlayMod.{getShowOverlayKey, mc, setAPIKey}
 import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -25,10 +25,11 @@ object HotkeyShortcuts{
 //			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
 //			println("Tab Down")
 		}
-//		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))
+		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))
+			setAPIKey("61c36e9a-a551-447a-aaaf-8b67a6011fdf")
 //			OverlayManager.printListToChat
-//		}
+		}
 //		if(Keyboard.isKeyDown(Keyboard.KEY_T) && !Keyboard.isRepeatEvent){
 //			mc.thePlayer.addChatMessage(new ChatComponentTranslation("T"))
 //			updatePlayerList()
