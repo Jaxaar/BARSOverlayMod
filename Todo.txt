@@ -18,6 +18,8 @@ Done - Reloading out of date data
 
 
 Project backlog:
+Keybinds for: Reload/Clear list, Toggle show 
+
 Coloring for rank
 Finish All star levels out
 Display Text Better
