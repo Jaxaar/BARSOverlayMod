@@ -2,7 +2,7 @@ package Jaxaar.BARSOverlay
 
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.util.{ChatStyle, EnumChatFormatting}
-import net.minecraft.util.EnumChatFormatting.{GRAY, WHITE, GOLD, AQUA, RED, DARK_PURPLE, DARK_GREEN, DARK_AQUA, YELLOW, GREEN, DARK_RED, LIGHT_PURPLE, DARK_GRAY, BLUE, DARK_BLUE, BLACK}
+import net.minecraft.util.EnumChatFormatting.{AQUA, BLACK, BLUE, DARK_AQUA, DARK_BLUE, DARK_GRAY, DARK_GREEN, DARK_PURPLE, DARK_RED, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE, YELLOW}
 
 
 object OverlayConf {
@@ -11,21 +11,42 @@ object OverlayConf {
 		List(
 			new PlayerColumnValues(
 				title = "Player",
-				fieldLength = 90,
+				fieldLength = 140,
 				colorBreakpoints = List(0),
 				stars = new SingleNumericValue("achievements.bedwars_level")
 			),
 			new StatsColumnValues(
-				title = "WLR",
-				fieldLength = 40,
-				colorBreakpoints =  List(1,2,5,7,10),
-				value = new RatioValue("stats.Bedwars.wins_bedwars", "stats.Bedwars.losses_bedwars")
+				title = "WS",
+				fieldLength = 25,
+				isInt = true,
+				colorBreakpoints =  List(4, 10, 25, 50, 100),
+				value = new SingleNumericValue("stats.Bedwars.winstreak")
 			),
 			new StatsColumnValues(
 				title = "FKDR",
 				fieldLength = 40,
 				colorBreakpoints =  List(1,3,5,10,25),
 				value = new RatioValue("stats.Bedwars.final_kills_bedwars", "stats.Bedwars.final_deaths_bedwars")
+			),
+			new StatsColumnValues(
+				title = "WLR",
+				fieldLength = 35,
+				colorBreakpoints =  List(1,2,5,7,10),
+				value = new RatioValue("stats.Bedwars.wins_bedwars", "stats.Bedwars.losses_bedwars")
+			),
+			new StatsColumnValues(
+				title = "Finals",
+				fieldLength = 50,
+				isInt = true,
+				colorBreakpoints =  List(1000, 5000, 10000, 20000, 30000),
+				value = new SingleNumericValue("stats.Bedwars.final_kills_bedwars")
+			),
+			new StatsColumnValues(
+				title = "Wins",
+				fieldLength = 40,
+				isInt = true,
+				colorBreakpoints =  List(500, 1000, 3000, 5000, 10000),
+				value = new SingleNumericValue("stats.Bedwars.wins_bedwars")
 			)
 		)
 	}
@@ -36,11 +57,15 @@ abstract class ColumnValues(val title: String, val fieldLength: Int, val colorBr
 	def getFormattedString(player: HypixelPlayerData): String
 }
 
-class StatsColumnValues(val value: SingleNumericValue = null, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends ColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints){
+class StatsColumnValues(val value: SingleNumericValue = null, val isInt: Boolean = false, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends ColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints){
 
 	override def getFormattedString(player: HypixelPlayerData): String = {
 //		val str = getString(player)
-		val str = getVal(player)
+		val str = getVal(player) match {
+			case -1 => "-" // Doesn't exist
+			case x if isInt => x.toInt
+			case x => x
+		}
 		val style = new ChatStyle()
 		style.setColor(colorFunction(getVal(player)))
 		s"${style.getFormattingCode} ${str}"
@@ -199,7 +224,7 @@ class SingleValue(val stringPath: String){
 class SingleNumericValue(override val stringPath: String) extends SingleValue (stringPath = stringPath){
 	override val typeStr = "Double"
 	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => if(player.playerLoaded) player.player.getDoubleProperty(stringPath, 0.0) else 0
+		(player: HypixelPlayerData) => if(player.playerLoaded) player.player.getDoubleProperty(stringPath, -1) else -10
 	}
 	def getValueRoundedMethod(): HypixelPlayerData => Double = (p: HypixelPlayerData) => (getValueMethod()(p) * 100).round / 100.0
 }
@@ -207,6 +232,6 @@ class SingleNumericValue(override val stringPath: String) extends SingleValue (s
 class RatioValue(val topPath: String, val botPath: String) extends SingleNumericValue(stringPath = topPath){
 	override val typeStr = "Double"
 	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => if(player.playerLoaded) (player.player.getDoubleProperty(topPath, 0.0) / player.player.getDoubleProperty(botPath, 1.0)) else -1.0
+		(player: HypixelPlayerData) => if(player.playerLoaded) (player.player.getDoubleProperty(topPath, -1) / player.player.getDoubleProperty(botPath, 1.0)) else -1.0
 	}
 }

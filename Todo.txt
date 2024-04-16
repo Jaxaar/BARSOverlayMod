@@ -4,22 +4,25 @@ BarsOverlay TODO:
 For End of Sprint 1:
 
 Reading from a config file
-Reloading out of date data
-Loading correct colors
-Sort
 Api key loading / saving -> screens & logic
  - Includes reloading hyAPI if api key expires & detect it
 
 Done - Spacing based on existing
 Done - Set up UI stats data reading
+Done - Loading correct colors
+Done - Sort
+Done - Reloading out of date data
+
+
+
 
 
 Project backlog:
+Coloring for rank
 Finish All star levels out
 Display Text Better
 Detecting Tab Keybinds?
 Stats Tracking
-Make fancy star symbols
 
 
 

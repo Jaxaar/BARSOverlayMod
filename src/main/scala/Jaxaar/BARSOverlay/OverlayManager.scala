@@ -31,7 +31,7 @@ object OverlayManager extends Gui{
 
 //	val ordering = Ordering.from(new OverlayPlayerComparator|())
 //	def players: List[HypixelPlayerData] = ordering.sortedCopy[HypixelPlayerData](playerDict.values.asJava).asScala.toList
-	def players: List[HypixelPlayerData] = playersDict.values.toList
+	def players: List[HypixelPlayerData] = playersDict.values.toList.sortBy(sortHypixelPlayers)
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
@@ -48,6 +48,10 @@ object OverlayManager extends Gui{
 			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
 		}).toMap
 		playersDict = newList
+	}
+
+	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
+		p1.getStars * Math.pow(p1.getFKDR, 2)
 	}
 
 	def playerInList(uuid: UUID) = {
