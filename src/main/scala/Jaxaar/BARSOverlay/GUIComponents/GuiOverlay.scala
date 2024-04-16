@@ -25,13 +25,13 @@ object GuiOverlay{
 		//        logPlayers()
 		val left = 2
 		val top = 2
-		val right = 200
+		val right = 240
 		val bottom = 240
 
 		val firstPlayerY = 30
 		val firstPlayerX = 10
-		val spacingBetween = 13
-		val fontScale = 0.9
+		val spacingBetween = 14
+		val fontScale = 0.7
 
 
 
@@ -62,7 +62,7 @@ object GuiOverlay{
 				var xPos = firstPlayerX
 				for (colID <- OverlayConf.getColumnValues.indices){
 					val col = OverlayConf.getColumnValues(colID)
-					mc.fontRendererObj.drawStringWithShadow(col.getFormattedString(player), xPos, firstPlayerY + i * spacingBetween, -1)
+					mc.fontRendererObj.drawString(col.getFormattedString(player), xPos, firstPlayerY + i * spacingBetween, -1)
 					xPos += col.fieldLength
 				}
 //				mc.fontRendererObj.drawStringWithShadow(player.getStars, 10, firstPlayerY + i * spacingBetween, -1)

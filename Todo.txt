@@ -15,6 +15,7 @@ Done - Set up UI stats data reading
 
 
 Project backlog:
+Finish All star levels out
 Display Text Better
 Detecting Tab Keybinds?
 Stats Tracking
