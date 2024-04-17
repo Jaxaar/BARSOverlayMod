@@ -29,31 +29,31 @@ object HotkeyShortcuts{
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player Cache cleared"))
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_V)) {
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
-			val scoreboard = mc.theWorld.getScoreboard
-//			val sideBarName = scoreboard.getObjectiveInDisplaySlot(1).getName
-//			println(scoreboard.getObjectiveInDisplaySlot(1).getDisplayName)
-//			println(sideBarName)
-//			val score = scoreboard.getValueFromObjective(sideBarName, scoreboard.getObjective(sideBarName))
-//			println(scoreboard.getObjectiveNames)
-//
-////			scoreboard.getScores.asScala.foreach((str) => {
-////				println(str.getPlayerName)
+//		if(Keyboard.isKeyDown(Keyboard.KEY_V)) {
+////			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
+//			val scoreboard = mc.theWorld.getScoreboard
+////			val sideBarName = scoreboard.getObjectiveInDisplaySlot(1).getName
+////			println(scoreboard.getObjectiveInDisplaySlot(1).getDisplayName)
+////			println(sideBarName)
+////			val score = scoreboard.getValueFromObjective(sideBarName, scoreboard.getObjective(sideBarName))
+////			println(scoreboard.getObjectiveNames)
+////
+//////			scoreboard.getScores.asScala.foreach((str) => {
+//////				println(str.getPlayerName)
+//////			})
+////			scoreboard.getScores.asScala.foreach((score1) => {
+////				val scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName)
+////				println(score1.getScorePoints)
+////				val s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName)
+////				println(s1)
 ////			})
-//			scoreboard.getScores.asScala.foreach((score1) => {
-//				val scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName)
-//				println(score1.getScorePoints)
-//				val s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName)
-//				println(s1)
-//			})
-
-
-//			println(score)
-//			println(score.getPlayerName)
-
-			println(ScoreboardSidebarReader.toString)
-		}
+//
+//
+////			println(score)
+////			println(score.getPlayerName)
+//
+////			println(ScoreboardSidebarReader.toString)
+//		}
 	}
 }
 

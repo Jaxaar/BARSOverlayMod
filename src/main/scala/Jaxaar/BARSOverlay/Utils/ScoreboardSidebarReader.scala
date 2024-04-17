@@ -27,7 +27,7 @@ object ScoreboardSidebarReader {
 	}
 
 	override def toString: String = {
-		print("ts")
+//		print("ts")
 		getSidebarList.map(s => "\n"+s).toString()
 	}
 

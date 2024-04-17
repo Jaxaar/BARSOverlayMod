@@ -37,7 +37,7 @@ object OverlayManager extends Gui{
 	}
 
 	def updatePlayerList(): Unit = {
-		if (!verifyIsBedwarsGame) {println("notBARS"); return;}
+		if (!verifyIsBedwarsGame) {return;}
 
 		val newMap = getListOfPlayers.map(x => {
 			val uuid = x.getGameProfile.getId;
@@ -59,7 +59,7 @@ object OverlayManager extends Gui{
 	}
 
 	def ShowOverlay(): Unit = {
-		if (!isBedwarsGame) {println("notBARS"); return;}
+		if (!isBedwarsGame) {return;}
 		overlayRenderer.renderPlayerlist()
 	}
 
