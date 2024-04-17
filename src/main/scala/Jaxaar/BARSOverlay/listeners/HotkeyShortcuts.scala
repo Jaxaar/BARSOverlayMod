@@ -18,44 +18,19 @@ object HotkeyShortcuts{
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	def onKeyStroke(event: InputEvent.KeyInputEvent) = {
-//		println("Event!")
+	def onKeyStroke(event: InputEvent.KeyInputEvent): Unit = {
 		if(Keyboard.isKeyDown(getShowOverlayKey) && !Keyboard.isRepeatEvent) {
 			updatePlayerList()
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("*Display Fancy UI*"))
-//			println("Tab Down")
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_R)){
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("R"))
-			setAPIKey("61c36e9a-a551-447a-aaaf-8b67a6011fdf")
-//			OverlayManager.printListToChat
-		}
-//		if(Keyboard.isKeyDown(Keyboard.KEY_T) && !Keyboard.isRepeatEvent){
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("T"))
-//			updatePlayerList()
-//		}
-//		if(Keyboard.isKeyDown(Keyboard.KEY_G)){
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("G"))
-//			OverlayManager.ShowOverlay
-//		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_V) && !Keyboard.isRepeatEvent){
-			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
+		if((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ||  Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_Z) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) && !Keyboard.isRepeatEvent){
 			playersDict = Map()
+			mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player Cache cleared"))
 		}
-//		if(Keyboard.isKeyDown(Keyboard.KEY_B) && !Keyboard.isRepeatEvent){
-//			mc.thePlayer.addChatMessage(new ChatComponentTranslation("B"))
-////			players = getListOfPlayers.asScala.toList.map(new HypixelPlayerData(_))
-//			println("All Players")
-//			players.foreach((x) => {
-//				if(x.playerLoaded) {
-//					println(x.networkPlayerInfo.getGameProfile.getName)
-//					println(x.getStars)
-//
-//					mc.thePlayer.addChatMessage(new ChatComponentTranslation(x.networkPlayerInfo.getGameProfile.getName))
-//					mc.thePlayer.addChatMessage(new ChatComponentTranslation("" + x.getStars))
-//				}
-//			})
-//		}
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_V)) {
+			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
+			mc.
+		}
 	}
 }
 

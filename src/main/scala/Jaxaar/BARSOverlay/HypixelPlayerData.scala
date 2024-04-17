@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
-import BarsOverlayMod.{apiKey, hyAPI}
+import BarsOverlayMod.{APIKeyIsValid, apiKey, hyAPI}
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
@@ -47,11 +47,13 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		player = null
 		lastUpdated = System.currentTimeMillis()/1000
 		try{
-			println("Fetching player: " + getUUID + " - With apiKey: " + apiKey)
-//			APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
+			if(APIKeyIsValid){
+				println("Fetching player: " + getUUID)
+				APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
+			}
 		} catch {
 			case e: Throwable => {
-				if (e.getMessage.contains("401")) {
+				if (e.getMessage.contains("403")) {
 					println("No Authorization")
 					println(e.getMessage)
 				}
@@ -67,3 +69,4 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 	}
 
 }
+

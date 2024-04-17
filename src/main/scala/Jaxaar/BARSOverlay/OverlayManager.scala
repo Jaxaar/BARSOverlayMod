@@ -28,21 +28,14 @@ object OverlayManager extends Gui{
 	val overlayRenderer = GuiOverlay
 
 	var playersDict: Map[UUID, HypixelPlayerData] = Map()
-
-//	val ordering = Ordering.from(new OverlayPlayerComparator|())
-//	def players: List[HypixelPlayerData] = ordering.sortedCopy[HypixelPlayerData](playerDict.values.asJava).asScala.toList
 	def players: List[HypixelPlayerData] = playersDict.values.toList.sortBy(sortHypixelPlayers)
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
-//		val nethandlerplayclient: NetHandlerPlayClient = mc.thePlayer.sendQueue
-//		val lst: JavaList[NetworkPlayerInfo] = ordering.sortedCopy[NetworkPlayerInfo](nethandlerplayclient.getPlayerInfoMap)
-		val lst = mc.thePlayer.sendQueue.getPlayerInfoMap.toList
-		println(lst)
-		lst
+		 mc.thePlayer.sendQueue.getPlayerInfoMap.toList
 	}
 
-	def updatePlayerList() = {
+	def updatePlayerList(): Unit = {
 		val newList = getListOfPlayers.map(x => {
 			val uuid = x.getGameProfile.getId;
 			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
@@ -51,25 +44,25 @@ object OverlayManager extends Gui{
 	}
 
 	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
-		p1.getStars * Math.pow(p1.getFKDR, 2)
+		-p1.getStars * Math.pow(p1.getFKDR, 2)
 	}
 
-	def playerInList(uuid: UUID) = {
-		players.filter(_.getUUID.equals(uuid))
+	def playerInList(uuid: UUID): Boolean = {
+		players.count(_.getUUID.equals(uuid)) > 0
 	}
 
-	def printListToChat = {
+	def printListToChat(): Unit = {
 		overlayRenderer.logPlayers()
 	}
 
-	def ShowOverlay = {
+	def ShowOverlay(): Unit = {
 		overlayRenderer.renderPlayerlist()
 	}
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
 		if(Keyboard.isKeyDown(getShowOverlayKey)) {
-			ShowOverlay
+			ShowOverlay()
 		}
 	}
 

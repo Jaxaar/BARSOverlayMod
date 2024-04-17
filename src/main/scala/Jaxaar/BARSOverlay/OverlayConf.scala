@@ -114,7 +114,7 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 
 		return stars match {
 			case x if x < 100 => formatStars(s"[${x}✫]", List(GRAY))
-			case x if x < 200 => formatStars(s"[${x}✫]", List(GRAY))
+			case x if x < 200 => formatStars(s"[${x}✫]", List(WHITE))
 			case x if x < 300 => formatStars(s"[${x}✫]", List(GOLD))
 			case x if x < 400 => formatStars(s"[${x}✫]", List(AQUA))
 			case x if x < 500 => formatStars(s"[${x}✫]", List(DARK_GREEN))
@@ -138,7 +138,7 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 
 
 
-			case _ => formatStars(s"[${stars}*]", List(DARK_RED, DARK_RED, DARK_PURPLE, BLUE, BLUE, DARK_BLUE, BLACK))
+			case _ => formatStars(s"[${stars}*]", List(WHITE))
 //			case _ => formatStars(s"[${stars}✥]", List(DARK_RED, DARK_RED, DARK_PURPLE, BLUE, BLUE, DARK_BLUE, BLACK))
 
 		}

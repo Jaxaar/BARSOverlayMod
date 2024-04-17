@@ -3,30 +3,31 @@ BarsOverlay TODO:
 
 For End of Sprint 1:
 
-Reading from a config file
-Api key loading / saving -> screens & logic
- - Includes reloading hyAPI if api key expires & detect it
+Only allow displaying the overlay in a bars game
 
+Done - Detect if API Key expires and warn user / stop requests
 Done - Spacing based on existing
 Done - Set up UI stats data reading
 Done - Loading correct colors
 Done - Sort
 Done - Reloading out of date data
-
+Done - Api key loading / saving -> screens & logic
+Done- Reading from a config file
 
 
 
 
 Project backlog:
-Keybinds for: Reload/Clear list, Toggle show 
+Keybinds for: Reload/Clear list, Toggle show
 
+Customizable UI scale
 Coloring for rank
 Finish All star levels out
 Display Text Better
 Detecting Tab Keybinds?
 Stats Tracking
 
-
+Sort by team color
 
 Dreams:
 Bedwars Manhunt
