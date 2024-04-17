@@ -28,7 +28,7 @@ import java.util.UUID
 object BarsOverlayMod {
     final val MODID = "bars_overlay_mod"
     final val MOD_NAME = "BARS Overlay"
-    final val VERSION = "0.0.0"
+    final val VERSION = "0.1.0"
     final val mc = Minecraft.getMinecraft()
 
     var apiKey = "00000000-0000-0000-0000-000000000000"
