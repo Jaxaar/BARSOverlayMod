@@ -1,7 +1,6 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
-import Jaxaar.BARSOverlay.Utils.OverlayPlayerComparator
 import BarsOverlayMod.{getShowOverlayKey, mc}
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
@@ -28,7 +27,7 @@ object OverlayManager extends Gui{
 	val overlayRenderer = GuiOverlay
 
 	var playersDict: Map[UUID, HypixelPlayerData] = Map()
-	def players: List[HypixelPlayerData] = playersDict.values.toList.sortBy(sortHypixelPlayers)
+	def players: List[HypixelPlayerData] = playersDict.values.toList.sortBy(sortHypixelPlayers).reverse
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
@@ -36,15 +35,15 @@ object OverlayManager extends Gui{
 	}
 
 	def updatePlayerList(): Unit = {
-		val newList = getListOfPlayers.map(x => {
+		val newMap = getListOfPlayers.map(x => {
 			val uuid = x.getGameProfile.getId;
 			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
 		}).toMap
-		playersDict = newList
+		playersDict = newMap
 	}
 
 	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
-		-p1.getStars * Math.pow(p1.getFKDR, 2)
+		p1.getStars * Math.pow(p1.getFKDR, 2)
 	}
 
 	def playerInList(uuid: UUID): Boolean = {

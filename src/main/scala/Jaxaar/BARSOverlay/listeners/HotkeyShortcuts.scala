@@ -8,6 +8,7 @@ import Jaxaar.BARSOverlay.BarsOverlayMod.{getShowOverlayKey, mc, setAPIKey}
 import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict, updatePlayerList}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.scoreboard.ScorePlayerTeam
 import net.minecraft.util.{ChatComponentTranslation, MovementInputFromOptions}
 import org.lwjgl.input.Keyboard
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
@@ -29,7 +30,26 @@ object HotkeyShortcuts{
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_V)) {
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("V"))
-			mc.
+			val scoreboard = mc.theWorld.getScoreboard
+			val sideBarName = scoreboard.getObjectiveInDisplaySlot(1).getName
+			println(scoreboard.getObjectiveInDisplaySlot(1).getDisplayName)
+			println(sideBarName)
+			val score = scoreboard.getValueFromObjective(sideBarName, scoreboard.getObjective(sideBarName))
+			println(scoreboard.getObjectiveNames)
+
+//			scoreboard.getScores.asScala.foreach((str) => {
+//				println(str.getPlayerName)
+//			})
+			scoreboard.getScores.asScala.foreach((score1) => {
+				val scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName)
+				println(score1.getScorePoints)
+				val s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName)
+				println(s1)
+			})
+
+
+			println(score)
+			println(score.getPlayerName)
 		}
 	}
 }

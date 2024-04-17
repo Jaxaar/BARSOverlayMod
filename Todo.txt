@@ -3,6 +3,7 @@ BarsOverlay TODO:
 
 For End of Sprint 1:
 
+Change files to the current release version
 Only allow displaying the overlay in a bars game
 
 Done - Detect if API Key expires and warn user / stop requests
@@ -19,6 +20,7 @@ Done- Reading from a config file
 
 Project backlog:
 Keybinds for: Reload/Clear list, Toggle show
+Handle Nicks better
 
 Customizable UI scale
 Coloring for rank

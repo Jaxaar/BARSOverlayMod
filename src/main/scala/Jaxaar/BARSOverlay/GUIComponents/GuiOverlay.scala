@@ -77,31 +77,4 @@ object GuiOverlay{
 		}
 		GlStateManager.scale(1, 1, 1)
 	}
-
-
-	def drawMulticolorString(text: String, x: Int, y: Int, colors: List[Int]) = {
-
-	}
-
-
-
-	val HypixelColors = Map(
-		"AQUA" -> "#55FFFF",
-		"BLACK" -> "#000000",
-		"BLUE" -> "#5555FF",
-		"DARK_AQUA"-> "#00AAAA",
-		"DARK_BLUE"-> "#0000AA",
-		"DARK_GRAY"-> "#555555",
-		"DARK_GREEN"-> "#00AA00",
-		"DARK_PURPLE"-> "#AA00AA",
-		"DARK_RED"-> "#AA0000",
-		"GOLD"-> "#FFAA00",
-		"GRAY"-> "#AAAAAA",
-		"GREEN"-> "#55FF55",
-		"LIGHT_PURPLE"-> "#FF55FF",
-		"RED"-> "#FF5555",
-		"WHITE"-> "#FFFFFF",
-		"YELLOW"-> "#FFFF55"
-	)
-
 }

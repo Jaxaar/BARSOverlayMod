@@ -7,7 +7,7 @@ import net.minecraft.util.EnumChatFormatting.{AQUA, BLACK, BLUE, DARK_AQUA, DARK
 
 object OverlayConf {
 
-	def getColumnValues = {
+	def getColumnValues: List[ColumnValues] = {
 		List(
 			new PlayerColumnValues(
 				title = "Player",
@@ -71,11 +71,7 @@ class StatsColumnValues(val value: SingleNumericValue = null, val isInt: Boolean
 		s"${style.getFormattingCode} ${str}"
 	}
 
-	def colorFunction(d: Double) = {
-		caseMatchStatsValue(d, colorBreakpoints)
-	}
-
-	def caseMatchStatsValue(d: Double, breakpoints: List[Double]): EnumChatFormatting = {
+	def colorFunction(d: Double): EnumChatFormatting = {
 		val colors = List(
 			GRAY,
 			WHITE,
@@ -85,8 +81,8 @@ class StatsColumnValues(val value: SingleNumericValue = null, val isInt: Boolean
 			DARK_PURPLE
 		)
 
-		val numGreater = breakpoints.count(_ >= d)
-		colors((breakpoints.length) - numGreater)
+		val numGreater = colorBreakpoints.count(_ >= d)
+		colors((colorBreakpoints.length) - numGreater)
 	}
 
 	def getVal(player: HypixelPlayerData): Double = {

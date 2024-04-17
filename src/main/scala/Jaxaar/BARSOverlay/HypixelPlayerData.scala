@@ -9,7 +9,7 @@ import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
 import java.util.UUID
 
 class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
-	println("New Player")
+//	println("New Player")
 
 	var player: Player = null
 	var lastUpdated: Long = System.currentTimeMillis()/1000
@@ -21,7 +21,7 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 	def playerLoaded: Boolean = {
 //		println("Hi")
 		if((System.currentTimeMillis()/1000) > lastUpdated + 600){
-			println("ReloadingPLayerData")
+			println("ReloadingPlayerData")
 			reload()
 		}
 
