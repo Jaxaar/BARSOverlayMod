@@ -169,6 +169,7 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 
 			case _ => formatStars(s"[${stars}*]", List(WHITE))
 		}
+		""
 	}
 
 	def formatStars(str: String, colors: List[EnumChatFormatting]): String = {
