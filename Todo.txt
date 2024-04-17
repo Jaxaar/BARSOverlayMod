@@ -15,14 +15,14 @@ Done - Api key loading / saving -> screens & logic
 Done- Reading from a config file
 
 
-
+In Review:
+Finish All star levels out
 
 Project backlog:
 Keybinds for: Reload/Clear list, Toggle show
 
 Customizable UI scale
 Coloring for rank
-Finish All star levels out
 Display Text Better
 Detecting Tab Keybinds?
 Stats Tracking
