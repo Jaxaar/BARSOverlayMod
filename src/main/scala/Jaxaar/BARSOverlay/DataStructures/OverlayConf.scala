@@ -1,8 +1,7 @@
-package Jaxaar.BARSOverlay
+package Jaxaar.BARSOverlay.DataStructures
 
-import net.hypixel.api.reply.PlayerReply.Player
+import net.minecraft.util.EnumChatFormatting._
 import net.minecraft.util.{ChatStyle, EnumChatFormatting}
-import net.minecraft.util.EnumChatFormatting.{AQUA, BLACK, BLUE, DARK_AQUA, DARK_BLUE, DARK_GRAY, DARK_GREEN, DARK_PURPLE, DARK_RED, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, WHITE, YELLOW}
 
 
 object OverlayConf {
@@ -162,8 +161,7 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 			case x if x < 4800 => formatStars(s"[${x}✥]", List(WHITE, DARK_RED, RED, RED, BLUE, DARK_BLUE, BLUE))
 			case x if x < 4900 => formatStars(s"[${x}✥]", List(DARK_PURPLE, DARK_PURPLE, RED, GOLD, YELLOW, AQUA, DARK_AQUA))
 			case x if x < 5000 => formatStars(s"[${x}✥]", List(DARK_GREEN, GREEN, WHITE, WHITE, GREEN, GREEN, DARK_GREEN))
-
-			case _ => formatStars(s"[${stars}*]", List(WHITE))
+			case _ => formatStars(s"[${stars}✥]", List(DARK_RED, DARK_RED, DARK_PURPLE, BLUE, BLUE, DARK_BLUE, BLACK))
 		}
 		""
 	}

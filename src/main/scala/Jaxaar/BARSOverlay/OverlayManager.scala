@@ -2,6 +2,8 @@ package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{getShowOverlayKey, mc}
+import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
+import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, verifyIsBedwarsGame}
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -35,6 +37,8 @@ object OverlayManager extends Gui{
 	}
 
 	def updatePlayerList(): Unit = {
+		if (!verifyIsBedwarsGame) {println("notBARS"); return;}
+
 		val newMap = getListOfPlayers.map(x => {
 			val uuid = x.getGameProfile.getId;
 			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
@@ -55,6 +59,7 @@ object OverlayManager extends Gui{
 	}
 
 	def ShowOverlay(): Unit = {
+		if (!isBedwarsGame) {println("notBARS"); return;}
 		overlayRenderer.renderPlayerlist()
 	}
 
@@ -71,5 +76,4 @@ object OverlayManager extends Gui{
 			updatePlayerList()
 		}
 	}
-
 }

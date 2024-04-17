@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay.GUIComponents
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
-import Jaxaar.BARSOverlay.OverlayConf
+import Jaxaar.BARSOverlay.DataStructures.OverlayConf
 import Jaxaar.BARSOverlay.OverlayManager.players
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
@@ -52,11 +52,11 @@ object GuiOverlay{
 		}
 
 		GlStateManager.scale(fontScale, fontScale, fontScale)
-		for(i <- 0 until 15){
-			val player = players.head
+//		for(i <- 0 until 15){
+//			val player = players.head
 
-//		for(i <- playersToDisplay.indices){
-//			val player = players(i)
+		for(i <- playersToDisplay.indices){
+			val player = players(i)
 			if(player.playerLoaded) {
 
 				var xPos = firstPlayerX
