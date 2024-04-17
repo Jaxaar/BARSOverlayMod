@@ -108,6 +108,7 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 //		return s"[${stars}✫]"
 
 		return stars match {
+			case x if x < 0 => formatStars(s"[-1✫]", List(YELLOW)) //TODO Actually make it [?✫] at some point but not yet
 			case x if x < 100 => formatStars(s"[${x}✫]", List(GRAY))
 			case x if x < 200 => formatStars(s"[${x}✫]", List(WHITE))
 			case x if x < 300 => formatStars(s"[${x}✫]", List(GOLD))

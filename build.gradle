@@ -36,7 +36,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 version = "0.1.0"
-group= "BARSOverlay" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "Jaxaar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bars_overlay"
 
 
@@ -148,7 +148,6 @@ reobf {
 
 shadowJar {
     // shading to prevent compatibility issues with other mods.
-    relocate("net.hypixel", "BARSOverlay.libs.net.hypixel")
     relocate("net.hypixel", "BARSOverlay.libs.net.hypixel")
 
     // hypixel sucks lol

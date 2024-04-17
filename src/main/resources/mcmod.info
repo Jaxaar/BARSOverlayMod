@@ -1,15 +1,15 @@
 [
     {
-      "modid": "examplemod",
-      "name": "Example Mod",
-      "description": "Example placeholder mod.",
+      "modid": "bars_overlay_mod",
+      "name": "Bars Overlay",
+      "description": "A simple mod which provides a stat overlay for Hypixel Bedwars",
       "version": "${version}",
       "mcversion": "${mcversion}",
-      "url": "",
+      "url": "https://github.com/Jaxaar/BARSOverlayMod",
       "updateUrl": "",
-      "authorList": ["ExampleDude"],
-      "credits": "The Forge and FML guys, for making this example",
-      "logoFile": "",
+      "authorList": ["Jaxaar"],
+      "credits": "To the Hypixel team for the official Java Hypixel API library, and Malizma for helping our with the code",
+      "logoFile": "popupTower.png",
       "screenshots": [],
       "dependencies": []
     }

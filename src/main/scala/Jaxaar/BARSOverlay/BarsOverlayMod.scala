@@ -4,6 +4,7 @@ import Jaxaar.BARSOverlay.Commands.BarsCommandAPIKey
 import Jaxaar.BARSOverlay.OverlayManager.playersDict
 import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
+import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import org.lwjgl.input.Keyboard
@@ -25,9 +26,9 @@ import java.util.UUID
 
 @Mod(modid = BarsOverlayMod.MODID, version = BarsOverlayMod.VERSION, modLanguage = "scala")
 object BarsOverlayMod {
-    final val MODID = "BARS_Overlay_Mod"
+    final val MODID = "bars_overlay_mod"
     final val MOD_NAME = "BARS Overlay"
-    final val VERSION = "0.1.0"
+    final val VERSION = "0.0.0"
     final val mc = Minecraft.getMinecraft()
 
     var apiKey = "00000000-0000-0000-0000-000000000000"
@@ -56,6 +57,7 @@ object BarsOverlayMod {
         MinecraftForge.EVENT_BUS.register(HotkeyShortcuts)
         MinecraftForge.EVENT_BUS.register(OverlayManager)
         registerCommands
+        registerKeybinds
     }
 
     def registerCommands = {

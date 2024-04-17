@@ -9,8 +9,10 @@ import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, players, playersDict
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.client.settings.KeyBinding
 import net.minecraft.scoreboard.ScorePlayerTeam
 import net.minecraft.util.{ChatComponentTranslation, MovementInputFromOptions}
+import net.minecraftforge.fml.client.registry.ClientRegistry
 import org.lwjgl.input.Keyboard
 import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
@@ -18,12 +20,20 @@ import scala.collection.JavaConverters.collectionAsScalaIterableConverter
 
 object HotkeyShortcuts{
 
+	val showOverlayKeybind = new KeyBinding("Toggle Overlay", Keyboard.KEY_RBRACKET, "BARS Overlay")
+
+	def registerKeybinds = {
+		ClientRegistry.registerKeyBinding(showOverlayKeybind)
+	}
+
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	def onKeyStroke(event: InputEvent.KeyInputEvent): Unit = {
-		if(Keyboard.isKeyDown(getShowOverlayKey) && !Keyboard.isRepeatEvent) {
+		if(showOverlayKeybind.isKeyDown && !Keyboard.isRepeatEvent) {
 			updatePlayerList()
 		}
+
 		if((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ||  Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_Z) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) && !Keyboard.isRepeatEvent){
 			playersDict = Map()
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player Cache cleared"))

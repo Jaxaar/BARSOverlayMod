@@ -4,7 +4,6 @@ BarsOverlay TODO:
 For End of Sprint 1:
 
 Change files to the current release version
-Only allow displaying the overlay in a bars game
 
 Done - Detect if API Key expires and warn user / stop requests
 Done - Spacing based on existing
@@ -13,15 +12,17 @@ Done - Loading correct colors
 Done - Sort
 Done - Reloading out of date data
 Done - Api key loading / saving -> screens & logic
-Done- Reading from a config file
-
+Done - Reading from a config file
+Done - Only allow displaying the overlay in a bars game
+Done - Keybind for Toggle Overlay
+Done - Handle Nicks better
 
 In Review:
-Finish All star levels out
+Done - Finish All star levels out
 
 Project backlog:
-Keybinds for: Reload/Clear list, Toggle show
-Handle Nicks better
+Keybinds for: Reload/Clear list
+
 
 Customizable UI scale
 Coloring for rank

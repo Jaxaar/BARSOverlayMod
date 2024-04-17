@@ -4,6 +4,7 @@ import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{getShowOverlayKey, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, verifyIsBedwarsGame}
+import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -47,6 +48,9 @@ object OverlayManager extends Gui{
 	}
 
 	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
+		if(p1.getStars < 0){
+			return Integer.MAX_VALUE
+		}
 		p1.getStars * Math.pow(p1.getFKDR, 2)
 	}
 
@@ -65,14 +69,14 @@ object OverlayManager extends Gui{
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
-		if(Keyboard.isKeyDown(getShowOverlayKey)) {
+		if(showOverlayKeybind.isKeyDown) {
 			ShowOverlay()
 		}
 	}
 
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
-		if(Keyboard.isKeyDown(getShowOverlayKey)) {
+		if(showOverlayKeybind.isKeyDown) {
 			updatePlayerList()
 		}
 	}
