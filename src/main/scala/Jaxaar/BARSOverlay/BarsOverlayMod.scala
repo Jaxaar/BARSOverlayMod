@@ -66,7 +66,6 @@ object BarsOverlayMod {
 
 
 
-
     def loadConfig = {
         config.load()
         config.addCustomCategoryComment("requirements", "Values Required for the mod to function");
