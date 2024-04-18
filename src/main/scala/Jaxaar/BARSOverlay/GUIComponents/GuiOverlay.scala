@@ -1,11 +1,11 @@
 package Jaxaar.BARSOverlay.GUIComponents
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, mc}
 import Jaxaar.BARSOverlay.DataStructures.OverlayConf
 import Jaxaar.BARSOverlay.OverlayManager.players
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.util.ChatComponentTranslation
+import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 
 import scala.collection.JavaConversions._
 
@@ -36,6 +36,7 @@ object GuiOverlay{
 
 
 		Gui.drawRect(left,  top, right, bottom, Integer.MIN_VALUE)
+
 		var xPosHeader = firstPlayerX
 		for (i <- OverlayConf.getColumnValues){
 			mc.fontRendererObj.drawStringWithShadow(i.title, (xPosHeader * fontScale).round, (10 * fontScale).round, -1)
@@ -47,9 +48,20 @@ object GuiOverlay{
 //		mc.fontRendererObj.drawStringWithShadow("WLR", 100, 20, -1)
 //		mc.fontRendererObj.drawStringWithShadow("FKDR", 150, 20, -1)
 
+		if(!APIKeyIsValid){
+
+			val style = new ChatStyle().setColor(EnumChatFormatting.RED)
+
+			mc.fontRendererObj.drawString(s"${style.getFormattingCode}API Key Expired", left + 70, top + 100, -1)
+			mc.fontRendererObj.drawString(s"${style.getFormattingCode}Use /apikey to set a new one", left + 40, top + 115, -1)
+			return
+		}
+
 		if(players.size() <= 0){
 			return
 		}
+
+
 
 		GlStateManager.scale(fontScale, fontScale, fontScale)
 //		for(i <- 0 until 15){

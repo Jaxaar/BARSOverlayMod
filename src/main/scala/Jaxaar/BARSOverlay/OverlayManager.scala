@@ -49,7 +49,7 @@ object OverlayManager extends Gui{
 
 	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
 		if(p1.getStars < 0){
-			return Integer.MAX_VALUE
+			return Double.MaxValue
 		}
 		p1.getStars * Math.pow(p1.getFKDR, 2)
 	}

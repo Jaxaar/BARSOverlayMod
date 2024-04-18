@@ -99,8 +99,8 @@ object BarsOverlayMod {
         }
     }
 
-    def APIKeyIsValid = APIRequestInterpreter.validAPIKey && (System.currentTimeMillis()/1000 - APIRequestInterpreter.lastRequestLimitReached) > 300
-
+    def APIKeyIsValid = APIRequestInterpreter.validAPIKey
+    def canMakeAPIRequest = APIKeyIsValid && (System.currentTimeMillis()/1000 - APIRequestInterpreter.lastRequestLimitReached) > 300
 
 
 //    //Things to happen on both Server/Client

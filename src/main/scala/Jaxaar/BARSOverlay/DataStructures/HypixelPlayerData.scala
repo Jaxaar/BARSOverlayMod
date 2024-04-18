@@ -1,6 +1,6 @@
 package Jaxaar.BARSOverlay.DataStructures
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, hyAPI}
+import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, canMakeAPIRequest, hyAPI}
 import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
@@ -47,7 +47,7 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		player = null
 		lastUpdated = System.currentTimeMillis()/1000
 		try{
-			if(APIKeyIsValid){
+			if(canMakeAPIRequest){
 				println("Fetching player: " + getUUID)
 				APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
 			}
@@ -61,7 +61,7 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		}
 	}
 
-	def getStars: Int = if(playerLoaded) player.getIntProperty("achievements.bedwars_level", 0) else 0
+	def getStars: Int = if(playerLoaded) player.getIntProperty("achievements.bedwars_level", -1) else 0
 	def getFKDR: Double = if(playerLoaded) (player.getDoubleProperty("stats.Bedwars.final_kills_bedwars", 0) / player.getDoubleProperty("stats.Bedwars.final_deaths_bedwars", 1) *100).round/100.0 else 0
 
 	override def toString: String = {
