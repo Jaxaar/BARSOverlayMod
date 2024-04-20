@@ -1,10 +1,33 @@
 
 BarsOverlay TODO:
 
-For End of Sprint 1:
 
 Change files to the current release version
 
+
+Project backlog:
+Coloring for teams / sort by teams once in a game
+Editable configs - Oneconfig? / Moveable UI/UI Scaling in oneconfig???
+**Stats Tracking**
+
+Keybinds for: Reload/Clear list
+Customizable UI scale
+
+Coloring for rank (Vip, Mvp etc)
+/stats -> for a player?? - Show smeado link: Easy / Show in overlay: Hard
+
+Display Text Better - Not sure what I meant
+Detecting Tab Keybinds? - Not sure what I meant
+
+Dreams:
+Bedwars Manhunt
+
+
+
+
+
+
+v0.1.0
 Done - Detect if API Key expires and warn user / stop requests
 Done - Spacing based on existing
 Done - Set up UI stats data reading
@@ -16,30 +39,7 @@ Done - Reading from a config file
 Done - Only allow displaying the overlay in a bars game
 Done - Keybind for Toggle Overlay
 Done - Handle Nicks better
-
-In Review:
 Done - Finish All star levels out
-
-Project backlog:
-Keybinds for: Reload/Clear list
-
-
-Customizable UI scale
-Coloring for rank
-Display Text Better
-Detecting Tab Keybinds?
-Stats Tracking
-
-Sort by team color
-
-Dreams:
-Bedwars Manhunt
-
-
-
-
-
-
 
 
 

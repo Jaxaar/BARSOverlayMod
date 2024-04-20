@@ -69,6 +69,7 @@ object GuiOverlay{
 
 		for(i <- playersToDisplay.indices){
 			val player = players(i)
+
 			if(player.playerLoaded) {
 
 				var xPos = firstPlayerX
