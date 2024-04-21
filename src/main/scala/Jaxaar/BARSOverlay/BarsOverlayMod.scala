@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Commands.BarsCommandAPIKey
-import Jaxaar.BARSOverlay.OverlayManager.playersDict
+import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers}
 import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
@@ -88,7 +88,7 @@ object BarsOverlayMod {
         try{
             hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(newKey)))
             APIRequestInterpreter.testAPIKey(hyAPI)
-            playersDict = Map()
+            clearPlayers()
             apiKey = newKey
             saveConfig
             true

@@ -3,6 +3,7 @@ package Jaxaar.BARSOverlay.GUIComponents
 import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, mc}
 import Jaxaar.BARSOverlay.DataStructures.OverlayConf
 import Jaxaar.BARSOverlay.OverlayManager.players
+import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
@@ -69,6 +70,7 @@ object GuiOverlay{
 
 		for(i <- playersToDisplay.indices){
 			val player = players(i)
+//			println("out-" + ScoreboardSidebarReader.getPlayersTeam(player.getTrueName))
 
 			if(player.playerLoaded) {
 

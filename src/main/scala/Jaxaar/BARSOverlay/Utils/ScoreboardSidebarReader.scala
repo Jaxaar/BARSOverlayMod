@@ -1,6 +1,7 @@
 package Jaxaar.BARSOverlay.Utils
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
 import net.minecraft.scoreboard.ScorePlayerTeam
 
 import scala.collection.JavaConverters.collectionAsScalaIterableConverter
@@ -26,23 +27,21 @@ object ScoreboardSidebarReader {
 		}
 	}
 
+	def getPlayersTeam(username: String):String = {
+		try {
+			val scoreboard = mc.theWorld.getScoreboard
+			val team = scoreboard.getPlayersTeam(username)
+//			println(s"${username}: ${team.getColorPrefix}")
+			return team.getColorPrefix
+		} catch {
+			case e => print("Err- SB")
+		}
+		""
+	}
+
 	override def toString: String = {
 //		print("ts")
 		getSidebarList.map(s => "\n"+s).toString()
-	}
-
-
-//	Improve**
-	def stripColorCodes(str: String): String = {
-		var strOut = str
-		var index = 0
-		while(index < strOut.length){
-			if(strOut(index) == '§'){
-				strOut = strOut.substring(0, index) + strOut.substring(index+2, strOut.length)
-			}
-			index += 1
-		}
-		strOut
 	}
 
 
@@ -54,5 +53,6 @@ object ScoreboardSidebarReader {
 		isBedwarsGame
 	}
 
+//	def isBedwarsGame = true
 
 }

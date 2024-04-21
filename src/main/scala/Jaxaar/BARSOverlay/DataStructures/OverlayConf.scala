@@ -93,12 +93,13 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 	val style = new ChatStyle()
 
 	override def getFormattedString(player: HypixelPlayerData): String = {
-		//		val str = getString(player)
-//		style.setColor(colorFunction(getVal(player)))
+
 		s"${getStyledStars(getStars(player))} ${getPlayerName(player)}"
 	}
 
-	def getPlayerName(playerData: HypixelPlayerData): String = style.setColor(WHITE).getFormattingCode + playerData.getTrueName
+	def getPlayerName(playerData: HypixelPlayerData): String = {
+		playerData.getTeamColorStyling + playerData.getTrueName
+	}
 
 	def getStars(player: HypixelPlayerData): Int = {
 		stars.getValueRoundedMethod()(player).intValue()
@@ -167,9 +168,10 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 		""
 	}
 
+
 	def formatStars(str: String, colors: List[EnumChatFormatting]): String = {
 
-		if(colors.length == 1){
+		val outstr = if(colors.length == 1){
 			style.setColor(colors.head)
 			style.getFormattingCode + str
 		}
@@ -178,8 +180,9 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 				s"${style.setColor(colors(i)).getFormattingCode}${str(i)}"
 			}).foldLeft("")(_+_)
 		}
+		val paddingSpaces = " " * (7 - str.length)
+		outstr //+ paddingSpaces
 	}
-
 }
 
 

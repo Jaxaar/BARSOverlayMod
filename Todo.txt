@@ -3,17 +3,17 @@ BarsOverlay TODO:
 
 
 Change files to the current release version
-
+Done - Coloring for teams / sort by teams once in a game
+Done - Show lobby rank
 
 Project backlog:
-Coloring for teams / sort by teams once in a game
+
 Editable configs - Oneconfig? / Moveable UI/UI Scaling in oneconfig???
 **Stats Tracking**
 
 Keybinds for: Reload/Clear list
 Customizable UI scale
 
-Coloring for rank (Vip, Mvp etc)
 /stats -> for a player?? - Show smeado link: Easy / Show in overlay: Hard
 
 Display Text Better - Not sure what I meant
@@ -22,7 +22,7 @@ Detecting Tab Keybinds? - Not sure what I meant
 Dreams:
 Bedwars Manhunt
 
-
+Add text for Lobby Rank (Vip, Mvp etc)?
 
 
 

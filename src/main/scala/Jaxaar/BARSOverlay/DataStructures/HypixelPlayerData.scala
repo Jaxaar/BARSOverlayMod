@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay.DataStructures
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, canMakeAPIRequest, hyAPI}
-import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
+import Jaxaar.BARSOverlay.Utils.{APIRequestInterpreter, ScoreboardSidebarReader}
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
@@ -37,10 +37,11 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 	}
 
 	def getNameComponent: IChatComponent = {
-		if(networkPlayerInfo.getDisplayName != null)
-			networkPlayerInfo.getDisplayName
-		else
-			new ChatComponentTranslation(networkPlayerInfo.getGameProfile.getName)
+		new ChatComponentTranslation(getTrueName)
+	}
+
+	def getTeamColorStyling: String = {
+		ScoreboardSidebarReader.getPlayersTeam(getTrueName)
 	}
 
 	def reload(): Unit = {

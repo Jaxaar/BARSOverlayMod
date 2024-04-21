@@ -3,6 +3,7 @@ package Jaxaar.BARSOverlay
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{getShowOverlayKey, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
+import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, verifyIsBedwarsGame}
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
 import net.minecraft.client.gui.Gui
@@ -29,8 +30,8 @@ object OverlayManager extends Gui{
 	val logger = LogManager.getLogger();
 	val overlayRenderer = GuiOverlay
 
-	var playersDict: Map[UUID, HypixelPlayerData] = Map()
-	def players: List[HypixelPlayerData] = playersDict.values.toList.sortBy(sortHypixelPlayers).reverse
+	private var playersDict: Map[UUID, HypixelPlayerData] = Map()
+	def players: List[HypixelPlayerData] = masterSort(playersDict.values.toList)
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
@@ -47,11 +48,22 @@ object OverlayManager extends Gui{
 		playersDict = newMap
 	}
 
-	def sortHypixelPlayers(p1: HypixelPlayerData): Double = {
+	def masterSort(lst: List[HypixelPlayerData]): List[HypixelPlayerData] = {
+//		Sort by Stats
+		lst.view.sortBy(sortHypixelPlayersByStats).reverse
+//		Sort by team Char - Specifically makes use of Bedwars team styling
+		  .sortBy(x => stripColorCodes(x.getTeamColorStyling)).toList
+	}
+
+	def sortHypixelPlayersByStats(p1: HypixelPlayerData): Double = {
 		if(p1.getStars < 0){
 			return Double.MaxValue
 		}
 		p1.getStars * Math.pow(p1.getFKDR, 2)
+	}
+
+	def clearPlayers(): Unit = {
+		playersDict = Map()
 	}
 
 	def playerInList(uuid: UUID): Boolean = {
