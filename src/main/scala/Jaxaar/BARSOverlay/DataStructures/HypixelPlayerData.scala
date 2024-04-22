@@ -1,72 +1,31 @@
 package Jaxaar.BARSOverlay.DataStructures
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, canMakeAPIRequest, hyAPI}
-import Jaxaar.BARSOverlay.Utils.{APIRequestInterpreter, ScoreboardSidebarReader}
+import Jaxaar.BARSOverlay.Utils.{ScoreboardSidebarReader}
 import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.util.{ChatComponentTranslation, IChatComponent}
 
 import java.util.UUID
 
-class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
+class HypixelPlayerData(val player: Player){
 //	println("New Player")
 
-	var player: Player = null
-	var lastUpdated: Long = System.currentTimeMillis()/1000
-	def getUUID: UUID = networkPlayerInfo.getGameProfile.getId
-	def getTrueName: String = networkPlayerInfo.getGameProfile.getName
-
-	reload()
-
-	def playerLoaded: Boolean = {
-//		println("Hi")
-		if((System.currentTimeMillis()/1000) > lastUpdated + 600){
-			println("ReloadingPlayerData")
-			reload()
-		}
-
-		if(player != null){
-			return true
-		}
-		player = APIRequestInterpreter.newlyLoadedPLayers.getOrDefault(getUUID, null)
-		if(player != null){
-			APIRequestInterpreter.newlyLoadedPLayers.remove(getUUID)
-			return true
-		}
-		false
-	}
+	def getUUID: UUID = player.getUuid
+	def getName: String = player.getName
 
 	def getNameComponent: IChatComponent = {
-		new ChatComponentTranslation(getTrueName)
+		new ChatComponentTranslation(getName)
 	}
 
 	def getTeamColorStyling: String = {
-		ScoreboardSidebarReader.getPlayersTeam(getTrueName)
+		ScoreboardSidebarReader.getPlayersTeam(getName)
 	}
 
-	def reload(): Unit = {
-		player = null
-		lastUpdated = System.currentTimeMillis()/1000
-		try{
-			if(canMakeAPIRequest && getUUID.version() != 2){
-				println("Fetching player: " + getUUID)
-				APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
-			}
-		} catch {
-			case e: Throwable => {
-				if (e.getMessage.contains("403")) {
-					println("No Authorization")
-					println(e.getMessage)
-				}
-			}
-		}
-	}
-
-	def getStars: Int = if(playerLoaded) player.getIntProperty("achievements.bedwars_level", -1) else 0
-	def getFKDR: Double = if(playerLoaded) (player.getDoubleProperty("stats.Bedwars.final_kills_bedwars", 0) / player.getDoubleProperty("stats.Bedwars.final_deaths_bedwars", 1) *100).round/100.0 else 0
+	def getStars: Int = player.getIntProperty("achievements.bedwars_level", -1)
+	def getFKDR: Double = (player.getDoubleProperty("stats.Bedwars.final_kills_bedwars", 0) / player.getDoubleProperty("stats.Bedwars.final_deaths_bedwars", 1) *100).round/100.0
 
 	override def toString: String = {
-		s"[HypixelPlayerData: UUID=${getUUID} RealName=${getTrueName} Loaded=${playerLoaded}]"
+		s"[HypixelPlayerData: UUID=${getUUID} Name=${getName} ]"
 	}
 
 }

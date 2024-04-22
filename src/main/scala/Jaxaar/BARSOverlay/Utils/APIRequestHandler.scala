@@ -1,9 +1,13 @@
 package Jaxaar.BARSOverlay.Utils
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.BarsOverlayMod.{hyAPI, mc}
+import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import net.hypixel.api.HypixelAPI
+import net.hypixel.api.reply.PlayerReply
+import net.hypixel.api.reply.PlayerReply.Player
 import net.minecraft.util.ChatComponentTranslation
 
+import scala.collection.mutable
 import java.util.UUID
 import scala.concurrent.{Await, TimeoutException}
 import scala.concurrent.duration.DurationInt
@@ -14,24 +18,44 @@ object APIRequestHandler {
 
 	private var validAPIKey = true;
 	private var lastRequestLimitReached = 0L;
+	private val playerCache: mutable.Map[UUID, HypixelPlayerTime] = mutable.Map()
+
+	def APIKeyIsValid: Boolean = APIRequestHandler.validAPIKey
+	def canMakeAPIRequest: Boolean = APIKeyIsValid && (curTimeSeconds - APIRequestHandler.lastRequestLimitReached) > 300
 
 
-	def fetchPlayerStats(api: HypixelAPI, uuid: UUID) = {
+	def getPlayerStats(uuid: UUID): Option[HypixelPlayerTime] = {
+		val result: Option[HypixelPlayerTime] = playerCache.get(uuid)
+		if ((result.isEmpty || curTimeSeconds > result.get.lastUpdated + 600) &&
+		    canMakeAPIRequest && uuid.version() != 2){
+			println("Fetching player: " + uuid)
+			fetchPlayerStats(hyAPI, uuid)
+		}
+		result
+	}
+
+	def clearPlayerCache = {
+		playerCache.clear()
+	}
+
+	class HypixelPlayerTime(val lastUpdated: Long, val player: Player)
+	def curTimeSeconds: Long = System.currentTimeMillis()/1000
+
+	def fetchPlayerStats(api: HypixelAPI, uuid: UUID): Unit = {
 		Await.ready(api.getPlayerByUuid(uuid).toScala, 5.minute).value match {
 			case None => throw new TimeoutException("Hypixel API request timed out")
 			case Some(i) => i match{
 				case Failure(e) => onErr(e)
 				case Success(value) => {
-					System.out.println("LOADED: "  + uuid.toString);
-//					newlyLoadedPLayers.put(uuid, reply.getPlayer());
-					value
+					System.out.println(s"LOADED: ${value.getPlayer.getName} - "  + uuid.toString);
+					playerCache.put(uuid, new HypixelPlayerTime(curTimeSeconds, value.getPlayer))
 				}
 			}
 		}
 	}
 
 	def testAPIKey(api: HypixelAPI): Boolean = {
-		Await.ready(api.getPunishmentStats().toScala, 5.minute).value match {
+		Await.ready(api.getPunishmentStats.toScala, 5.minute).value match {
 			case None => throw new TimeoutException("Hypixel API request timed out");
 			case Some(i) => i match{
 				case Failure(e) => onErr(e)
