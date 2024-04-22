@@ -48,7 +48,7 @@ class HypixelPlayerData(val networkPlayerInfo: NetworkPlayerInfo){
 		player = null
 		lastUpdated = System.currentTimeMillis()/1000
 		try{
-			if(canMakeAPIRequest){
+			if(canMakeAPIRequest && getUUID.version() != 2){
 				println("Fetching player: " + getUUID)
 				APIRequestInterpreter.fetchPlayerStats(hyAPI, getUUID)
 			}

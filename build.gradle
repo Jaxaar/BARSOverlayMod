@@ -2,25 +2,28 @@
 // For those who want the bleeding edge
 buildscript {
     repositories {
-        jcenter()
+//        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
         maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+        maven { url "https://repo.polyfrost.org/releases"}
 
     }
     dependencies {
-//        classpath 'com.google.code.gson:gson:2.10.1'
-//        classpath 'org.apache.httpcomponents:httpclient:4.5.14'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+//        classpath "org.polyfrost.multi-version.root:org.polyfrost.multi-version.root.gradle.plugin:0.2.6"
+//        classpath "org.polyfrost.defaults.loom:org.polyfrost.defaults.loom.gradle.plugin:0.2.6"
 //        classpath 'net.minecraftforge.gradle:ForgeGradle:6.1-SNAPSHOT'
-        classpath 'net.hypixel:hypixel-api-transport-apache:4.4'
+//        classpath 'net.hypixel:hypixel-api-transport-apache:4.4'
     }
 }
 
 apply plugin: 'scala'
+//apply plugin: "org.polyfrost.multi-version.root"
+//apply plugin: "org.polyfrost.defaults.loom"
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -43,7 +46,7 @@ archivesBaseName = "bars_overlay"
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
-    
+
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
@@ -55,6 +58,8 @@ minecraft {
 
 repositories {
     maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+//    maven { url "https://repo.polyfrost.org/releases"}
+
 //    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
 //    flatDir {
 //        name = "locallib"
@@ -66,7 +71,7 @@ configurations {
     embed
     compile.extendsFrom(embed)
 }
-//
+
 //configurations {
 //    shade
 //    compile.extendsFrom(shade)
@@ -107,7 +112,10 @@ dependencies {
 //    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    deobfCompile 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    embed 'com.github.HypixelDev.PublicAPI:Java:4e69586148'
+    compile "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
+//    shade 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
     embed 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    shade "cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+"
 //    shade 'net.hypixel:hypixel-api-transport-apache:4.4'
 
 }
@@ -129,11 +137,11 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
@@ -161,6 +169,12 @@ shadowJar {
 }
 
 jar {
+//    manifest.attributes(
+//            "ModSide": "CLIENT",
+//            "TweakOrder": "0",
+//            "ForceLoadAsMod": true,
+//            "TweakClass": "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker",
+//    )
     exclude("META-INF/**")
 }
 

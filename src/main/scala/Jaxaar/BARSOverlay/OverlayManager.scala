@@ -4,7 +4,7 @@ import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{getShowOverlayKey, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
-import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, verifyIsBedwarsGame}
+import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
@@ -23,6 +23,7 @@ import sun.security.ec.point.ProjectivePoint.Mutable
 
 import java.util.concurrent.Future
 import scala.collection.JavaConversions.collectionAsScalaIterable
+
 
 
 object OverlayManager extends Gui{

@@ -5,6 +5,9 @@ BarsOverlay TODO:
 Change files to the current release version
 Done - Coloring for teams / sort by teams once in a game
 Done - Show lobby rank
+Done - Detecting Non-players
+
+
 
 Project backlog:
 
