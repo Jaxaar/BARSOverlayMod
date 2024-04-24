@@ -34,7 +34,7 @@ object ScoreboardSidebarReader {
 //			println(s"${username}: ${team.getColorPrefix}")
 			return team.getColorPrefix
 		} catch {
-			case e => //print(s"Err- SB: ${username}")
+			case e => print("Err- SB")
 		}
 		""
 	}
@@ -46,14 +46,14 @@ object ScoreboardSidebarReader {
 
 
 	var bedwarsGameCache = false
-//	def isBedwarsGame: Boolean = bedwarsGameCache
+	def isBedwarsGame: Boolean = bedwarsGameCache
 	def verifyIsBedwarsGame: Boolean = {
 		val sbList = getSidebarList
 		bedwarsGameCache = (sbList.length >= 2) && sbList(0).contains("BED WARS") && sbList(1).contains("m")
 		isBedwarsGame
 	}
 
-	def isBedwarsGame = true
+//	def isBedwarsGame = true
 
 	def isHypixel: Boolean = {
 		val sbList = getSidebarList

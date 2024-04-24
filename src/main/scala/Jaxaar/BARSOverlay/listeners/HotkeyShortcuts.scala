@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
 import Jaxaar.BARSOverlay.BarsOverlayMod.{getShowOverlayKey, mc, setAPIKey}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, getListOfPlayers, players, updateCurPlayersDict}
+import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, getListOfPlayers, players, updatePlayerList}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -31,7 +31,7 @@ object HotkeyShortcuts{
 	@SideOnly(Side.CLIENT)
 	def onKeyStroke(event: InputEvent.KeyInputEvent): Unit = {
 		if(showOverlayKeybind.isKeyDown && !Keyboard.isRepeatEvent) {
-			updateCurPlayersDict
+			updatePlayerList()
 		}
 
 		if((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) ||  Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_Z) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) && !Keyboard.isRepeatEvent){

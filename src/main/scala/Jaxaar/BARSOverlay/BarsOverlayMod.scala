@@ -1,9 +1,8 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Commands.BarsCommandAPIKey
-import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
-import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
-import Jaxaar.BARSOverlay.Utils.{APIRequestHandler}
+import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers}
+import Jaxaar.BARSOverlay.Utils.APIRequestInterpreter
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
 import net.hypixel.api.HypixelAPI
@@ -75,7 +74,7 @@ object BarsOverlayMod {
 
 //        println(apiKey)
         hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(apiKey)))
-        testAPIKey(hyAPI)
+        APIRequestInterpreter.testAPIKey(hyAPI)
     }
 
     def saveConfig = {
@@ -88,7 +87,7 @@ object BarsOverlayMod {
     def setAPIKey(newKey: String): Boolean = {
         try{
             hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(newKey)))
-            testAPIKey(hyAPI)
+            APIRequestInterpreter.testAPIKey(hyAPI)
             clearPlayers()
             apiKey = newKey
             saveConfig
@@ -98,6 +97,9 @@ object BarsOverlayMod {
             case e: Throwable => mc.thePlayer.addChatMessage(new ChatComponentTranslation(e.getMessage)); false
         }
     }
+
+    def APIKeyIsValid = APIRequestInterpreter.validAPIKey
+    def canMakeAPIRequest = APIKeyIsValid && (System.currentTimeMillis()/1000 - APIRequestInterpreter.lastRequestLimitReached) > 300
 
 
 //    //Things to happen on both Server/Client

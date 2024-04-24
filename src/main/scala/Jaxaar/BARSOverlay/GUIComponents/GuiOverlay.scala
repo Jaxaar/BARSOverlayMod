@@ -1,9 +1,8 @@
 package Jaxaar.BARSOverlay.GUIComponents
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.{mc}
+import Jaxaar.BARSOverlay.BarsOverlayMod.{APIKeyIsValid, mc}
 import Jaxaar.BARSOverlay.DataStructures.OverlayConf
 import Jaxaar.BARSOverlay.OverlayManager.players
-import Jaxaar.BARSOverlay.Utils.APIRequestHandler.APIKeyIsValid
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
@@ -21,7 +20,7 @@ object GuiOverlay{
 		}
 	}
 
-	def playersToDisplay = players
+	def playersToDisplay = players.filter(_.playerLoaded)
 
 	def renderPlayerlist() {
 		//        logPlayers()
@@ -73,13 +72,14 @@ object GuiOverlay{
 			val player = players(i)
 //			println("out-" + ScoreboardSidebarReader.getPlayersTeam(player.getTrueName))
 
+			if(player.playerLoaded) {
 
-			var xPos = firstPlayerX
-			for (colID <- OverlayConf.getColumnValues.indices){
-				val col = OverlayConf.getColumnValues(colID)
-				mc.fontRendererObj.drawString(col.getFormattedString(player), xPos, firstPlayerY + i * spacingBetween, -1)
-				xPos += col.fieldLength
-			}
+				var xPos = firstPlayerX
+				for (colID <- OverlayConf.getColumnValues.indices){
+					val col = OverlayConf.getColumnValues(colID)
+					mc.fontRendererObj.drawString(col.getFormattedString(player), xPos, firstPlayerY + i * spacingBetween, -1)
+					xPos += col.fieldLength
+				}
 //				mc.fontRendererObj.drawStringWithShadow(player.getStars, 10, firstPlayerY + i * spacingBetween, -1)
 //				mc.fontRendererObj.drawStringWithShadow(player.getNameComponent.getFormattedText, 40, firstPlayerY + i * spacingBetween, -1)
 //				mc.fontRendererObj.drawStringWithShadow(player.getWLR, 80, firstPlayerY + i * spacingBetween, -1)
@@ -88,6 +88,7 @@ object GuiOverlay{
 //				mc.fontRendererObj.drawStringWithShadow("123", 150, firstPlayerY + i * spacingBetween, -1)
 //				mc.fontRendererObj.drawStringWithShadow("123", 151, firstPlayerY + i * spacingBetween, -1)
 
+			}
 		}
 		GlStateManager.scale(1, 1, 1)
 	}

@@ -3,7 +3,6 @@ package Jaxaar.BARSOverlay
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{getShowOverlayKey, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
@@ -14,9 +13,15 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.lwjgl.input.Keyboard
 import org.apache.logging.log4j.LogManager
 
+import scala.collection.mutable.LinkedList
+import java.util
 import java.util.{UUID, List => JavaList}
+import scala.collection.JavaConverters._
+import com.google.common.collect.Ordering
 import net.minecraftforge.client.event.ClientChatReceivedEvent
+import sun.security.ec.point.ProjectivePoint.Mutable
 
+import java.util.concurrent.Future
 import scala.collection.JavaConversions.collectionAsScalaIterable
 
 
@@ -26,24 +31,23 @@ object OverlayManager extends Gui{
 	val logger = LogManager.getLogger();
 	val overlayRenderer = GuiOverlay
 
-	private var curPlayers: List[HypixelPlayerData] = List()
-	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20))
+	private var playersDict: Map[UUID, HypixelPlayerData] = Map()
+	def players: List[HypixelPlayerData] = masterSort(playersDict.values.toList)
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
 		 mc.thePlayer.sendQueue.getPlayerInfoMap.toList
 	}
 
-	def updateCurPlayersDict: Unit = {
+	def updatePlayerList(): Unit = {
 		if (!verifyIsBedwarsGame) {return;}
 
-		val newLst = getListOfPlayers.view.flatMap(x => {
+		val newMap = getListOfPlayers.map(x => {
 			val uuid = x.getGameProfile.getId;
-			getPlayerStats(uuid)
-		}).filter(_ != null).map(x => new HypixelPlayerData(x.player)).toList
-		curPlayers = newLst
+			(uuid, playersDict.getOrElse(uuid, new HypixelPlayerData(x)))
+		}).toMap
+		playersDict = newMap
 	}
-
 
 	def masterSort(lst: List[HypixelPlayerData]): List[HypixelPlayerData] = {
 //		Sort by Stats
@@ -60,7 +64,7 @@ object OverlayManager extends Gui{
 	}
 
 	def clearPlayers(): Unit = {
-		clearPlayerCache
+		playersDict = Map()
 	}
 
 	def playerInList(uuid: UUID): Boolean = {
@@ -86,7 +90,7 @@ object OverlayManager extends Gui{
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
 		if(showOverlayKeybind.isKeyDown) {
-			updateCurPlayersDict
+			updatePlayerList()
 		}
 	}
 }
