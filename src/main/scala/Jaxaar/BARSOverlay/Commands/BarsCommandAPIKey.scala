@@ -1,6 +1,6 @@
 package Jaxaar.BARSOverlay.Commands
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.setAPIKey
+import Jaxaar.BARSOverlay.Utils.BARSConfig.setAPIKey
 import net.minecraft.command.{CommandBase, ICommandSender}
 import net.minecraft.event.ClickEvent
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}

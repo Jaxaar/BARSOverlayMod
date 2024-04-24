@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
-import BarsOverlayMod.{getShowOverlayKey, mc}
+import BarsOverlayMod.{mc, config}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
@@ -34,7 +34,7 @@ object OverlayManager extends Gui{
 		 mc.thePlayer.sendQueue.getPlayerInfoMap.toList
 	}
 
-	def updateCurPlayersDict: Unit = {
+	def updateCurPlayersDict(): Unit = {
 		if (!verifyIsBedwarsGame) {return;}
 
 		val newLst = getListOfPlayers.view.flatMap(x => {
@@ -86,7 +86,7 @@ object OverlayManager extends Gui{
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
 		if(showOverlayKeybind.isKeyDown) {
-			updateCurPlayersDict
+			updateCurPlayersDict()
 		}
 	}
 }

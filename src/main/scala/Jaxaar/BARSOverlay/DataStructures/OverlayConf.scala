@@ -10,39 +10,39 @@ object OverlayConf {
 		List(
 			new PlayerColumnValues(
 				title = "Player",
-				fieldLength = 140,
+				fieldLength = 100,
 				colorBreakpoints = List(0),
 				stars = new SingleNumericValue("achievements.bedwars_level")
 			),
 			new StatsColumnValues(
 				title = "WS",
-				fieldLength = 25,
+				fieldLength = 18,
 				isInt = true,
 				colorBreakpoints =  List(4, 10, 25, 50, 100),
 				value = new SingleNumericValue("stats.Bedwars.winstreak")
 			),
 			new StatsColumnValues(
 				title = "FKDR",
-				fieldLength = 40,
+				fieldLength = 30,
 				colorBreakpoints =  List(1,3,5,10,25),
 				value = new RatioValue("stats.Bedwars.final_kills_bedwars", "stats.Bedwars.final_deaths_bedwars")
 			),
 			new StatsColumnValues(
 				title = "WLR",
-				fieldLength = 35,
+				fieldLength = 25,
 				colorBreakpoints =  List(1,2,5,7,10),
 				value = new RatioValue("stats.Bedwars.wins_bedwars", "stats.Bedwars.losses_bedwars")
 			),
 			new StatsColumnValues(
 				title = "Finals",
-				fieldLength = 50,
+				fieldLength = 35,
 				isInt = true,
 				colorBreakpoints =  List(1000, 5000, 10000, 20000, 30000),
 				value = new SingleNumericValue("stats.Bedwars.final_kills_bedwars")
 			),
 			new StatsColumnValues(
 				title = "Wins",
-				fieldLength = 40,
+				fieldLength = 30,
 				isInt = true,
 				colorBreakpoints =  List(500, 1000, 3000, 5000, 10000),
 				value = new SingleNumericValue("stats.Bedwars.wins_bedwars")

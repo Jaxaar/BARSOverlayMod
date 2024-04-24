@@ -147,12 +147,16 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+sourceSets { main { output.resourcesDir = output.classesDir } }
+
 //
 reobf {
     shadowJar {
         /*mappingType = 'SEARGE'*/
     }
 }
+
 
 shadowJar {
     // shading to prevent compatibility issues with other mods.
