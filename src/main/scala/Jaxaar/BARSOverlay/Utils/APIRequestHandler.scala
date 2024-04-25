@@ -14,6 +14,7 @@ import scala.concurrent.{Await, ExecutionContext, TimeoutException}
 import scala.concurrent.duration.DurationInt
 import scala.compat.java8.FutureConverters._
 import scala.util.{Failure, Success}
+import ExecutionContext.Implicits.global
 
 object APIRequestHandler {
 
