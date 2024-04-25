@@ -4,6 +4,7 @@ import Jaxaar.BARSOverlay.BarsOverlayMod.{config, mc}
 import Jaxaar.BARSOverlay.DataStructures.OverlayConf
 import Jaxaar.BARSOverlay.OverlayManager.players
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.APIKeyIsValid
+import Jaxaar.BARSOverlay.Utils.BARSConfig.getLoadFromFirstPlayer
 import Jaxaar.BARSOverlay.Utils.{BARSConfig, ScoreboardSidebarReader}
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
@@ -42,7 +43,7 @@ object GuiOverlay{
 		val raw_top = BARSConfig.getYPos
 
 		val width = OverlayConf.getColumnValues.map(c => c.fieldLength).sum
-		val height = playersToDisplay.map(x => spacingBetween).sum match {
+		val height = playersToDisplay.map(x => adjust(spacingBetween, fontScale - 0.3)).sum match {
 			case x if x == 0 => 200
 			case x => x
 		}
@@ -50,8 +51,8 @@ object GuiOverlay{
 		val firstPlayerX = 10 + raw_left
 		val firstPlayerY = 25 + raw_top
 
-		val raw_right = width + raw_left
-		val raw_bottom = height + firstPlayerY
+		val raw_right = width + raw_left + 5
+		val raw_bottom = height + firstPlayerY + 5
 
 
 		GlStateManager.scale(fontScale, fontScale, 1)

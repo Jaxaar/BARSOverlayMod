@@ -1,6 +1,7 @@
 package Jaxaar.BARSOverlay.Utils
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.Utils.BARSConfig.getBypassInGameRequirment
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
 import net.minecraft.scoreboard.ScorePlayerTeam
 
@@ -46,14 +47,12 @@ object ScoreboardSidebarReader {
 
 
 	var bedwarsGameCache = false
-//	def isBedwarsGame: Boolean = bedwarsGameCache
+	def isBedwarsGame: Boolean = bedwarsGameCache || getBypassInGameRequirment
 	def verifyIsBedwarsGame: Boolean = {
 		val sbList = getSidebarList
 		bedwarsGameCache = (sbList.length >= 2) && sbList(0).contains("BED WARS") && sbList(1).contains("m")
 		isBedwarsGame
 	}
-
-	def isBedwarsGame = true
 
 	def isHypixel: Boolean = {
 		val sbList = getSidebarList

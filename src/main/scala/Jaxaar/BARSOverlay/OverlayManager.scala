@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
-import BarsOverlayMod.{mc, config}
+import BarsOverlayMod.{MODID, config, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
@@ -12,7 +12,7 @@ import net.minecraft.client.network.{NetHandlerPlayClient, NetworkPlayerInfo}
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.lwjgl.input.Keyboard
-import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.{LogManager, Logger}
 
 import java.util.{UUID, List => JavaList}
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -23,8 +23,8 @@ import scala.collection.JavaConversions.collectionAsScalaIterable
 
 object OverlayManager extends Gui{
 
-	val logger = LogManager.getLogger();
-	val overlayRenderer = GuiOverlay
+	val logger: Logger = LogManager.getLogger(MODID);
+	val overlayRenderer: GuiOverlay.type = GuiOverlay
 
 	private var curPlayers: List[HypixelPlayerData] = List()
 	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20))

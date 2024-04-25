@@ -9,55 +9,87 @@ import net.hypixel.api.apache.ApacheHttpClient
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.ChatComponentTranslation
-import net.minecraftforge.common.config.{ConfigElement, Configuration}
+import net.minecraftforge.common.config.{ConfigElement, Configuration, Property}
 import net.minecraftforge.fml.client.IModGuiFactory
 import net.minecraftforge.fml.client.config.{GuiConfig, IConfigElement}
+import org.apache.logging.log4j.{LogManager, Logger}
 
 import java.io.File
 import java.util
 import java.util.UUID
+import java.util.logging.Level
 import scala.collection.JavaConverters.{collectionAsScalaIterableConverter, seqAsJavaListConverter}
 
 
 
 object BARSConfig {
 
+	val logger: Logger = LogManager.getLogger(MODID);
 	private var apiKey = "00000000-0000-0000-0000-000000000000"
 
 	object Categories extends Enumeration {
 		type main = Value
-		val Requirements: Categories.Value =  Value(2, "requirements")
-		val GuiCustomization: Categories.Value =  Value(1, "gui_customization")
+		val Requirements: Categories.Value =  Value(0, "requirements")
+		val shenanigans: Categories.Value =  Value(10, "shenanigans")
+		val dev_configs: Categories.Value =  Value(20, "dev_configs")
+
+		val GuiCustomization: Categories.Value =  Value(-1, "gui_customization")
 
 		def REQUIREMENTS: String = Requirements.toString
 		def GUI_CUSTOMIZATION: String = GuiCustomization.toString
+
+		def SHENANIGANS: String = shenanigans.toString
+		def DEV_CONFIGS: String = shenanigans.toString
+
+
 	}
 
 	def loadConfig = {
-		println("loading")
+		logger.info("Loading configs...")
 		config.load()
 		config.addCustomCategoryComment(Categories.REQUIREMENTS, "Values Required for the mod to function");
-		println(config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").toString)
+		config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString
 
 		config.addCustomCategoryComment(Categories.GUI_CUSTOMIZATION, "Values to set the format and location of the UI");
-		config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 0.7)
+		config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1)
 		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left X Pos", 2)
 		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left Y Pos", 2)
+
+
+
+		config.addCustomCategoryComment(Categories.SHENANIGANS, ":)");
+		config.get(Categories.SHENANIGANS, "hi! :)", 0)
+
+		config.addCustomCategoryComment(Categories.DEV_CONFIGS, "Configs specifically for development, Don't Change unless you know what they do... probably breaks stuff");
+		config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false)
+		config.get(Categories.DEV_CONFIGS, "load_from_first_player", false)
+
 		config.save()
 
 		reloadHypixelAPIHandler()
 	}
 
-	def getGui_scale: Double = config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 0.7).getDouble
+	def getGui_scale: Double = config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1).getDouble
 	def getXPos: Int = config.get(Categories.GUI_CUSTOMIZATION, "Top-Left X Pos", 2).getInt
 	def getYPos: Int = config.get(Categories.GUI_CUSTOMIZATION, "Top-Left Y Pos", 2).getInt
 
+	def getAPIKey: UUID = {
+		try {
+			UUID.fromString(config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString)
+		}
+		catch {
+			case e => UUID.fromString("00000000-0000-0000-0000-000000000000")
+		}
+	}
+
+	def getBypassInGameRequirment: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
+	def getLoadFromFirstPlayer: Property = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false)
 
 
 
 	def saveConfig = {
 		val oldAPIKeyConf = config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000")
-		println("Saving apikey")
+		logger.info("Saving apikey")
 		oldAPIKeyConf.set(apiKey)
 
 		config.save()
@@ -78,24 +110,7 @@ object BARSConfig {
 	}
 
 	def getConfigUIElements: util.List[IConfigElement] = {
-		println(Categories.values.toList.filter(_.id > 0).flatMap(c => new ConfigElement(config.getCategory(c.toString)).getChildElements.asScala.toList))
-		println("-")
-		println(Categories.values.toList.filter(_.id > 0).foreach(c => {println(c.toString); println(new ConfigElement(config.getCategory(c.toString)).getChildElements)}))
-		val res = Categories.values.toList.filter(_.id > 0).flatMap(c => new ConfigElement(config.getCategory(c.toString)).getChildElements.asScala.toList).asJava
-//		val res = new ConfigElement(config.getCategory("requirements")).getChildElements
-		println("-----HIIII____")
-		println(res)
-		res
-	}
-
-
-	def getAPIKey: UUID = {
-		try {
-			UUID.fromString(config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").toString)
-		}
-		catch {
-			case e => UUID.fromString("00000000-0000-0000-0000-000000000000")
-		}
+		Categories.values.toList.filter(_.id > 0).flatMap(c => new ConfigElement(config.getCategory(c.toString)).getChildElements.asScala.toList).asJava
 	}
 }
 

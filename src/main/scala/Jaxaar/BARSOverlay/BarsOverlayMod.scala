@@ -38,8 +38,6 @@ object BarsOverlayMod {
 
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
     val config = new Configuration(new File(modDir, "Bars-Config.cfg"))
-    println("---")
-    println(config.getConfigFile)
 
 
     //    @SidedProxy(
@@ -53,6 +51,9 @@ object BarsOverlayMod {
     def preInit(event: FMLPreInitializationEvent) = {
 //        proxy.preInit()
         loadConfig
+//        println("---hi")
+//        println(config.getConfigFile)
+//        println(getAPIKey.toString)
     }
 
 

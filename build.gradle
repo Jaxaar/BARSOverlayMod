@@ -40,7 +40,7 @@ targetCompatibility = 1.8
 
 version = "0.1.0"
 group= "Jaxaar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "bars_overlay"
+archivesBaseName = "bars_overlay_mod"
 
 
 minecraft {
@@ -58,6 +58,7 @@ minecraft {
 
 repositories {
     maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+    maven { url 'https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1' }
 //    maven { url "https://repo.polyfrost.org/releases"}
 
 //    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
@@ -112,7 +113,8 @@ dependencies {
 //    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    deobfCompile 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    embed 'com.github.HypixelDev.PublicAPI:Java:4e69586148'
-    compile "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
+    runtime "me.djtheredstoner:DevAuth-forge-legacy:1.2.0"
+    embed "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
 //    shade 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
     embed 'net.hypixel:hypixel-api-transport-apache:4.4'
 //    shade "cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+"
@@ -148,7 +150,7 @@ processResources
     }
 }
 
-sourceSets { main { output.resourcesDir = output.classesDir } }
+//sourceSets { main { output.resourcesDir = output.classesDir } }
 
 //
 reobf {
