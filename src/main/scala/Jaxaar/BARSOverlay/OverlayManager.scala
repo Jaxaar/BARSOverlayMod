@@ -2,7 +2,7 @@ package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{MODID, config, mc}
-import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
+import Jaxaar.BARSOverlay.DataStructures.{HypixelPlayerData, HypixelPlayerDataIsNone}
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.{CollectionAsScala, stripColorCodes}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
@@ -34,10 +34,18 @@ object OverlayManager extends Gui{
 	def updateCurPlayersDict(): Unit = {
 		if (!verifyIsBedwarsGame) {return;}
 
-		val newLst = getListOfPlayers.view.flatMap(x => {
-			val uuid = x.getGameProfile.getId;
-			getPlayerStats(uuid)
-		}).filter(_ != null).map(x => new HypixelPlayerData(x.player)).toList
+		val newLst = getListOfPlayers.view
+		  .map(x => (x.getGameProfile.getId, getPlayerStats(x.getGameProfile.getId)))
+		  .filter(_._2 != null)
+		  .filter(_._1.version() != 2)
+		  .map(x =>{
+			  if(x._2.isDefined){
+				  new HypixelPlayerData(x._1, x._2.get.player)
+			  }
+			  else {
+				  new HypixelPlayerDataIsNone(x._1)
+			  }
+		}).toList
 		curPlayers = newLst
 	}
 

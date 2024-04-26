@@ -29,6 +29,7 @@ object APIRequestHandler{
 		if ((result.isEmpty || curTimeSeconds > result.get.lastUpdated + 600) &&
 		  canMakeAPIRequest && uuid.version() != 2){
 			fetchPlayerStats(hyAPI, uuid)
+			return null
 		}
 		result
 	}

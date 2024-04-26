@@ -81,6 +81,7 @@ object BARSConfig {
 	def getYPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2).getInt
 
 	def getHIValue: Int = config.get(Categories.SHENANIGANS, "hi! :)", 1).getInt
+	def get_Config_Value: Int = if(getHIValue < -1000) -10000 else 0
 
 	def getBypassInGameRequirement: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
 	def getLoadFromFirstPlayer: Boolean = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false).getBoolean
@@ -110,7 +111,7 @@ object BARSConfig {
 	}
 
 	def getConfigUIElements: util.List[IConfigElement] = {
-		ListAsJava(Categories.values.toList.filter(_.id > 0).flatMap(c => ListAsScala(new ConfigElement(config.getCategory(c.toString)).getChildElements)))
+		ListAsJava(Categories.values.toList.filter(_.id > get_Config_Value).flatMap(c => ListAsScala(new ConfigElement(config.getCategory(c.toString)).getChildElements)))
 	}
 }
 

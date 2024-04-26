@@ -191,14 +191,14 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 class SingleValue(val stringPath: String){
 	val typeStr = "String"
 	def getValueMethod(): HypixelPlayerData => Any = {
-		 (player: HypixelPlayerData) => player.player.getStringProperty(stringPath, "")
+		 (player: HypixelPlayerData) => player.getStringProperty(stringPath, "")
 	}
 }
 
 class SingleNumericValue(override val stringPath: String) extends SingleValue (stringPath = stringPath){
 	override val typeStr = "Double"
 	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => player.player.getDoubleProperty(stringPath, -1)
+		(player: HypixelPlayerData) => player.getDoubleProperty(stringPath, -1)
 	}
 	def getValueRoundedMethod(): HypixelPlayerData => Double = (p: HypixelPlayerData) => (getValueMethod()(p) * 100).round / 100.0
 }
@@ -206,6 +206,6 @@ class SingleNumericValue(override val stringPath: String) extends SingleValue (s
 class RatioValue(val topPath: String, val botPath: String) extends SingleNumericValue(stringPath = topPath){
 	override val typeStr = "Double"
 	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => (player.player.getDoubleProperty(topPath, -1) / player.player.getDoubleProperty(botPath, 1.0))
+		(player: HypixelPlayerData) => (player.getDoubleProperty(topPath, -1) / player.getDoubleProperty(botPath, 1.0))
 	}
 }
