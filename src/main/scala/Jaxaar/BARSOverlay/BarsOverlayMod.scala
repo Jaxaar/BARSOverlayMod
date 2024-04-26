@@ -20,8 +20,7 @@ import net.minecraftforge.common.config.{Configuration, Property}
 import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPreInitializationEvent}
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.{Side, SideOnly}
+
 
 import java.io.File
 import java.util.UUID

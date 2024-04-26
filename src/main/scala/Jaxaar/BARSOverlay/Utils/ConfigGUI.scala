@@ -4,21 +4,19 @@ import Jaxaar.BARSOverlay.BarsOverlayMod._
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.BARSConfig.Categories
+import Jaxaar.BARSOverlay.Utils.Helpers.{ListAsJava, ListAsScala}
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.ChatComponentTranslation
-import net.minecraftforge.common.config.{ConfigElement, Configuration, Property}
+import net.minecraftforge.common.config.{ConfigElement, Property}
 import net.minecraftforge.fml.client.IModGuiFactory
 import net.minecraftforge.fml.client.config.{GuiConfig, IConfigElement}
 import org.apache.logging.log4j.{LogManager, Logger}
 
-import java.io.File
 import java.util
 import java.util.UUID
-import java.util.logging.Level
-import scala.collection.JavaConverters.{collectionAsScalaIterableConverter, seqAsJavaListConverter}
 
 
 
@@ -78,7 +76,7 @@ object BARSConfig {
 			UUID.fromString(config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString)
 		}
 		catch {
-			case e => UUID.fromString("00000000-0000-0000-0000-000000000000")
+			case e: Throwable => UUID.fromString("00000000-0000-0000-0000-000000000000")
 		}
 	}
 
@@ -110,7 +108,7 @@ object BARSConfig {
 	}
 
 	def getConfigUIElements: util.List[IConfigElement] = {
-		Categories.values.toList.filter(_.id > 0).flatMap(c => new ConfigElement(config.getCategory(c.toString)).getChildElements.asScala.toList).asJava
+		ListAsJava(Categories.values.toList.filter(_.id > 0).flatMap(c => ListAsScala(new ConfigElement(config.getCategory(c.toString)).getChildElements)))
 	}
 }
 

@@ -10,8 +10,6 @@ import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 
-import scala.collection.JavaConversions._
-
 
 object GuiOverlay{
 
@@ -84,7 +82,7 @@ object GuiOverlay{
 			return
 		}
 
-		if(players.size() <= 0){
+		if(players.size <= 0){
 			return
 		}
 		//		for(i <- 0 until 15){
