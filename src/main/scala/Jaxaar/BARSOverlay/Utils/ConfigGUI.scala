@@ -28,21 +28,23 @@ object BARSConfig {
 	object Categories extends Enumeration {
 		type main = Value
 		val Requirements: Categories.Value =  Value(0, "requirements")
-		val shenanigans: Categories.Value =  Value(10, "shenanigans")
-		val dev_configs: Categories.Value =  Value(20, "dev_configs")
 
-		val GuiCustomization: Categories.Value =  Value(-1, "gui_customization")
+		val GuiCustomization: Categories.Value =  Value(1, "gui_customization")
+
+		val shenanigans: Categories.Value =  Value(10, "shenanigans")
+		val dev_configs: Categories.Value =  Value(-20, "dev_configs")
+		val experimental: Categories.Value =  Value(-30, "experimental")
 
 		def REQUIREMENTS: String = Requirements.toString
+
 		def GUI_CUSTOMIZATION: String = GuiCustomization.toString
 
 		def SHENANIGANS: String = shenanigans.toString
 		def DEV_CONFIGS: String = dev_configs.toString
-
-
+		def EXPERIMENTAL: String = experimental.toString
 	}
 
-	def loadConfig = {
+	def loadConfig() = {
 		logger.info("Loading configs...")
 		config.load()
 		config.addCustomCategoryComment(Categories.REQUIREMENTS, "Values Required for the mod to function");
@@ -50,8 +52,8 @@ object BARSConfig {
 
 		config.addCustomCategoryComment(Categories.GUI_CUSTOMIZATION, "Values to set the format and location of the UI");
 		config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1)
-		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left X Pos", 2)
-		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left Y Pos", 2)
+		config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2)
+		config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2)
 
 		config.addCustomCategoryComment(Categories.SHENANIGANS, ":)");
 		config.get(Categories.SHENANIGANS, "hi! :)", 0)
@@ -65,10 +67,6 @@ object BARSConfig {
 		reloadHypixelAPIHandler()
 	}
 
-	def getGui_scale: Double = config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1).getDouble
-	def getXPos: Int = config.get(Categories.GUI_CUSTOMIZATION, "Top-Left X Pos", 2).getInt
-	def getYPos: Int = config.get(Categories.GUI_CUSTOMIZATION, "Top-Left Y Pos", 2).getInt
-
 	def getAPIKey: UUID = {
 		try {
 			UUID.fromString(config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString)
@@ -77,6 +75,12 @@ object BARSConfig {
 			case e: Throwable => UUID.fromString("00000000-0000-0000-0000-000000000000")
 		}
 	}
+
+	def getGui_scale: Double = config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1).getDouble
+	def getXPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2).getInt
+	def getYPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2).getInt
+
+	def getHIValue: Int = config.get(Categories.SHENANIGANS, "hi! :)", 1).getInt
 
 	def getBypassInGameRequirement: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
 	def getLoadFromFirstPlayer: Boolean = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false).getBoolean
