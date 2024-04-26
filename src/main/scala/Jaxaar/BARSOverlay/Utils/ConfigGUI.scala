@@ -37,7 +37,7 @@ object BARSConfig {
 		def GUI_CUSTOMIZATION: String = GuiCustomization.toString
 
 		def SHENANIGANS: String = shenanigans.toString
-		def DEV_CONFIGS: String = shenanigans.toString
+		def DEV_CONFIGS: String = dev_configs.toString
 
 
 	}
@@ -52,8 +52,6 @@ object BARSConfig {
 		config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1)
 		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left X Pos", 2)
 		config.get(Categories.GUI_CUSTOMIZATION, "Top-Left Y Pos", 2)
-
-
 
 		config.addCustomCategoryComment(Categories.SHENANIGANS, ":)");
 		config.get(Categories.SHENANIGANS, "hi! :)", 0)
@@ -80,7 +78,7 @@ object BARSConfig {
 		}
 	}
 
-	def getBypassInGameRequirment: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
+	def getBypassInGameRequirement: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
 	def getLoadFromFirstPlayer: Boolean = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false).getBoolean
 
 
@@ -121,6 +119,10 @@ class BARSConfigGUI(parent: GuiScreen) extends GuiConfig(
 	false,
 	MOD_NAME + " Configurations"
 ){
+	override def onGuiClosed(): Unit = {
+		super.onGuiClosed()
+		config.save()
+	}
 }
 
 class BARSGuiFactory extends IModGuiFactory {

@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay.GUIComponents
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.{config, mc}
-import Jaxaar.BARSOverlay.DataStructures.OverlayConf
+import Jaxaar.BARSOverlay.DataStructures.{HypixelPlayerData, OverlayConf}
 import Jaxaar.BARSOverlay.OverlayManager.players
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.APIKeyIsValid
 import Jaxaar.BARSOverlay.Utils.BARSConfig.getLoadFromFirstPlayer
@@ -20,7 +20,7 @@ object GuiOverlay{
 		}
 	}
 
-	def playersToDisplay = players
+	def playersToDisplay: List[HypixelPlayerData] = if(getLoadFromFirstPlayer && players.nonEmpty) (for (i <- 0 to 15) yield players.head).toList else players
 
 	def renderPlayerlist() {
 
@@ -82,7 +82,7 @@ object GuiOverlay{
 			return
 		}
 
-		if(players.size <= 0){
+		if(playersToDisplay.size <= 0){
 			return
 		}
 		//		for(i <- 0 until 15){
@@ -90,7 +90,7 @@ object GuiOverlay{
 		GlStateManager.scale(fontScale - 0.3, fontScale - 0.3, 1)
 
 		for(i <- playersToDisplay.indices){
-			val player = players(i)
+			val player = playersToDisplay(i)
 //			println("out-" + ScoreboardSidebarReader.getPlayersTeam(player.getTrueName))
 
 
