@@ -41,7 +41,6 @@ object OverlayManager extends Gui{
 		curPlayers = newLst
 	}
 
-
 	def masterSort(lst: List[HypixelPlayerData]): List[HypixelPlayerData] = {
 //		Sort by Stats
 		lst.sortBy(sortHypixelPlayersByStats).reverse

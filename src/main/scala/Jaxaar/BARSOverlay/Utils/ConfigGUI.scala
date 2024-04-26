@@ -81,7 +81,7 @@ object BARSConfig {
 	}
 
 	def getBypassInGameRequirment: Boolean =  config.get(Categories.DEV_CONFIGS, "bypass_bars_game_requirements", false).getBoolean
-	def getLoadFromFirstPlayer: Property = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false)
+	def getLoadFromFirstPlayer: Boolean = config.get(Categories.DEV_CONFIGS, "load_from_first_player", false).getBoolean
 
 
 
