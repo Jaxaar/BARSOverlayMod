@@ -1,4 +1,5 @@
 
+
 // For those who want the bleeding edge
 buildscript {
     repositories {
@@ -38,7 +39,7 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "0.1.0"
+version = "0.2.0"
 group= "Jaxaar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bars_overlay"
 
@@ -58,6 +59,8 @@ minecraft {
 
 repositories {
     maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+    maven { url 'https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1' }
+    mavenCentral()
 //    maven { url "https://repo.polyfrost.org/releases"}
 
 //    maven { url = "https://repo.spongepowered.org/repository/maven-public"}
@@ -68,14 +71,9 @@ repositories {
 }
 
 configurations {
-    embed
-    compile.extendsFrom(embed)
+    shade
+    compile.extendsFrom(shade)
 }
-
-//configurations {
-//    shade
-//    compile.extendsFrom(shade)
-//}
 
 
 dependencies {
@@ -102,21 +100,13 @@ dependencies {
 
 //    minecraft 'net.minecraftforge:forge:1.8.9-11.15.1.2318'
 
-
-    // Apply Mixin AP
-//    compile 'org.spongepowered:mixin:0.6-SNAPSHOT'
-
-//    compile "com.lihaoyi:requests_2.12:0.7.1" //gradle
-//    compile 'org.apache.httpcomponents:httpclient:4.5.14'
-//    compile 'com.google.code.gson:gson:2.10.1'
-//    compile 'net.hypixel:hypixel-api-transport-apache:4.4'
-//    deobfCompile 'net.hypixel:hypixel-api-transport-apache:4.4'
-//    embed 'com.github.HypixelDev.PublicAPI:Java:4e69586148'
-    compile "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
+    runtime "me.djtheredstoner:DevAuth-forge-legacy:1.2.0"
+//    compile 'org.scala-lang:scala-library:2.12.4'
+//    shade "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
 //    shade 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
-    embed 'net.hypixel:hypixel-api-transport-apache:4.4'
-//    shade "cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+"
-//    shade 'net.hypixel:hypixel-api-transport-apache:4.4'
+//    shade "org.scala-lang.modules:scala-java8-compat_2.13:1.0.2"
+
+    shade 'net.hypixel:hypixel-api-transport-apache:4.4'
 
 }
 
@@ -127,6 +117,7 @@ dependencies {
 //        }
 //    }
 //}
+
 
 processResources
 {
@@ -147,6 +138,10 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+//sourceSets { main { output.resourcesDir = output.classesDir } }
+
+
 //
 reobf {
     shadowJar {

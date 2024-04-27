@@ -1,10 +1,9 @@
 package Jaxaar.BARSOverlay.Utils
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
-import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
+import Jaxaar.BARSOverlay.Utils.BARSConfig.getBypassInGameRequirement
+import Jaxaar.BARSOverlay.Utils.Helpers.{CollectionAsScala, stripColorCodes}
 import net.minecraft.scoreboard.ScorePlayerTeam
-
-import scala.collection.JavaConverters.collectionAsScalaIterableConverter
 
 object ScoreboardSidebarReader {
 
@@ -15,7 +14,7 @@ object ScoreboardSidebarReader {
 
 	def readSidebarToMap: Map[Int, String] = {
 		val scoreboard = mc.theWorld.getScoreboard
-		val map = scoreboard.getScores.asScala.map((score1) => {
+		val map = CollectionAsScala(scoreboard.getScores).map((score1) => {
 			val scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName)
 			val s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName)
 			(score1.getScorePoints, s1)
@@ -34,7 +33,7 @@ object ScoreboardSidebarReader {
 //			println(s"${username}: ${team.getColorPrefix}")
 			return team.getColorPrefix
 		} catch {
-			case e => //print(s"Err- SB: ${username}")
+			case e: Throwable => //print(s"Err- SB: ${username}")
 		}
 		""
 	}
@@ -46,14 +45,12 @@ object ScoreboardSidebarReader {
 
 
 	var bedwarsGameCache = false
-//	def isBedwarsGame: Boolean = bedwarsGameCache
+	def isBedwarsGame: Boolean = bedwarsGameCache || getBypassInGameRequirement
 	def verifyIsBedwarsGame: Boolean = {
 		val sbList = getSidebarList
-		bedwarsGameCache = (sbList.length >= 2) && sbList(0).contains("BED WARS") && sbList(1).contains("m")
+		bedwarsGameCache = (sbList.length >= 2) && sbList.head.contains("BED WARS") && sbList(1).contains("m")
 		isBedwarsGame
 	}
-
-	def isBedwarsGame = true
 
 	def isHypixel: Boolean = {
 		val sbList = getSidebarList

@@ -1,15 +1,17 @@
 package Jaxaar.BARSOverlay
 
-import Jaxaar.BARSOverlay.Commands.BarsCommandAPIKey
+import Jaxaar.BARSOverlay.Utils.BARSConfig.{getAPIKey, loadConfig}
+import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandPlayerStats}
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
-import Jaxaar.BARSOverlay.Utils.{APIRequestHandler}
+import Jaxaar.BARSOverlay.Utils.APIRequestHandler
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import org.lwjgl.input.Keyboard
 import net.minecraft.client.Minecraft
+import net.minecraft.command.ICommand
 import net.minecraft.init.Blocks
 import net.minecraft.util.ChatComponentTranslation
 import net.minecraftforge.client.{ClientCommandHandler, GuiIngameForge}
@@ -18,27 +20,25 @@ import net.minecraftforge.common.config.{Configuration, Property}
 import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPreInitializationEvent}
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.relauncher.{Side, SideOnly}
 
 import java.io.File
 import java.util.UUID
 
 
-@Mod(modid = BarsOverlayMod.MODID, version = BarsOverlayMod.VERSION, modLanguage = "scala")
+@Mod(modid = BarsOverlayMod.MODID, version = BarsOverlayMod.VERSION, modLanguage = "scala", guiFactory = "Jaxaar.BARSOverlay.Utils.BARSGuiFactory")
 object BarsOverlayMod {
     final val MODID = "bars_overlay_mod"
     final val MOD_NAME = "BARS Overlay"
-    final val VERSION = "0.1.0"
-    final val mc = Minecraft.getMinecraft()
+    final val VERSION = "0.2.0"
+    final val mc = Minecraft.getMinecraft
 
-    var apiKey = "00000000-0000-0000-0000-000000000000"
-    final var hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(getApiKey)))
+    final var hyAPI =  new HypixelAPI(new ApacheHttpClient(getAPIKey))
 
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
-    final val config = new Configuration(new File(modDir, "Bars-Config.cfg"))
+    val config = new Configuration(new File(modDir, "Bars-Config.cfg"), "conf.v0.1.0")
 
-//    @SidedProxy(
+
+    //    @SidedProxy(
 //        clientSide = "com.BARSOverlay.ClientOnlyProxy",
 //        serverSide = "com.BARSOverlay.CommonProxy"
 //    )
@@ -49,6 +49,9 @@ object BarsOverlayMod {
     def preInit(event: FMLPreInitializationEvent) = {
 //        proxy.preInit()
         loadConfig
+//        println("---hi")
+//        println(config.getConfigFile)
+//        println(getAPIKey.toString)
     }
 
 
@@ -61,42 +64,14 @@ object BarsOverlayMod {
         registerKeybinds
     }
 
-    def registerCommands = {
+    def registerCommands: ICommand = {
         ClientCommandHandler.instance.registerCommand(new BarsCommandAPIKey());
+        ClientCommandHandler.instance.registerCommand(new BarsCommandPlayerStats());
     }
 
-
-
-    def loadConfig = {
-        config.load()
-        config.addCustomCategoryComment("requirements", "Values Required for the mod to function");
-        apiKey = config.get("requirements", "api-key", "00000000-0000-0000-0000-000000000000").getString
-        config.save()
-
-//        println(apiKey)
-        hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(apiKey)))
+    def reloadHypixelAPIHandler(): Unit = {
+        hyAPI = new HypixelAPI(new ApacheHttpClient(getAPIKey))
         testAPIKey(hyAPI)
-    }
-
-    def saveConfig = {
-        val oldAPIKey: Property = config.get("requirements", "api-key", "00000000-0000-0000-0000-000000000000")
-        println("Saving apikey: " + apiKey)
-        oldAPIKey.set(apiKey)
-        config.save()
-    }
-
-    def setAPIKey(newKey: String): Boolean = {
-        try{
-            hyAPI = new HypixelAPI(new ApacheHttpClient(UUID.fromString(newKey)))
-            testAPIKey(hyAPI)
-            clearPlayers()
-            apiKey = newKey
-            saveConfig
-            true
-        } catch{
-            case e: IllegalArgumentException => mc.thePlayer.addChatMessage(new ChatComponentTranslation("Invalid Api Key, please double check it")); false
-            case e: Throwable => mc.thePlayer.addChatMessage(new ChatComponentTranslation(e.getMessage)); false
-        }
     }
 
 
@@ -124,11 +99,4 @@ object BarsOverlayMod {
 //        }
 //
 //    }
-
-    def getShowOverlayKey = Keyboard.KEY_TAB
-
-    def getApiKey: String = {
-        apiKey
-    }
-
 }
