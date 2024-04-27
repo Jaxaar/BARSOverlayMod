@@ -27,6 +27,7 @@ class HypixelPlayerData(val uuid: UUID, val player: Player){
 
 	def getStringProperty(path:String, default:String): String = player.getStringProperty(path, default)
 	def getDoubleProperty(path:String, default:Double): Double = player.getDoubleProperty(path, default)
+	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double) = {player.getDoubleProperty(topPath, topDefault) / player.getDoubleProperty(botPath, botDefault)}
 
 	override def toString: String = {
 		s"[HypixelPlayerData: UUID=${getUUID} Name=${getName} ]"
@@ -46,7 +47,8 @@ class HypixelPlayerDataIsNone(override val uuid: UUID, val name: String = "NameN
 	override def getFKDR: Double = 0
 
 	override def getStringProperty(path:String, default:String): String = "-"
-	override def getDoubleProperty(path:String, default:Double): Double = 0
+	override def getDoubleProperty(path:String, default:Double): Double = -1
+	override def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double): Double = -1
 
 	override def toString: String = {
 		s"[HypixelPlayerData: UUID=${getUUID} Name=${getName} NotInDB]"

@@ -31,6 +31,9 @@ object APIRequestHandler{
 			fetchPlayerStats(hyAPI, uuid)
 			return null
 		}
+		if(result.isDefined && !result.get.player.exists()){
+			return None
+		}
 		result
 	}
 

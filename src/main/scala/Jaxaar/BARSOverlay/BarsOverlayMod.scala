@@ -1,7 +1,7 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Utils.BARSConfig.{getAPIKey, loadConfig}
-import Jaxaar.BARSOverlay.Commands.BarsCommandAPIKey
+import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandPlayerStats}
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler
@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.{Mod, SidedProxy}
 import net.minecraftforge.fml.common.Mod.EventHandler
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPreInitializationEvent}
 
-
 import java.io.File
 import java.util.UUID
 
@@ -30,13 +29,13 @@ import java.util.UUID
 object BarsOverlayMod {
     final val MODID = "bars_overlay_mod"
     final val MOD_NAME = "BARS Overlay"
-    final val VERSION = "0.1.0"
-    final val mc = Minecraft.getMinecraft()
+    final val VERSION = "0.2.0"
+    final val mc = Minecraft.getMinecraft
 
     final var hyAPI =  new HypixelAPI(new ApacheHttpClient(getAPIKey))
 
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
-    val config = new Configuration(new File(modDir, "Bars-Config.cfg"))
+    val config = new Configuration(new File(modDir, "Bars-Config.cfg"), "conf.v0.1.0")
 
 
     //    @SidedProxy(
@@ -67,6 +66,7 @@ object BarsOverlayMod {
 
     def registerCommands: ICommand = {
         ClientCommandHandler.instance.registerCommand(new BarsCommandAPIKey());
+        ClientCommandHandler.instance.registerCommand(new BarsCommandPlayerStats());
     }
 
     def reloadHypixelAPIHandler(): Unit = {

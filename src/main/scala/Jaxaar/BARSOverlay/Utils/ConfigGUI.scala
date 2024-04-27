@@ -51,7 +51,7 @@ object BARSConfig {
 		config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString
 
 		config.addCustomCategoryComment(Categories.GUI_CUSTOMIZATION, "Values to set the format and location of the UI");
-		config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1)
+		config.get(Categories.EXPERIMENTAL, "gui_scale", 1)
 		config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2)
 		config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2)
 

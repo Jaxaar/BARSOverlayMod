@@ -206,6 +206,6 @@ class SingleNumericValue(override val stringPath: String) extends SingleValue (s
 class RatioValue(val topPath: String, val botPath: String) extends SingleNumericValue(stringPath = topPath){
 	override val typeStr = "Double"
 	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => (player.getDoubleProperty(topPath, -1) / player.getDoubleProperty(botPath, 1.0))
+		(player: HypixelPlayerData) => player.getDoubleRatio(topPath, botPath, 0, 1)
 	}
 }

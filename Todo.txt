@@ -3,13 +3,13 @@ TODO BarsOverlay:
 
 Todo Before next release:
 
-Fix Nicks
-/stats -> for a player?? - Show smeado link: Easy / Show in overlay: Hard? er* ???
-
 Done - Coloring for teams / sort by teams once in a game
 Done - Show lobby rank
 Done - Detecting Non-players
 Done - Editable configs
+Done - Fix Nicks
+Done - /stats Show smeado link: Easy
+Done - Config Versioning
 
 Change files to the current release version
 
@@ -31,6 +31,7 @@ Detecting Tab Keybinds? - Not sure what I meant
 
 Goals:
 Bedwars Manhunt
+/stats - Show in overlay: Hard (Showing players by name which we only have the name of, not uuid)
 
 QOL:
 Align player names
@@ -56,3 +57,15 @@ Done - Finish All star levels out
 
 
 
+
+
+
+
+
+
+Cool random factoid: All nicked UUIDs might end with -0441-11ef-9356-875a585862d9
+Don't know, just suspect
+
+Ok probably not but there's a pattern?
+ff3e40f0-0441-11ef-a0b9-b36da16965cb
+-0442-11ef-bb1a-c32fe11bc7e3
