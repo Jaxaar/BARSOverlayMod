@@ -3,13 +3,6 @@ TODO BarsOverlay:
 
 Todo Before next release:
 
-Done - Coloring for teams / sort by teams once in a game
-Done - Show lobby rank
-Done - Detecting Non-players
-Done - Editable configs
-Done - Fix Nicks
-Done - /stats Show smeado link: Easy
-Done - Config Versioning
 
 Change files to the current release version
 
@@ -28,6 +21,8 @@ Customizable UI scale / Location
 Display Text Better - Not sure what I meant
 Detecting Tab Keybinds? - Not sure what I meant
 
+*Nicks currently never show their teams color* -> Consider changes
+
 
 Goals:
 Bedwars Manhunt
@@ -38,7 +33,14 @@ Align player names
 Add text for Lobby Rank (Vip, Mvp etc)?
 
 
-
+v0.2.0
+Done - Coloring for teams / sort by teams once in a game
+Done - Show lobby rank
+Done - Detecting Non-players
+Done - Editable configs
+Done - Fix Nicks
+Done - /stats Show smeado link: Easy
+Done - Config Versioning
 
 v0.1.0
 Done - Detect if API Key expires and warn user / stop requests
