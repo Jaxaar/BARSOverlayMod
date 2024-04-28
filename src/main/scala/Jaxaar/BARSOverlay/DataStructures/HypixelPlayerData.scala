@@ -8,7 +8,13 @@ import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatti
 
 import java.util.UUID
 
-class HypixelPlayerData(val uuid: UUID, val player: Player){
+trait HasProperties {
+	def getStringProperty (path:String, default:String): String
+	def getDoubleProperty(path:String, default:Double): Double
+	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double): Double
+}
+
+class HypixelPlayerData(val uuid: UUID, val player: Player) extends HasProperties {
 //	println("New Player")
 
 	def getUUID: UUID = player.getUuid
@@ -27,7 +33,7 @@ class HypixelPlayerData(val uuid: UUID, val player: Player){
 
 	def getStringProperty(path:String, default:String): String = player.getStringProperty(path, default)
 	def getDoubleProperty(path:String, default:Double): Double = player.getDoubleProperty(path, default)
-	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double) = {player.getDoubleProperty(topPath, topDefault) / player.getDoubleProperty(botPath, botDefault)}
+	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double): Double = {player.getDoubleProperty(topPath, topDefault) / player.getDoubleProperty(botPath, botDefault)}
 
 	override def toString: String = {
 		s"[HypixelPlayerData: UUID=${getUUID} Name=${getName} ]"

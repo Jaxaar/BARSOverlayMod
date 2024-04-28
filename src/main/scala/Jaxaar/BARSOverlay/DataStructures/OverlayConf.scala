@@ -1,5 +1,6 @@
 package Jaxaar.BARSOverlay.DataStructures
 
+import Jaxaar.BARSOverlay.DataStructures.PlayerStatsDB.stats
 import net.minecraft.util.EnumChatFormatting._
 import net.minecraft.util.{ChatStyle, EnumChatFormatting}
 
@@ -14,38 +15,45 @@ object OverlayConf {
 				colorBreakpoints = List(0),
 				stars = new SingleNumericValue("achievements.bedwars_level")
 			),
-			new StatsColumnValues(
+			new HypixelStatsColumnValues(
 				title = "WS",
 				fieldLength = 18,
 				isInt = true,
 				colorBreakpoints =  List(4, 10, 25, 50, 100),
 				value = new SingleNumericValue("stats.Bedwars.winstreak")
 			),
-			new StatsColumnValues(
+			new HypixelStatsColumnValues(
 				title = "FKDR",
 				fieldLength = 30,
 				colorBreakpoints =  List(1,3,5,10,25),
 				value = new RatioValue("stats.Bedwars.final_kills_bedwars", "stats.Bedwars.final_deaths_bedwars")
 			),
-			new StatsColumnValues(
+			new HypixelStatsColumnValues(
 				title = "WLR",
 				fieldLength = 25,
 				colorBreakpoints =  List(1,2,5,7,10),
 				value = new RatioValue("stats.Bedwars.wins_bedwars", "stats.Bedwars.losses_bedwars")
 			),
-			new StatsColumnValues(
+			new HypixelStatsColumnValues(
 				title = "Finals",
 				fieldLength = 35,
 				isInt = true,
 				colorBreakpoints =  List(1000, 5000, 10000, 20000, 30000),
 				value = new SingleNumericValue("stats.Bedwars.final_kills_bedwars")
 			),
-			new StatsColumnValues(
+			new HypixelStatsColumnValues(
 				title = "Wins",
 				fieldLength = 30,
 				isInt = true,
 				colorBreakpoints =  List(500, 1000, 3000, 5000, 10000),
 				value = new SingleNumericValue("stats.Bedwars.wins_bedwars")
+			),
+			new TrackedStatsColumnValues(
+				title = "GP",
+				fieldLength = 25,
+				isInt = true,
+				colorBreakpoints =  List(5, 25, 100, 250, 500),
+				value = new SingleNumericValue("gamesPlayed")
 			)
 		)
 	}
@@ -56,7 +64,17 @@ abstract class ColumnValues(val title: String, val fieldLength: Int, val colorBr
 	def getFormattedString(player: HypixelPlayerData): String
 }
 
-class StatsColumnValues(val value: SingleNumericValue = null, val isInt: Boolean = false, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends ColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints){
+class TrackedStatsColumnValues(override val value: SingleNumericValue = null, override val isInt: Boolean = false, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends HypixelStatsColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints, isInt = isInt){
+
+	override def getVal(player: HypixelPlayerData): Double = {
+		stats.getIndividualPlayersStats(player.getName.toLowerCase) match {
+			case None => -1
+			case Some(x) => value.getValueRoundedMethod()(x)
+		}
+	}
+}
+
+class HypixelStatsColumnValues(val value: SingleNumericValue = null, val isInt: Boolean = false, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends ColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints){
 
 	override def getFormattedString(player: HypixelPlayerData): String = {
 //		val str = getString(player)
@@ -190,22 +208,22 @@ class PlayerColumnValues(val stars: SingleNumericValue = null, override val titl
 
 class SingleValue(val stringPath: String){
 	val typeStr = "String"
-	def getValueMethod(): HypixelPlayerData => Any = {
-		 (player: HypixelPlayerData) => player.getStringProperty(stringPath, "")
+	def getValueMethod(): HasProperties => Any = {
+		 (player: HasProperties) => player.getStringProperty(stringPath, "")
 	}
 }
 
 class SingleNumericValue(override val stringPath: String) extends SingleValue (stringPath = stringPath){
 	override val typeStr = "Double"
-	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => player.getDoubleProperty(stringPath, -1)
+	override def getValueMethod(): HasProperties => Double = {
+		(player: HasProperties) => player.getDoubleProperty(stringPath, -1)
 	}
-	def getValueRoundedMethod(): HypixelPlayerData => Double = (p: HypixelPlayerData) => (getValueMethod()(p) * 100).round / 100.0
+	def getValueRoundedMethod(): HasProperties => Double = (p: HasProperties) => (getValueMethod()(p) * 100).round / 100.0
 }
 
 class RatioValue(val topPath: String, val botPath: String) extends SingleNumericValue(stringPath = topPath){
 	override val typeStr = "Double"
-	override def getValueMethod(): HypixelPlayerData => Double = {
-		(player: HypixelPlayerData) => player.getDoubleRatio(topPath, botPath, 0, 1)
+	override def getValueMethod(): HasProperties => Double = {
+		(player: HasProperties) => player.getDoubleRatio(topPath, botPath, 0, 1)
 	}
 }

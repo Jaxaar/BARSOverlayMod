@@ -5,6 +5,7 @@ import BarsOverlayMod.{MODID, config, mc}
 import Jaxaar.BARSOverlay.DataStructures.{HypixelPlayerData, HypixelPlayerDataIsNone}
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.{CollectionAsScala, stripColorCodes}
+import Jaxaar.BARSOverlay.Utils.PlayerStatsHandler.handleStats
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
 import net.minecraft.client.gui.Gui
@@ -92,5 +93,11 @@ object OverlayManager extends Gui{
 		if(showOverlayKeybind.isKeyDown) {
 			updateCurPlayersDict()
 		}
+//		println(event.message.toString)
+		println("-")
+		println(event.message.getUnformattedText)
+		println(event.message.getFormattedText)
+
+		handleStats(event.message)
 	}
 }

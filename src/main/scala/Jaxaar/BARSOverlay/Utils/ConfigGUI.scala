@@ -77,7 +77,7 @@ object BARSConfig {
 		}
 	}
 
-	def getGui_scale: Double = config.get(Categories.GUI_CUSTOMIZATION, "gui_scale", 1).getDouble
+	def getGui_scale: Double = config.get(Categories.EXPERIMENTAL, "gui_scale", 1).getDouble
 	def getXPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2).getInt
 	def getYPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2).getInt
 

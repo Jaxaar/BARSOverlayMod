@@ -5,7 +5,7 @@ import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandPlayerStats}
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler
-import Jaxaar.BARSOverlay.Utils.SoundHandler.registerSounds
+import Jaxaar.BARSOverlay.Utils.PlayerStatsHandler.loadStats
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
 import net.hypixel.api.HypixelAPI
@@ -38,6 +38,9 @@ object BarsOverlayMod {
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
     val config = new Configuration(new File(modDir, "Bars-Config.cfg"), "conf.v0.1.0")
 
+//    val statsFileName = "playerRecord.json"
+    val statsFileName = "playerRecordTEST.json"
+    val statsFile = new File(System.getProperty("user.home") + "/AppData/Roaming/bars_overlay/" + statsFileName)
 
     //    @SidedProxy(
 //        clientSide = "com.BARSOverlay.ClientOnlyProxy",
@@ -50,6 +53,7 @@ object BarsOverlayMod {
     def preInit(event: FMLPreInitializationEvent) = {
 //        proxy.preInit()
         loadConfig
+        loadStats
 //        println("---hi")
 //        println(config.getConfigFile)
 //        println(getAPIKey.toString)
