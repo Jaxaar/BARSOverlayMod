@@ -1,0 +1,27 @@
+{
+  "thatsthegame": {
+    "category": "player",
+    "sounds": [
+      {
+        "name": "bars_overlay_mod:ThatsTheGame",
+        "stream": "false"
+      }
+    ]
+  },
+  "eeeee": {
+    "category": "player",
+    "sounds": [
+      "bars_overlay_mod:E_Sound_Effect"
+    ],
+    "stream": "false"
+  },
+  "tbell": {
+    "category": "player",
+    "sounds": [
+      "bars_overlay_mod:tb1",
+      "bars_overlay_mod:tb2",
+      "bars_overlay_mod:tb3"
+    ],
+    "stream": "false"
+  }
+}

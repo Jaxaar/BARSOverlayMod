@@ -24,6 +24,7 @@ object BARSConfig {
 
 	val logger: Logger = LogManager.getLogger(MODID);
 	private var apiKey = "00000000-0000-0000-0000-000000000000"
+	val fun = true
 
 	object Categories extends Enumeration {
 		type main = Value
@@ -51,7 +52,7 @@ object BARSConfig {
 		config.get(Categories.REQUIREMENTS, "api-key", "00000000-0000-0000-0000-000000000000").getString
 
 		config.addCustomCategoryComment(Categories.GUI_CUSTOMIZATION, "Values to set the format and location of the UI");
-		config.get(Categories.EXPERIMENTAL, "gui_scale", 1)
+		config.get(Categories.EXPERIMENTAL, "gui_scale", 1.0)
 		config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2)
 		config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2)
 

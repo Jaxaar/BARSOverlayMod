@@ -5,12 +5,11 @@ Todo Before next release:
 
 
 Change files to the current release version
+Stats Tracking
 
 
 
 TODO Project backlog:
-
-Stats Tracking
 
 Keybinds for: Reload/Clear list (Multi-key Keybinds)
 

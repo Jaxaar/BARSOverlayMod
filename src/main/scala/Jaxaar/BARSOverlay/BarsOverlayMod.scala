@@ -5,6 +5,7 @@ import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandPlayerStats}
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler
+import Jaxaar.BARSOverlay.Utils.SoundHandler.registerSounds
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts
 import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.registerKeybinds
 import net.hypixel.api.HypixelAPI
@@ -68,6 +69,7 @@ object BarsOverlayMod {
         ClientCommandHandler.instance.registerCommand(new BarsCommandAPIKey());
         ClientCommandHandler.instance.registerCommand(new BarsCommandPlayerStats());
     }
+
 
     def reloadHypixelAPIHandler(): Unit = {
         hyAPI = new HypixelAPI(new ApacheHttpClient(getAPIKey))

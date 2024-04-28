@@ -9,7 +9,7 @@
       "updateUrl": "",
       "authorList": ["Jaxaar"],
       "credits": "To the Hypixel team for the official Java Hypixel API library, and Malizma for helping our with the code",
-      "logoFile": "popupTower.png",
+      "logoFile": "assets/bars_overlay_mod/popupTower.png",
       "screenshots": [],
       "dependencies": []
     }

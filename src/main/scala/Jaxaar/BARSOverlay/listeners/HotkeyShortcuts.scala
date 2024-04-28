@@ -3,10 +3,11 @@ package Jaxaar.BARSOverlay.listeners
 import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
-import Jaxaar.BARSOverlay.BarsOverlayMod.{mc}
+import Jaxaar.BARSOverlay.BarsOverlayMod.mc
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, getListOfPlayers, players, updateCurPlayersDict}
+import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, getListOfPlayers, logger, players, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
+import Jaxaar.BARSOverlay.Utils.SoundHandler.{playESound, playTBellSound, playThatsTheGameSound}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.settings.KeyBinding
