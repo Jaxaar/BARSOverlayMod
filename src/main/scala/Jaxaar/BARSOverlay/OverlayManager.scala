@@ -5,9 +5,9 @@ import BarsOverlayMod.{MODID, config, mc}
 import Jaxaar.BARSOverlay.DataStructures.{HypixelPlayerData, HypixelPlayerDataIsNone}
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
 import Jaxaar.BARSOverlay.Utils.Helpers.{CollectionAsScala, stripColorCodes}
-import Jaxaar.BARSOverlay.Utils.PlayerStatsHandler.handleStats
+import Jaxaar.BARSOverlay.Handlers.OnChatHandler.{bedwarsGameStarted, gameStarting, handleFunOnChat, handleStatsOnChat, resetGameProgress}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
-import Jaxaar.BARSOverlay.listeners.HotkeyShortcuts.showOverlayKeybind
+import Jaxaar.BARSOverlay.Handlers.HotkeyShortcuts.showOverlayKeybind
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -81,23 +81,32 @@ object OverlayManager extends Gui{
 		overlayRenderer.renderPlayerlist()
 	}
 
+	def getUsersName = mc.thePlayer.getGameProfile.getName
+
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
-		if(showOverlayKeybind.isKeyDown) {
-			ShowOverlay()
+		if (isBedwarsGame) {
+			if(showOverlayKeybind.isKeyDown) {
+				ShowOverlay()
+			}
+		}
+		// NOT in a Bedwars game / queue lobby
+		else{
+			if(gameStarting || bedwarsGameStarted) resetGameProgress()
 		}
 	}
 
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
+		if (!isBedwarsGame) {
+		return
+		}
+
 		if(showOverlayKeybind.isKeyDown) {
 			updateCurPlayersDict()
 		}
-//		println(event.message.toString)
-		println("-")
-		println(event.message.getUnformattedText)
-		println(event.message.getFormattedText)
 
-		handleStats(event.message)
+		handleStatsOnChat(event.message)
+		handleFunOnChat(event.message)
 	}
 }

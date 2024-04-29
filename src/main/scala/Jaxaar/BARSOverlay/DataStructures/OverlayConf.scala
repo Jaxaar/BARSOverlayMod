@@ -67,10 +67,9 @@ abstract class ColumnValues(val title: String, val fieldLength: Int, val colorBr
 class TrackedStatsColumnValues(override val value: SingleNumericValue = null, override val isInt: Boolean = false, override val title: String, override val fieldLength: Int, override val colorBreakpoints: List[Double] = List()) extends HypixelStatsColumnValues(title = title, fieldLength=fieldLength, colorBreakpoints = colorBreakpoints, isInt = isInt){
 
 	override def getVal(player: HypixelPlayerData): Double = {
-		stats.getIndividualPlayersStats(player.getName.toLowerCase) match {
-			case None => -1
-			case Some(x) => value.getValueRoundedMethod()(x)
-		}
+		val p = stats.getIndividualPlayersStats(player.getName.toLowerCase)
+		 value.getValueRoundedMethod()(p)
+
 	}
 }
 

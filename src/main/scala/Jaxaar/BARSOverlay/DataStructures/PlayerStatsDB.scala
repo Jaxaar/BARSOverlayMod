@@ -1,8 +1,10 @@
 package Jaxaar.BARSOverlay.DataStructures
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.statsFile
-import Jaxaar.BARSOverlay.OverlayManager.logger
+import Jaxaar.BARSOverlay.DataStructures.PlayerStatsDB.saveStatsFile
+import Jaxaar.BARSOverlay.OverlayManager.{logger, players}
 import Jaxaar.BARSOverlay.Utils.Helpers.ListAsScala
+import com.google.gson
 import com.google.gson.stream.{JsonReader, JsonToken, JsonWriter}
 
 import java.util.{Scanner, UUID}
@@ -62,20 +64,31 @@ object PlayerStatsDB {
 	}
 }
 
-//Uses UnstableHypixelObject because it is generic enough to for the base for any JSON Object
-class PlayersStats(val inRaw: JsonElement = null) extends UnstableHypixelObject(inRaw) with HasProperties {
 
-	def getIndividualPlayersStats(playerName: String): Option[PlayersStats] = {
-		val player = new PlayersStats(getObjectProperty(playerName))
-		if (player.inRaw != null){
-			Some(player)
-		}
-		else{
-			None
-		}
+class IndividualPlayersStats(val inRaw: JsonElement = null) extends UnstableHypixelObject(inRaw) with HasProperties {
+
+	def incrementStat(path: String): Unit = {
+		getRaw.addProperty(path, getIntProperty(path, 0) + 1)
+		saveStatsFile(statsFile)
 	}
 
 	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double): Double = {getDoubleProperty(topPath, topDefault) / getDoubleProperty(botPath, botDefault)}
+}
+
+
+
+
+//Uses UnstableHypixelObject because it is generic enough to use for the base for any JSON Object
+class PlayersStats(val inRaw: JsonElement = null) extends UnstableHypixelObject(inRaw) {
+
+	def getIndividualPlayersStats(playerName: String): IndividualPlayersStats = {
+		if (!hasProperty(playerName)){
+			getRaw.add(playerName, new JsonObject())
+		}
+		new IndividualPlayersStats(getObjectProperty(playerName))
+	}
+
+//	def getDoubleRatio(topPath: String, botPath: String, topDefault: Double, botDefault: Double): Double = {getDoubleProperty(topPath, topDefault) / getDoubleProperty(botPath, botDefault)}
 }
 
 

@@ -1,4 +1,4 @@
-package Jaxaar.BARSOverlay.listeners
+package Jaxaar.BARSOverlay.Handlers
 
 import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

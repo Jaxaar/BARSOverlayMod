@@ -15,7 +15,9 @@ object Helpers {
 			if(strOut(index) == '§'){
 				strOut = strOut.substring(0, index) + strOut.substring(index+2, strOut.length)
 			}
-			index += 1
+			else {
+				index += 1
+			}
 		}
 		strOut
 	}

@@ -5,15 +5,16 @@ Todo Before next release:
 
 
 Change files to the current release version
-Stats Tracking
-
+Done - Stats Tracking
+/APIKEY alert height bug
+wwwww
 
 
 TODO Project backlog:
 
-Keybinds for: Reload/Clear list (Multi-key Keybinds)
-
 Customizable Columns being displayed (Important once stats are being tracked)
+
+Keybinds for: Reload/Clear list (Multi-key Keybinds)
 
 Customizable UI scale / Location
 
