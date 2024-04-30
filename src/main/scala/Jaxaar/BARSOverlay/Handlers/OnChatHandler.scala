@@ -1,12 +1,13 @@
 package Jaxaar.BARSOverlay.Handlers
 
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
+import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import Jaxaar.BARSOverlay.DataStructures.PlayerStatsDB.stats
 import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, getUsersName, players}
-import Jaxaar.BARSOverlay.Utils.BARSConfig.{EEEOn, fun, getGamesStarted, tbOn, ttgOn}
+import Jaxaar.BARSOverlay.Utils.BARSConfig.{EEEOn, WWWOn, fun, getGamesStarted, tbOn, ttgOn}
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
-import Jaxaar.BARSOverlay.Utils.SoundHandler.{playBellDing, playESound, playTBellSound, playThatsTheGameSound}
-import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting, IChatComponent}
+import Jaxaar.BARSOverlay.Utils.SoundHandler.{playBellDing, playESound, playJustStop, playTBellSound, playThatsTheGameSound}
+import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting, IChatComponent, MovementInputFromOptions}
 
 object OnChatHandler {
 
@@ -35,24 +36,24 @@ object OnChatHandler {
 		// Message from the server
 		if(!unformattedText.contains(":")){
 			if(unformattedText.contains("The game starts in 1 second!") && !gameStarting && !bedwarsGameStarted){
-				say("1s")
+//				say("1s")
 				gameStarting = true
 			}
 			if(unformattedText.contains("Bed Wars") && gameStarting && !bedwarsGameStarted){
 				bedwarsGameStarted = true
 				if(getGamesStarted){
-					say("Game's Started")
+//					say("Game's Started")
 					playBellDing()
 				}
 				logPlayers
 			}
 			if(unformattedText.contains("FINAL KILL")){
-				say("FK")
+//				say("FK")
 
 				handleFinals(formattedText, unformattedText)
 			}
 			if(unformattedText.contains("BED DESTRUCTION") && unformattedText.contains("Your Bed")){
-				say("BD")
+//				say("BD")
 				handleBedsBroken(formattedText, unformattedText)
 			}
 		}
@@ -97,13 +98,13 @@ object OnChatHandler {
 		}
 		val breaker = unformattedText.split(' ')(unformattedText.split(' ').length-1).replace(".", "").replace("?", "").replace("!", "").toLowerCase(); //Find a better replace method
 		playThatsTheGameSound()
-		say(breaker + "-brokeYourBed")
+//		say(breaker + "-brokeYourBed")
 		stats.getIndividualPlayersStats(breaker).incrementStat("brokeYourBed")
 	}
 
 
 
-
+	var wwwww = false
 
 	def handleFunOnChat(message: IChatComponent): Unit = {
 		if(!fun){
@@ -122,14 +123,31 @@ object OnChatHandler {
 			if(unformattedText.contains("You have been eliminated!") && ttgOn){
 				playThatsTheGameSound()
 			}
-			if(tbOn && unformattedText.contains("fell into the void") && (unformattedText.contains("Pypeapple") || unformattedText.contains("Protfire") || unformattedText.contains("Malizma") || unformattedText.contains("allandjust") || unformattedText.contains("x8vi"))){
+			if(tbOn && unformattedText.contains("fell into the void") && (unformattedText.contains("Pypeapple") || unformattedText.contains("Protfire") || unformattedText.contains("Malizma") || unformattedText.contains("allandjust") || unformattedText.contains("x8vi") || (unformattedText.contains(getUsersName) && getUsersName != "Jaxaar"))){
 				playTBellSound()
+			}
+			if(wwwww && unformattedText.contains(getUsersName)){
+//				say("Oops")
+				wwwww = false
+				mc.thePlayer.movementInput =  new MovementInputFromOptions(mc.gameSettings)
 			}
 		}
 		// Message from a player
 		else{
 			if(EEEOn && unformattedText.contains("E")){
 				playESound()
+			}
+			if(WWWOn && unformattedText.contains("ok.") && unformattedText.contains("Jaxaar")) {
+				mc.thePlayer.movementInput =  new MovementInputFromOptions(mc.gameSettings)
+			}
+			if(WWWOn && unformattedText.contains("WWWWW")) {
+				wwwww = true
+				mc.thePlayer.movementInput =  new MovementInputFromMod(1, 0, true, false)
+			}
+			if(WWWOn && unformattedText.contains("Just Stop")) {
+				wwwww = true
+				mc.thePlayer.movementInput =  new MovementInputFromMod(0, 0, false, false)
+				playJustStop()
 			}
 		}
 	}

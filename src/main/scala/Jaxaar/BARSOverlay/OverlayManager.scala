@@ -81,7 +81,7 @@ object OverlayManager extends Gui{
 		overlayRenderer.renderPlayerlist()
 	}
 
-	def getUsersName = mc.thePlayer.getGameProfile.getName
+	def getUsersName: String = mc.thePlayer.getGameProfile.getName
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
@@ -99,7 +99,7 @@ object OverlayManager extends Gui{
 	@SubscribeEvent
 	def onChatEvent(event: ClientChatReceivedEvent): Unit = {
 		if (!isBedwarsGame) {
-		return
+			return
 		}
 
 		if(showOverlayKeybind.isKeyDown) {

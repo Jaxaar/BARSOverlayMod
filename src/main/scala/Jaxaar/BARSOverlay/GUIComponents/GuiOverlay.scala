@@ -50,7 +50,7 @@ object GuiOverlay{
 		val firstPlayerY = 25 + raw_top
 
 		val raw_right = width + raw_left + 5
-		val raw_bottom = height + firstPlayerY + 5
+		val raw_bottom = firstPlayerY + 5 + (if(APIKeyIsValid) height else 150)
 
 
 		GlStateManager.scale(fontScale, fontScale, 1)

@@ -30,5 +30,12 @@
       "bars_overlay_mod:bell_ding"
     ],
     "stream": "false"
+  },
+  "juststop": {
+    "category": "player",
+    "sounds": [
+      "bars_overlay_mod:juststop"
+    ],
+    "stream": "false"
   }
 }
