@@ -39,7 +39,7 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "0.2.0"
+version = "0.3.0"
 group= "Jaxaar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bars_overlay"
 
@@ -101,10 +101,11 @@ dependencies {
 //    minecraft 'net.minecraftforge:forge:1.8.9-11.15.1.2318'
 
     runtime "me.djtheredstoner:DevAuth-forge-legacy:1.2.0"
-//    compile 'org.scala-lang:scala-library:2.12.4'
+//    shade 'org.scala-lang:scala-library:2.12.4'
 //    shade "org.scala-lang.modules:scala-java8-compat_2.12:0.9.0"
 //    shade 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
 //    shade "org.scala-lang.modules:scala-java8-compat_2.13:1.0.2"
+//    shade  'org.scalatest:scalatest_3:3.2.9'
 
     shade 'net.hypixel:hypixel-api-transport-apache:4.4'
 
@@ -139,8 +140,19 @@ processResources
     }
 }
 
-sourceSets { main { output.resourcesDir = output.classesDir } }
-
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['test/scala']
+        }
+    }
+}
+//sourceSets { main { output.resourcesDir = output.classesDir } }
 
 //
 reobf {

@@ -4,6 +4,7 @@ import Jaxaar.BARSOverlay.BarsOverlayMod.{hyAPI, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.OverlayManager.{logger, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.Helpers.MapAsScala
+import com.mojang.api.profiles.minecraft.HttpProfileRepository
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.reply.{PlayerReply, PunishmentStatsReply}
 import net.hypixel.api.reply.PlayerReply.Player
@@ -81,9 +82,26 @@ object APIRequestHandler{
 		APIRequestTranslator.testAPIKey(api, onTestAPIKeyReply, javaAPIOnErr)
 	}
 
+	def fetchPlayerStats(api: HttpProfileRepository, name: String): Unit = {
+		if(loadingPlayers.getOrElse(uuid, false) || !canMakeAPIRequest){
+			return
+		}
+//		loadingPlayers.put(uuid, true)
+		logger.info("Fetching Mojang Data - player: " + name)
+		val onfetchPlayerStatsReply: Consumer[PlayerReply] = new Consumer[PlayerReply]() {
+			def accept(reply: UUID): Unit = {
+//				loadingPlayers.remove(uuid);
+//				logger.info("LOADED: " + reply.getPlayer.getName + " - " + uuid.toString);
+//				playerCache.put(uuid, new HypixelPlayerTime(curTimeSeconds, reply.getPlayer));
+//				updateCurPlayersDict()
+			}
+		}
+		APIRequestTranslator.fetchMojangPlayerData(name, onfetchPlayerStatsReply, javaAPIOnErr)
+	}
+
 
 	def onErr(e: Throwable): Unit = {
-		logger.info("Error w/ Hypixel API Req: " + e.getMessage)
+		logger.info("Error w/ API Req: " + e.getMessage)
 		if (e.getMessage.contains("403")) {
 			logger.error("API-Key expired")
 			validAPIKey = false

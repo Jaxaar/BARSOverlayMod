@@ -30,7 +30,7 @@ import java.util.UUID
 object BarsOverlayMod {
     final val MODID = "bars_overlay_mod"
     final val MOD_NAME = "BARS Overlay"
-    final val VERSION = "0.2.0"
+    final val VERSION = "0.3.0"
     final val mc = Minecraft.getMinecraft
 
     final var hyAPI =  new HypixelAPI(new ApacheHttpClient(getAPIKey))

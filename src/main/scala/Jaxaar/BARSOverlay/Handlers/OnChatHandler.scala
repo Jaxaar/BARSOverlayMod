@@ -29,7 +29,7 @@ object OnChatHandler {
 	def handleStatsOnChat(message: IChatComponent): Unit = {
 //		println("-")
 		val formattedText = message.getFormattedText
-		val unformattedText = stripColorCodes(formattedText)
+		val unformattedText: String = stripColorCodes(formattedText)
 //		println(formattedText)
 //		println(unformattedText)
 
@@ -59,7 +59,11 @@ object OnChatHandler {
 		}
 		// Message from a player
 		else{
+			if(!bedwarsGameStarted){
+				val name = if(unformattedText.contains("]")) unformattedText.split("]")(1)  else unformattedText
 
+
+			}
 		}
 
 

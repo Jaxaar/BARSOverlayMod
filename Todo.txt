@@ -5,10 +5,12 @@ Todo Before next release:
 
 
 Change files to the current release version
-Done - Stats Tracking
-Done - /APIKEY alert height bug
-wwwww
 
+/bwstats - Show in overlay: Hard (Showing players by name which we only have the name of, not uuid)
+    And automatically loadng players who speak in lobby
+
+
+Maybe: Fix storing stats to be correct??
 
 TODO Project backlog:
 
@@ -26,12 +28,18 @@ Detecting Tab Keybinds? - Not sure what I meant
 
 Goals:
 Bedwars Manhunt
-/stats - Show in overlay: Hard (Showing players by name which we only have the name of, not uuid)
 
 QOL:
 Align player names
 Add text for Lobby Rank (Vip, Mvp etc)?
 
+ 
+
+
+v0.3.0
+Done - Stats Tracking
+Done - /APIKEY alert height bug
+Done - wwwww
 
 v0.2.0
 Done - Coloring for teams / sort by teams once in a game
