@@ -25,11 +25,27 @@ object OverlayManager extends Gui{
 	val overlayRenderer: GuiOverlay.type = GuiOverlay
 
 	private var curPlayers: List[HypixelPlayerData] = List()
-	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20))
+	private var searchedPlayers: List[UUID] = List()
+	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20)) //+ getSearchedPlayers
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
 		 CollectionAsScala(mc.thePlayer.sendQueue.getPlayerInfoMap)
+	}
+
+	def getSearchedPlayers: List[HypixelPlayerData] = {
+		searchedPlayers.view
+		  .map(x => (x, getPlayerStats(x)))
+		  .filter(_._2 != null)
+		  .filter(_._1.version() != 2)
+		  .map(x =>{
+			  if(x._2.isDefined){
+				  new HypixelPlayerData(x._1, x._2.get.player)
+			  }
+			  else {
+				  new HypixelPlayerDataIsNone(x._1)
+			  }
+		  }).toList
 	}
 
 	def updateCurPlayersDict(): Unit = {

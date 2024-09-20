@@ -1,13 +1,14 @@
 package Jaxaar.BARSOverlay
 
 import Jaxaar.BARSOverlay.Utils.BARSConfig.{getAPIKey, loadConfig}
-import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandPlayerStats}
+import Jaxaar.BARSOverlay.Commands.{BarsCommandAPIKey, BarsCommandBWStats, BarsCommandShmeado}
 import Jaxaar.BARSOverlay.DataStructures.PlayerStatsDB.loadStatsFile
 import Jaxaar.BARSOverlay.OverlayManager.clearPlayers
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler
 import Jaxaar.BARSOverlay.Handlers.HotkeyShortcuts
 import Jaxaar.BARSOverlay.Handlers.HotkeyShortcuts.registerKeybinds
+import com.mojang.api.profiles.minecraft.HttpProfileRepository
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import org.lwjgl.input.Keyboard
@@ -34,6 +35,7 @@ object BarsOverlayMod {
     final val mc = Minecraft.getMinecraft
 
     final var hyAPI =  new HypixelAPI(new ApacheHttpClient(getAPIKey))
+    final var httpProfiler = new HttpProfileRepository()
 
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
     val config = new Configuration(new File(modDir, "Bars-Config.cfg"), "conf.v0.1.0")
@@ -71,7 +73,8 @@ object BarsOverlayMod {
 
     def registerCommands: ICommand = {
         ClientCommandHandler.instance.registerCommand(new BarsCommandAPIKey());
-        ClientCommandHandler.instance.registerCommand(new BarsCommandPlayerStats());
+        ClientCommandHandler.instance.registerCommand(new BarsCommandShmeado());
+        ClientCommandHandler.instance.registerCommand(new BarsCommandBWStats());
     }
 
 

@@ -140,18 +140,18 @@ processResources
     }
 }
 
-sourceSets {
-    main {
-        scala {
-            srcDirs = ['src/scala']
-        }
-    }
-    test {
-        scala {
-            srcDirs = ['test/scala']
-        }
-    }
-}
+//sourceSets {
+//    main {
+//        scala {
+//            srcDirs = ['src/scala']
+//        }
+//    }
+//    test {
+//        scala {
+//            srcDirs = ['test/scala']
+//        }
+//    }
+//}
 //sourceSets { main { output.resourcesDir = output.classesDir } }
 
 //

@@ -1,6 +1,7 @@
 package Jaxaar.BARSOverlay.Utils
 
-import Jaxaar.BARSOverlay.BarsOverlayMod.{hyAPI, mc}
+import Jaxaar.BARSOverlay.BarsOverlayMod
+import Jaxaar.BARSOverlay.BarsOverlayMod.{httpProfiler, hyAPI, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
 import Jaxaar.BARSOverlay.OverlayManager.{logger, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.Helpers.MapAsScala
@@ -22,6 +23,9 @@ object APIRequestHandler{
 	var playerCache: mutable.Map[UUID, HypixelPlayerTime] = mutable.Map[UUID, HypixelPlayerTime]()
 	var loadingPlayers: mutable.Map[UUID, Boolean] = mutable.Map[UUID, Boolean]()
 
+	var mojangLoadingPlayers: mutable.Map[String, Boolean] = mutable.Map[String, Boolean]()
+
+
 	def APIKeyIsValid: Boolean = validAPIKey
 	def canMakeAPIRequest: Boolean = APIKeyIsValid && (curTimeSeconds - lastRequestLimitReached) > 300
 
@@ -29,7 +33,7 @@ object APIRequestHandler{
 		val result: Option[HypixelPlayerTime] = playerCache.get(uuid)
 		if ((result.isEmpty || curTimeSeconds > result.get.lastUpdated + 600) &&
 		  canMakeAPIRequest && uuid.version() != 2){
-			fetchPlayerStats(hyAPI, uuid)
+			fetchPlayerStats(uuid)
 			return null
 		}
 		if(result.isDefined && !result.get.player.exists()){
@@ -55,7 +59,7 @@ object APIRequestHandler{
 		}
 	}
 
-	def fetchPlayerStats(api: HypixelAPI, uuid: UUID): Unit = {
+	def fetchPlayerStats( uuid: UUID, api: HypixelAPI = hyAPI): Unit = {
 		if(loadingPlayers.getOrElse(uuid, false) || !canMakeAPIRequest){
 			return
 		}
@@ -72,7 +76,7 @@ object APIRequestHandler{
 		APIRequestTranslator.fetchPlayerStats(api, uuid, onfetchPlayerStatsReply, javaAPIOnErr)
 	}
 
-	def testAPIKey(api: HypixelAPI): Unit = {
+	def testAPIKey(api: HypixelAPI = hyAPI): Unit = {
 		val onTestAPIKeyReply: Consumer[PunishmentStatsReply] = new Consumer[PunishmentStatsReply]() {
 			def accept(pr: PunishmentStatsReply): Unit = {
 				logger.info("APIKey Valid");
@@ -82,18 +86,21 @@ object APIRequestHandler{
 		APIRequestTranslator.testAPIKey(api, onTestAPIKeyReply, javaAPIOnErr)
 	}
 
-	def fetchPlayerStats(api: HttpProfileRepository, name: String): Unit = {
-		if(loadingPlayers.getOrElse(uuid, false) || !canMakeAPIRequest){
+	def fetchPlayerStatsByName(name: String, api: HypixelAPI = hyAPI, httpProfiler: HttpProfileRepository = httpProfiler): Unit = {
+
+	}
+
+	def fetchMojangPlayerStats(name: String, httpProfiler: HttpProfileRepository = httpProfiler): Unit = {
+		if(mojangLoadingPlayers.getOrElse(name, false) || !canMakeAPIRequest){
 			return
 		}
-//		loadingPlayers.put(uuid, true)
+		mojangLoadingPlayers.put(name, true)
 		logger.info("Fetching Mojang Data - player: " + name)
-		val onfetchPlayerStatsReply: Consumer[PlayerReply] = new Consumer[PlayerReply]() {
-			def accept(reply: UUID): Unit = {
-//				loadingPlayers.remove(uuid);
-//				logger.info("LOADED: " + reply.getPlayer.getName + " - " + uuid.toString);
-//				playerCache.put(uuid, new HypixelPlayerTime(curTimeSeconds, reply.getPlayer));
-//				updateCurPlayersDict()
+		val onfetchPlayerStatsReply: Consumer[UUID] = new Consumer[UUID]() {
+			def accept(uuid: UUID): Unit = {
+				logger.info("LOADED: " + name + " - " + uuid.toString);
+				fetchPlayerStats(uuid)
+				mojangLoadingPlayers.remove(name)
 			}
 		}
 		APIRequestTranslator.fetchMojangPlayerData(name, onfetchPlayerStatsReply, javaAPIOnErr)
