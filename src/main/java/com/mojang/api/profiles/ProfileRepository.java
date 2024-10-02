@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface ProfileRepository {
 
-    public Profile[] findProfilesByNames(String... names) throws IOException;
+    public Profile findProfileByName(String name) throws IOException;
 
 }

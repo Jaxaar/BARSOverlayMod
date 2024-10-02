@@ -20,7 +20,7 @@ class BarsCommandBWStats extends CommandBase{
 			sender.addChatMessage(new ChatComponentTranslation("To load a specific player's stats use /bwstats *playername*"));
 		}
 		else if (args.length == 1){
-			fetchMojangPlayerStats(args(0))
+			fetchMojangPlayerStats(args(0).toLowerCase(), sender)
 			sender.addChatMessage(new ChatComponentTranslation(s"Loading ${args(0)}"));
 		}
 	}

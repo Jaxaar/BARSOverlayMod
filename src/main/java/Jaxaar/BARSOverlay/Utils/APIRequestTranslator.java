@@ -1,5 +1,6 @@
 package Jaxaar.BARSOverlay.Utils;
 
+import Jaxaar.BARSOverlay.HttpRequests.*;
 import com.google.gson.JsonObject;
 import com.mojang.api.profiles.Profile;
 import com.mojang.api.profiles.minecraft.HttpProfileRepository;
@@ -39,18 +40,16 @@ public class APIRequestTranslator {
         });
     }
 
-    public static void fetchMojangPlayerData(/*HttpProfileRepository profiler,*/ String name, Consumer<UUID> onSuccess, Consumer<Throwable> onErr){
-        HttpProfileRepository profiler = new HttpProfileRepository();
-        CompletableFuture<UUID> playerUUID = CompletableFuture.supplyAsync(() -> {
-            try{
-                UUID uuid = profiler.findProfilesByNames(name)[0].getId();
-                return uuid;
-            }
-            catch(Exception e){
-                return null;
-            }
-        }).whenComplete((reply, error) -> {
-            if (error != null && reply != null) {
+    public static void fetchMojangPlayerData(JaxAPI api, String name, Consumer<MojangPlayerData> onSuccess, Consumer<Throwable> onErr){
+
+        if(api == null){
+            api = new JaxAPI(new ApacheHttpClient());
+        }
+
+        api.getPlayerByName(name).whenComplete((reply, error) -> {
+//            System.out.println("Completed...");
+//            System.out.println(reply);
+            if (error != null) {
                 onErr.accept(error);
             }
             onSuccess.accept(reply);

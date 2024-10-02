@@ -8,7 +8,8 @@ import Jaxaar.BARSOverlay.Utils.APIRequestHandler.testAPIKey
 import Jaxaar.BARSOverlay.Utils.APIRequestHandler
 import Jaxaar.BARSOverlay.Handlers.HotkeyShortcuts
 import Jaxaar.BARSOverlay.Handlers.HotkeyShortcuts.registerKeybinds
-import com.mojang.api.profiles.minecraft.HttpProfileRepository
+import Jaxaar.BARSOverlay.HttpRequests.JaxAPI
+import Jaxaar.BARSOverlay.HttpRequests
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.apache.ApacheHttpClient
 import org.lwjgl.input.Keyboard
@@ -35,7 +36,7 @@ object BarsOverlayMod {
     final val mc = Minecraft.getMinecraft
 
     final var hyAPI =  new HypixelAPI(new ApacheHttpClient(getAPIKey))
-    final var httpProfiler = new HttpProfileRepository()
+    final var jaxAPI = new JaxAPI(new HttpRequests.ApacheHttpClient())
 
     final val modDir = new File(new File(mc.mcDataDir, "config"), MODID)
     val config = new Configuration(new File(modDir, "Bars-Config.cfg"), "conf.v0.1.0")

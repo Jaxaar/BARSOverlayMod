@@ -52,31 +52,20 @@ public class HttpProfileRepository implements MinecraftProfileRepository {
 
 
     @Override
-    public Profile[] findProfilesByNames(String... names) throws IOException {
+    public Profile findProfileByName(String name) throws IOException {
         List<Profile> profiles = new ArrayList<>();
 
         List<HttpHeader> headers = new ArrayList<HttpHeader>();
         headers.add(new HttpHeader("Content-Type", "application/json"));
 
-        int namesCount = names.length;
-        int start = 0;
-        int i = 0;
-        do {
-            int end = IDS_PER_REQUEST * (i + 1);
-            if (end > namesCount) {
-                end = namesCount;
-            }
-            String[] namesBatch = Arrays.copyOfRange(names, start, end);
-            HttpBody body = new HttpBody(gson.toJson(namesBatch));
+        System.out.println("pre");
 
-            String response = client.post(new URL(PROFILES_BY_NAMES_API_URL), body, headers);
-            Collections.addAll(profiles, gson.fromJson(response, Profile[].class));
+        String response = client.get(new URL(PROFILES_BY_NAMES_API_URL + name), headers);
+        System.out.println("Reply");
+        System.out.println(response);
+        Profile p = gson.fromJson(response, Profile.class);
 
-            start = end;
-            i++;
-        } while (start < namesCount);
-
-        return profiles.toArray(new Profile[profiles.size()]);
+        return p;
     }
 
     @Override

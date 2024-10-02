@@ -77,6 +77,8 @@ configurations {
 
 
 dependencies {
+    compile 'junit:junit:4.13.1'
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"

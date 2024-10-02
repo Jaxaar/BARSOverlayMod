@@ -3,7 +3,7 @@ package Jaxaar.BARSOverlay
 import Jaxaar.BARSOverlay.GUIComponents.GuiOverlay
 import BarsOverlayMod.{MODID, config, mc}
 import Jaxaar.BARSOverlay.DataStructures.{HypixelPlayerData, HypixelPlayerDataIsNone}
-import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats}
+import Jaxaar.BARSOverlay.Utils.APIRequestHandler.{clearPlayerCache, getPlayerStats, isPlayerUpToDate}
 import Jaxaar.BARSOverlay.Utils.Helpers.{CollectionAsScala, stripColorCodes}
 import Jaxaar.BARSOverlay.Handlers.OnChatHandler.{bedwarsGameStarted, gameStarting, handleFunOnChat, handleStatsOnChat, resetGameProgress}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.{isBedwarsGame, isHypixel, verifyIsBedwarsGame}
@@ -18,6 +18,8 @@ import org.apache.logging.log4j.{LogManager, Logger}
 import java.util.{UUID, List => JavaList}
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 
+import scala.collection.mutable
+
 
 object OverlayManager extends Gui{
 
@@ -25,8 +27,8 @@ object OverlayManager extends Gui{
 	val overlayRenderer: GuiOverlay.type = GuiOverlay
 
 	private var curPlayers: List[HypixelPlayerData] = List()
-	private var searchedPlayers: List[UUID] = List()
-	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20)) //+ getSearchedPlayers
+	var searchedPlayers: mutable.MutableList[UUID] = mutable.MutableList()
+	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20)) ++ getSearchedPlayers
 
 
 	def getListOfPlayers: List[NetworkPlayerInfo] = {
@@ -49,6 +51,9 @@ object OverlayManager extends Gui{
 	}
 
 	def updateCurPlayersDict(): Unit = {
+		// Update searched players too
+		searchedPlayers = searchedPlayers.filter(x => (isPlayerUpToDate(x).isDefined && isPlayerUpToDate(x).get))
+
 		if (!verifyIsBedwarsGame) {return;}
 
 		val newLst = getListOfPlayers.view
@@ -81,7 +86,8 @@ object OverlayManager extends Gui{
 	}
 
 	def clearPlayers(): Unit = {
-		clearPlayerCache
+		clearPlayerCache()
+		searchedPlayers = List()
 	}
 
 	def playerInList(uuid: UUID): Boolean = {

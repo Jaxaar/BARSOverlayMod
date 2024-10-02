@@ -1,14 +1,16 @@
 package Jaxaar.BARSOverlay.Utils
 
 import Jaxaar.BARSOverlay.BarsOverlayMod
-import Jaxaar.BARSOverlay.BarsOverlayMod.{httpProfiler, hyAPI, mc}
+import Jaxaar.BARSOverlay.BarsOverlayMod.{httpProfiler, hyAPI, jaxAPI, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.OverlayManager.{logger, updateCurPlayersDict}
+import Jaxaar.BARSOverlay.HttpRequests.MojangPlayerData
+import Jaxaar.BARSOverlay.OverlayManager.{logger, searchedPlayers, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.Helpers.MapAsScala
 import com.mojang.api.profiles.minecraft.HttpProfileRepository
 import net.hypixel.api.HypixelAPI
 import net.hypixel.api.reply.{PlayerReply, PunishmentStatsReply}
 import net.hypixel.api.reply.PlayerReply.Player
+import net.minecraft.command.ICommandSender
 import net.minecraft.util.ChatComponentTranslation
 
 import java.lang
@@ -27,7 +29,7 @@ object APIRequestHandler{
 
 
 	def APIKeyIsValid: Boolean = validAPIKey
-	def canMakeAPIRequest: Boolean = APIKeyIsValid && (curTimeSeconds - lastRequestLimitReached) > 300
+	def canMakeAPIRequest: Boolean = APIKeyIsValid && (curTimeSeconds - lastRequestLimitReached) > 30
 
 	def getPlayerStats(uuid: UUID): Option[HypixelPlayerTime] = {
 		val result: Option[HypixelPlayerTime] = playerCache.get(uuid)
@@ -42,9 +44,20 @@ object APIRequestHandler{
 		result
 	}
 
+	def isPlayerUpToDate(uuid: UUID): Option[Boolean] = {
+		val result: Option[HypixelPlayerTime] = playerCache.get(uuid)
+		if(result.isEmpty){
+			None
+		}
+		else {
+			Option(curTimeSeconds > result.get.lastUpdated + 600)
+		}
+	}
+
 	def clearPlayerCache(): Unit = {
 		playerCache.clear()
 		loadingPlayers.clear()
+		mojangLoadingPlayers.clear()
 	}
 
 	class HypixelPlayerTime(val lastUpdated: Long, val player: Player)
@@ -90,20 +103,42 @@ object APIRequestHandler{
 
 	}
 
-	def fetchMojangPlayerStats(name: String, httpProfiler: HttpProfileRepository = httpProfiler): Unit = {
+	def fetchMojangPlayerStats(name: String, sender: ICommandSender = null, httpProfiler: HttpProfileRepository = httpProfiler): Unit = {
 		if(mojangLoadingPlayers.getOrElse(name, false) || !canMakeAPIRequest){
 			return
 		}
 		mojangLoadingPlayers.put(name, true)
 		logger.info("Fetching Mojang Data - player: " + name)
-		val onfetchPlayerStatsReply: Consumer[UUID] = new Consumer[UUID]() {
-			def accept(uuid: UUID): Unit = {
+
+		val onfetchPlayerStatsReply: Consumer[MojangPlayerData] = new Consumer[MojangPlayerData]() {
+			def accept(mp: MojangPlayerData): Unit = {
+				val uuid = mp.getUUID
+				if(uuid == null){
+					sender.addChatMessage(new ChatComponentTranslation(s"Failed to load: ${name}!"))
+					return
+				}
 				logger.info("LOADED: " + name + " - " + uuid.toString);
+				if(!searchedPlayers.contains(uuid)){
+					searchedPlayers = List.concat(searchedPlayers, List(uuid))
+					logger.info("UUIDS: " + searchedPlayers)
+				}
+				if(sender != null){
+					sender.addChatMessage(new ChatComponentTranslation(s"Loaded ${name}"));
+				}
 				fetchPlayerStats(uuid)
+
 				mojangLoadingPlayers.remove(name)
 			}
 		}
-		APIRequestTranslator.fetchMojangPlayerData(name, onfetchPlayerStatsReply, javaAPIOnErr)
+
+		val mojangJavaAPIOnErr: Consumer[Throwable] = new Consumer[Throwable]() {
+			def accept(e: Throwable): Unit = {
+				mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player not found"))
+				onErr(e)
+			}
+		}
+
+		APIRequestTranslator.fetchMojangPlayerData(jaxAPI, name, onfetchPlayerStatsReply, mojangJavaAPIOnErr)
 	}
 
 

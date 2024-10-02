@@ -57,6 +57,7 @@ public class BasicHttpClient implements HttpClient {
     }
 
     private static String getResponse(HttpURLConnection connection, HttpBody body, List<HttpHeader> headers) throws IOException {
+        System.out.println("Hi");
         for (HttpHeader header : headers) {
             connection.setRequestProperty(header.getName(), header.getValue());
         }
@@ -73,6 +74,7 @@ public class BasicHttpClient implements HttpClient {
             }
         }
 
+        System.out.println("Data out");
         StringBuilder response = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String line;
@@ -81,6 +83,7 @@ public class BasicHttpClient implements HttpClient {
                 response.append('\r');
             }
         }
+        System.out.println(response);
         return response.toString();
     }
     
