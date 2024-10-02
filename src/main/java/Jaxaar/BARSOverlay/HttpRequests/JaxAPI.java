@@ -79,9 +79,9 @@ public class JaxAPI {
      * Checks the status of the response and throws an exception if needed
      */
     private JaxHttpResponse checkResponse(JaxHttpResponse response) {
-        System.out.println("Resp");
-        System.out.println(response.getBody());
-        System.out.println(response.getStatusCode());
+//        System.out.println("Resp");
+//        System.out.println(response.getBody());
+//        System.out.println(response.getStatusCode());
 
         if (response.getStatusCode() == 200) {
             return response;

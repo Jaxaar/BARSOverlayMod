@@ -27,7 +27,7 @@ object OverlayManager extends Gui{
 	val overlayRenderer: GuiOverlay.type = GuiOverlay
 
 	private var curPlayers: List[HypixelPlayerData] = List()
-	var searchedPlayers: mutable.MutableList[UUID] = mutable.MutableList()
+	var searchedPlayers: List[UUID] = List()
 	def players: List[HypixelPlayerData] = masterSort(curPlayers).slice(0,Math.min(curPlayers.length, 20)) ++ getSearchedPlayers
 
 
@@ -51,8 +51,6 @@ object OverlayManager extends Gui{
 	}
 
 	def updateCurPlayersDict(): Unit = {
-		// Update searched players too
-		searchedPlayers = searchedPlayers.filter(x => (isPlayerUpToDate(x).isDefined && isPlayerUpToDate(x).get))
 
 		if (!verifyIsBedwarsGame) {return;}
 
@@ -70,6 +68,7 @@ object OverlayManager extends Gui{
 		}).toList
 		curPlayers = newLst
 	}
+
 
 	def masterSort(lst: List[HypixelPlayerData]): List[HypixelPlayerData] = {
 //		Sort by Stats
@@ -104,6 +103,12 @@ object OverlayManager extends Gui{
 	}
 
 	def getUsersName: String = mc.thePlayer.getGameProfile.getName
+
+	def onShowOverlayKeyPress(): Unit = {
+		updateCurPlayersDict()
+		// Update searched players
+		searchedPlayers = searchedPlayers.filter(x => (isPlayerUpToDate(x).isEmpty || isPlayerUpToDate(x).get))
+	}
 
 	@SubscribeEvent
 	def tickRender(event: TickEvent.RenderTickEvent): Unit = {
