@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.InputEvent
 import Jaxaar.BARSOverlay.BarsOverlayMod.mc
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, getListOfPlayers, logger, onShowOverlayKeyPress, players, searchedPlayers, updateCurPlayersDict}
+import Jaxaar.BARSOverlay.OverlayManager.{clearPlayers, clearSearchedPlayers, getListOfPlayers, logger, onShowOverlayKeyPress, players, searchedPlayers, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader
 import Jaxaar.BARSOverlay.Utils.SoundHandler.{playESound, playTBellSound, playThatsTheGameSound}
 import net.minecraft.client.Minecraft
@@ -33,10 +33,18 @@ object HotkeyShortcuts{
 			onShowOverlayKeyPress()
 		}
 
-		if ((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_Z) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) && !Keyboard.isRepeatEvent) {
+		if (holdingCtrlAndShift && Keyboard.isKeyDown(Keyboard.KEY_Z) && !Keyboard.isRepeatEvent) {
 			clearPlayers()
 			mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player Cache cleared"))
 		}
+		if (holdingCtrlAndShift && Keyboard.isKeyDown(Keyboard.KEY_C) && !Keyboard.isRepeatEvent) {
+			clearSearchedPlayers()
+			mc.thePlayer.addChatMessage(new ChatComponentTranslation("Searched Players cleared"))
+		}
+	}
+
+	def holdingCtrlAndShift: Boolean = {
+		(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 	}
 }
 

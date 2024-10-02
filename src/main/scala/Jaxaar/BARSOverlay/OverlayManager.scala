@@ -86,6 +86,10 @@ object OverlayManager extends Gui{
 
 	def clearPlayers(): Unit = {
 		clearPlayerCache()
+		clearSearchedPlayers()
+	}
+
+	def clearSearchedPlayers(): Unit = {
 		searchedPlayers = List()
 	}
 
