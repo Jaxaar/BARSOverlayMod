@@ -39,7 +39,7 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "0.3.0"
+version = "0.4.0"
 group= "Jaxaar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bars_overlay"
 

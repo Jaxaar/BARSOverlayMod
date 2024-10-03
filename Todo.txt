@@ -6,7 +6,10 @@ Todo Before next release:
 
 Change files to the current release version
 
-Automatically loading players who speak in lobby
+User test - Automatically loading players who speak in lobby
+
+Maybe: Separate rate limit tracker for mojang and hypixel
+Maybe: Separate keybind for resetting rate limit
 
 Maybe: Fix storing stats to be correct??
 

@@ -58,8 +58,9 @@ object BARSConfig {
 		config.get(Categories.EXPERIMENTAL, "Top-Left X Pos", 2)
 		config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2)
 
-		config.addCustomCategoryComment(Categories.MISC, "Configs I wanted byt had no category for");
+		config.addCustomCategoryComment(Categories.MISC, "Configs I wanted but had no category for");
 		config.get(Categories.MISC, "Game's Started", false)
+		config.get(Categories.MISC, "LoadStatsFromChat", true)
 
 
 		config.addCustomCategoryComment(Categories.SHENANIGANS, ":)");
@@ -88,6 +89,7 @@ object BARSConfig {
 	def getYPos: Int = config.get(Categories.EXPERIMENTAL, "Top-Left Y Pos", 2).getInt
 
 	def getGamesStarted: Boolean =  config.get(Categories.MISC, "Game's Started", false).getBoolean
+	def getLoadStatsFromChat: Boolean =  config.get(Categories.MISC, "LoadStatsFromChat", true).getBoolean
 
 
 	def getHIValue: Int = config.get(Categories.SHENANIGANS, "hi! :)", 1).getInt

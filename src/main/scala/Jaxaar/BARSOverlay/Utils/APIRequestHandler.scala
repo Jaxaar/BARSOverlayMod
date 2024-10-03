@@ -3,7 +3,7 @@ package Jaxaar.BARSOverlay.Utils
 import Jaxaar.BARSOverlay.BarsOverlayMod
 import Jaxaar.BARSOverlay.BarsOverlayMod.{hyAPI, jaxAPI, mc}
 import Jaxaar.BARSOverlay.DataStructures.HypixelPlayerData
-import Jaxaar.BARSOverlay.HttpRequests.MojangPlayerData
+import Jaxaar.BARSOverlay.HttpRequests.{JaxAPI, MojangPlayerData}
 import Jaxaar.BARSOverlay.OverlayManager.{logger, searchedPlayers, updateCurPlayersDict}
 import Jaxaar.BARSOverlay.Utils.Helpers.MapAsScala
 import com.mojang.api.profiles.minecraft.HttpProfileRepository
@@ -101,11 +101,11 @@ object APIRequestHandler{
 		APIRequestTranslator.testAPIKey(api, onTestAPIKeyReply, javaAPIOnErr)
 	}
 
-	def fetchPlayerStatsByName(name: String, api: HypixelAPI = hyAPI): Unit = {
-
+	def fetchPlayerStatsByName(name: String): Unit = {
+		fetchMojangPlayerStats(name)
 	}
 
-	def fetchMojangPlayerStats(name: String, sender: ICommandSender = null): Unit = {
+	def fetchMojangPlayerStats(name: String, sender: ICommandSender = null, api: JaxAPI = jaxAPI): Unit = {
 		if(mojangLoadingPlayers.getOrElse(name, false) || !canMakeAPIRequest){
 			return
 		}
@@ -122,7 +122,7 @@ object APIRequestHandler{
 				logger.info("LOADED: " + name + " - " + uuid.toString);
 				if(!searchedPlayers.contains(uuid)){
 					searchedPlayers = searchedPlayers :+ uuid
-					logger.info("UUIDS: " + searchedPlayers)
+//					logger.info("UUIDS: " + searchedPlayers)
 				}
 				if(sender != null){
 					sender.addChatMessage(new ChatComponentTranslation(s"Loaded ${name}"));
@@ -136,11 +136,12 @@ object APIRequestHandler{
 		val mojangJavaAPIOnErr: Consumer[Throwable] = new Consumer[Throwable]() {
 			def accept(e: Throwable): Unit = {
 				mc.thePlayer.addChatMessage(new ChatComponentTranslation("Player not found"))
+				logger.info("Error w/ Mojang API Req")
 				onErr(e)
 			}
 		}
 
-		APIRequestTranslator.fetchMojangPlayerData(jaxAPI, name, onfetchPlayerStatsReply, mojangJavaAPIOnErr)
+		APIRequestTranslator.fetchMojangPlayerData(api, name, onfetchPlayerStatsReply, mojangJavaAPIOnErr)
 	}
 
 

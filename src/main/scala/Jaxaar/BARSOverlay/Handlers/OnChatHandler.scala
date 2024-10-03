@@ -4,8 +4,10 @@ import Jaxaar.BARSOverlay.BarsOverlayMod.mc
 import Jaxaar.BARSOverlay.CustomFunctionality.MovementInputFromMod
 import Jaxaar.BARSOverlay.DataStructures.PlayerStatsDB.stats
 import Jaxaar.BARSOverlay.OverlayManager.{getListOfPlayers, getUsersName, players}
-import Jaxaar.BARSOverlay.Utils.BARSConfig.{EEEOn, WWWOn, fun, getGamesStarted, tbOn, ttgOn}
+import Jaxaar.BARSOverlay.Utils.APIRequestHandler.fetchPlayerStatsByName
+import Jaxaar.BARSOverlay.Utils.BARSConfig.{EEEOn, WWWOn, fun, getGamesStarted, getLoadStatsFromChat, tbOn, ttgOn}
 import Jaxaar.BARSOverlay.Utils.Helpers.stripColorCodes
+import Jaxaar.BARSOverlay.Utils.ScoreboardSidebarReader.verifyIsBedwarsGame
 import Jaxaar.BARSOverlay.Utils.SoundHandler.{playBellDing, playESound, playJustStop, playTBellSound, playThatsTheGameSound}
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting, IChatComponent, MovementInputFromOptions}
 
@@ -59,10 +61,11 @@ object OnChatHandler {
 		}
 		// Message from a player
 		else{
-			if(!bedwarsGameStarted){
-				val name = if(unformattedText.contains("]")) unformattedText.split("]")(1)  else unformattedText
-
-
+			if(!bedwarsGameStarted && verifyIsBedwarsGame){
+				if(getLoadStatsFromChat){
+					val name = (if(unformattedText.contains("] ")) (unformattedText.split("]").reverse)(0) else unformattedText).split(":")(0).replaceAll(" ", "")
+					fetchPlayerStatsByName(name)
+				}
 			}
 		}
 
